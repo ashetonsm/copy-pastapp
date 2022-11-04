@@ -1,7 +1,10 @@
 export const FileUpload = () => {
     return (
-        <>
-        <input type="file"/>
-        </>
+        <div className="FileUpload">
+            <h3>Upload a PDF or DOCX</h3>
+            <div>
+                <input type="file" />
+            </div>
+        </div>
     )
 }
