@@ -1,6 +1,6 @@
 export const TextToCopy = ({ children }) => {
 
-    const CopyText = (e) => {
+    const copyText = (e) => {
 
         console.log(e.target.innerText);
         var newText = e.target.innerText;
@@ -15,7 +15,7 @@ export const TextToCopy = ({ children }) => {
     }
 
     return (
-        <div className="copiable" onClick={(e) => CopyText(e)}>
+        <div className="copiable" onClick={(e) => copyText(e)}>
             {children}
         </div>
     )
