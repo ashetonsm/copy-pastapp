@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Accordion, Row, Container, Button } from "react-bootstrap";
 
 export const TextInput = ({ updateFromPaste }) => {
 
@@ -36,21 +37,41 @@ export const TextInput = ({ updateFromPaste }) => {
     }
 
     return (
-        <div className="TextInput">
-            <h3>Paste Your Resume Text</h3>
-            <form>
-                <textarea
-                    onChange={handleChange}
-                    id="textInput"
-                    name="textInput"
-                    rows="5"
-                    cols="50"
-                    placeholder="Paste your resume here."></textarea>
-                <p>
-                    <input type="submit" value="Copyify!" onClick={(e) => handleSubmit(e)} />
-                </p>
-            </form>
-        </div>
+
+        <Accordion defaultActiveKey={['0']} alwaysOpen >
+            <Accordion.Item eventKey="0" style={{ width: '55vw' }}>
+                <Accordion.Header >
+                    Resume Text
+                </Accordion.Header>
+                <Accordion.Body>
+                    <Container>
+
+                        <Row className="row justify-content-lg-center">
+                            <form>
+                                <textarea
+                                    onChange={handleChange}
+                                    id="textInput"
+                                    name="textInput"
+                                    placeholder="Paste your resume here."
+                                    style={{ height: '50vh', width: 'inherit' }}
+                                >
+                                </textarea>
+                                <Row className="row justify-content-md-center">
+
+                                    <Button type="submit" value="Copyify!"
+                                        onClick={(e) => handleSubmit(e)}
+                                        style={{ width: 'inherit' }}
+                                    >
+                                        Copyify!
+                                    </Button>
+                                </Row>
+                            </form>
+
+                        </Row>
+                    </Container>
+                </Accordion.Body>
+            </Accordion.Item>
+        </Accordion>
 
     )
 }
