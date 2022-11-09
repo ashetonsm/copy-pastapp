@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Accordion } from "react-bootstrap";
 
 export const TextInput = ({ updateFromPaste }) => {
 
@@ -36,21 +37,29 @@ export const TextInput = ({ updateFromPaste }) => {
     }
 
     return (
-        <div className="TextInput">
-            <h3>Paste Your Resume Text</h3>
-            <form>
-                <textarea
-                    onChange={handleChange}
-                    id="textInput"
-                    name="textInput"
-                    rows="5"
-                    cols="50"
-                    placeholder="Paste your resume here."></textarea>
-                <p>
-                    <input type="submit" value="Copyify!" onClick={(e) => handleSubmit(e)} />
-                </p>
-            </form>
-        </div>
+
+        <Accordion defaultActiveKey={0}>
+            <Accordion.Item eventKey="0">
+                <Accordion.Header>
+                    Resume Text
+                </Accordion.Header>
+                <Accordion.Body>
+
+                    <form>
+                        <textarea
+                            onChange={handleChange}
+                            id="textInput"
+                            name="textInput"
+                            placeholder="Paste your resume here."
+                            style={{ height: '100px' }}>
+                            </textarea>
+                        <p>
+                            <input type="submit" value="Copyify!" onClick={(e) => handleSubmit(e)} />
+                        </p>
+                    </form>
+                </Accordion.Body>
+            </Accordion.Item>
+        </Accordion>
 
     )
 }
