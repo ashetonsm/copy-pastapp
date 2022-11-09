@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { FileUpload } from "../components/FileUpload"
 import { TextInput } from "../components/TextInput";
 import { TextToCopy } from "../components/TextToCopy";
 
@@ -41,10 +40,11 @@ export const Home = () => {
             <div id="sampleText">I will change</div>
             <hr></hr>
 
-            <CopyOptions />
+            <div className="center">
+                <CopyOptions />
+            </div>
             <hr></hr>
 
-            <FileUpload />
             <TextInput updateFromPaste={updateFromPaste} />
         </>
     )
