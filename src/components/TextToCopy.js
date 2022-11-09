@@ -1,8 +1,9 @@
-export const TextToCopy = ({ children }) => {
+export const TextToCopy = ({ children, notify }) => {
 
     const copyText = (e) => {
 
         console.log(e.target.innerText);
+        notify()
         var newText = e.target.innerText;
 
         return (
