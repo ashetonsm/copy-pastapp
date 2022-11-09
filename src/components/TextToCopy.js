@@ -15,8 +15,10 @@ export const TextToCopy = ({ children }) => {
     }
 
     return (
-        <div className="copiable" onClick={(e) => copyText(e)}>
-            {children}
-        </div>
+        <li className="copiable center" onClick={(e) => copyText(e)}>
+            <p>
+                {children}
+            </p>
+        </li>
     )
 }
