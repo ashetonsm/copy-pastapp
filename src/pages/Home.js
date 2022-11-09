@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { Col, Container, Row } from "react-bootstrap";
 import { TextInput } from "../components/TextInput";
 import { TextToCopy } from "../components/TextToCopy";
-import "react-toastify/dist/ReactToastify.css"
 
 export const Home = () => {
 
@@ -38,27 +37,41 @@ export const Home = () => {
     }
 
     const notify = () => {
-        toast("Copied to clipboard!", {
-            position: toast.POSITION.TOP_RIGHT
-          });
-      };
+        console.log("Toasty")
+    }
 
     return (
-        <>
-        <h1>Copy-Pastapp</h1>
-        <h2>Because auto-fill isn't always accurate</h2>
-            <hr></hr>
-            <TextInput updateFromPaste={updateFromPaste} />
-            <div id="sampleText">I will change</div>
+        <Container>
+
+            {/* Centered title */}
+            <Row className="row justify-content-md-center">
+                <Col className="col-lg-auto">
+                    <h1>Copy-Pastapp</h1>
+                    <h2>(Because auto-fill isn't always accurate)</h2>
+                </Col>
+            </Row>
+
             <hr></hr>
 
-            <div className="center">
-                <CopyOptions />
-            </div>
-            <hr></hr>
+            {/* Text Input Area */}
+            <Row className="row justify-content-md-center">
+                <Col className="col-lg-auto">
 
+                    <TextInput updateFromPaste={updateFromPaste} />
+                </Col>
+            </Row>
 
-            <ToastContainer autoClose={2000} />
-        </>
+            {/* Results */}
+            <Row className="row justify-content-md-center">
+                <Col>
+                    <div id="currentText">I will change</div>
+
+                    <div className="h-20 overflow-auto" style={{ height: '50vh' }}>
+                        <CopyOptions />
+                    </div>
+                </Col>
+            </Row>
+
+        </Container>
     )
 }
