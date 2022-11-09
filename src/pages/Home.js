@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import { TextInput } from "../components/TextInput";
 import { TextToCopy } from "../components/TextToCopy";
+import "react-toastify/dist/ReactToastify.css"
 
 export const Home = () => {
 
@@ -30,13 +32,23 @@ export const Home = () => {
 
         var id = 0
         var output = copiableText.map((props) =>
-            <TextToCopy key={id++}>{props}</TextToCopy>
+            <TextToCopy key={id++} notify={notify}>{props}</TextToCopy>
         )
         return output
     }
 
+    const notify = () => {
+        toast("Copied to clipboard!", {
+            position: toast.POSITION.TOP_RIGHT
+          });
+      };
+
     return (
         <>
+        <h1>Copy-Pastapp</h1>
+        <h2>Because auto-fill isn't always accurate</h2>
+            <hr></hr>
+            <TextInput updateFromPaste={updateFromPaste} />
             <div id="sampleText">I will change</div>
             <hr></hr>
 
@@ -45,7 +57,8 @@ export const Home = () => {
             </div>
             <hr></hr>
 
-            <TextInput updateFromPaste={updateFromPaste} />
+
+            <ToastContainer autoClose={2000} />
         </>
     )
 }
