@@ -7,23 +7,18 @@ export const Home = () => {
 
     const [copiableText, updateCopiableText] = useState(["Click", "to", "copy"])
 
-    const updateFromPaste = (rawText) => {
+    const updateFromPaste = (inputArray) => {
 
-        console.log(rawText)
+        console.log(inputArray.length)
 
-        if (rawText.includes("\n")) {
-            console.log("Contains newlines")
+        if (inputArray.length > 1) {
+            console.log("Contains multiple lines")
 
-            const splitText = rawText.split("\n")
-
-            console.log(splitText)
-            updateCopiableText(splitText)
+            updateCopiableText(inputArray)
 
         } else {
-            console.log("Does not contain newlines")
-            const singleLine = []
-            singleLine.push(rawText)
-            updateCopiableText(singleLine)
+            console.log("Does not contain multiple lines")
+            updateCopiableText(inputArray)
         }
     }
 
