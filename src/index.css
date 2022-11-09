@@ -36,3 +36,12 @@ li:hover {
   margin: 0.2em auto 0.2em auto;
   border-radius: 0.5em;
 }
+
+textarea {
+  width: 50vw;
+  height: 25vw;
+  border-radius: 0.5em;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  padding: 1em;
+  font-size: medium;
+}
