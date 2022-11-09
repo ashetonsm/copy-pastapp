@@ -1,3 +1,5 @@
+import { Button } from "react-bootstrap";
+
 export const TextToCopy = ({ children, notify }) => {
 
     const copyText = (e) => {
@@ -10,16 +12,16 @@ export const TextToCopy = ({ children, notify }) => {
             navigator.clipboard
                 .writeText(newText)
                 .then(
-                    () => (document.querySelector("#sampleText").innerText = newText)
+                    () => (document.querySelector("#currentText").innerText = newText)
                 )
         )
     }
 
     return (
-        <li className="copiable center" onClick={(e) => copyText(e)}>
-            <p>
+        <p>
+            <Button onClick={(e) => copyText(e)}>
                 {children}
-            </p>
-        </li>
+            </Button>
+        </p>
     )
 }
