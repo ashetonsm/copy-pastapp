@@ -3,7 +3,7 @@ import { Accordion, Row, Container, Button } from "react-bootstrap";
 
 export const TextInput = ({ updateFromPaste }) => {
 
-
+    const whitespace = new RegExp('\\S+', 'g')
     const [input, setInput] = useState({
         textInput: "",
     });
@@ -20,20 +20,25 @@ export const TextInput = ({ updateFromPaste }) => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        // console.log(input)
-
         var splitInput = []
 
+        // Check if there are multiple lines of text
         if (input.textInput.includes("\n")) {
+            // If so, split them and assign to splitInput
             splitInput = input.textInput.split("\n")
         } else {
-            splitInput = []
-            splitInput[0] = input.textInput
+            // Single line, blank input
+            if (!input.textInput.match(whitespace)) {
+                return alert("Blank input!")
+            } else {
+                splitInput[0] = input.textInput
+            }
         }
 
-        updateFromPaste(input.textInput)
+        // Remove all blank lines
+        splitInput = splitInput.filter(line => line.match(whitespace))
 
-
+        updateFromPaste(splitInput)
     }
 
     return (
