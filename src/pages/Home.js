@@ -15,16 +15,12 @@ export const Home = () => {
 
     const updateFromPaste = (inputObj) => {
         setRadioValue(0)
-        console.log(inputObj)
-        console.log(inputObj.length)
+        // console.log(inputObj)
 
         if (inputObj.length > 1) {
-            console.log("Contains multiple lines")
-
             updateCopiableText(inputObj)
 
         } else {
-            console.log("Does not contain multiple lines")
             updateCopiableText(inputObj)
         }
     }
@@ -42,12 +38,10 @@ export const Home = () => {
     }
 
     function CopyOptions() {
-
         var output = copiableText.map((radio, idx) =>
 
-            <p>
+            <p key={radio.value}>
                 <ToggleButton
-                    key={idx}
                     id={`radio-${idx}`}
                     type="checkbox"
                     name="radio"
