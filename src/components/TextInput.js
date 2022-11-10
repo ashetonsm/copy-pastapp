@@ -38,7 +38,14 @@ export const TextInput = ({ updateFromPaste }) => {
         // Remove all blank lines
         splitInput = splitInput.filter(line => line.match(whitespace))
 
-        updateFromPaste(splitInput)
+        const objInput = []
+        var id = 0
+
+        splitInput.forEach(text => {
+            objInput.push({text: text, value: id++})
+        });
+
+        updateFromPaste(objInput)
     }
 
     return (
