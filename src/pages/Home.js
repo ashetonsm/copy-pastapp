@@ -5,31 +5,24 @@ import { TextInput } from "../components/TextInput";
 export const Home = () => {
 
     const [radioValue, setRadioValue] = useState(0)
+    const [copyValue, setCopyValue] = useState(0)
     const [copiableText, updateCopiableText] = useState([
 
-        { text: 'Click', value: 0 },
-        { text: 'to', value: 1 },
-        { text: 'Copy', value: 2 },
+        { text: 'Click', value: 0, bullet: false },
+        { text: 'to', value: 1, bullet: false },
+        { text: 'Copy', value: 2, bullet: false },
 
     ])
 
     const updateFromPaste = (inputObj) => {
-        setRadioValue(0)
-        // console.log(inputObj)
+        setCopyValue(0)
+        console.log(inputObj)
 
-        if (inputObj.length > 1) {
-            updateCopiableText(inputObj)
+        updateCopiableText(applyFormatting(radioValue, inputObj))
 
-        } else {
-            updateCopiableText(inputObj)
-        }
     }
 
-
     const copyText = (newText) => {
-
-        console.log(newText)
-
         return (
             navigator.clipboard
                 .writeText(newText)
@@ -46,9 +39,9 @@ export const Home = () => {
                     type="checkbox"
                     name="radio"
                     value={radio.value}
-                    checked={radioValue === radio.value}
+                    checked={copyValue === radio.value}
                     onChange={(e) => {
-                        setRadioValue(parseInt(e.currentTarget.value))
+                        setCopyValue(parseInt(e.currentTarget.value))
                         copyText(radio.text)
                     }}
                 >
@@ -65,6 +58,41 @@ export const Home = () => {
         )
     }
 
+    const applyFormatting = (optionNum, inputObj) => {
+
+        switch (optionNum) {
+            case 0:
+                console.log("No additional formatting")
+                return inputObj;
+
+            case 1:
+                console.log("Add bullets")
+
+                const bullet = "•	"
+
+                const bulletedArray = []
+
+                inputObj.forEach(element => {
+                    if (element.bullet === false) {
+                        const newText = bullet.concat(element.text)
+                        element.text = newText
+                        element.bullet = true
+                    }
+
+                    bulletedArray.push(element)
+                })
+
+                return bulletedArray;
+
+            case 2:
+                console.log("Remove bullets")
+                return inputObj;
+
+            default:
+                return inputObj;
+        }
+    }
+
     return (
         <Container>
             <Container>
@@ -78,6 +106,40 @@ export const Home = () => {
                 </Row>
 
                 <hr></hr>
+                <Row className="row justify-content-md-center">
+                    <Col className="col-lg-auto">
+                        <fieldset>
+                            <legend>Formatting Options:</legend>
+
+                            <div>
+                                <input type="radio" id="none" name="formattingOption"
+                                    value={0}
+                                    onInput={(e) => {
+                                        setRadioValue(parseInt(e.currentTarget.value))
+                                    }} />
+                                <label htmlFor="none">None</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="addBullets" name="formattingOption"
+                                    value={1}
+                                    onInput={(e) => {
+                                        setRadioValue(parseInt(e.currentTarget.value))
+                                    }} />
+                                <label htmlFor="addBullets">Add Bullets</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="removeBullets" name="formattingOption"
+                                    value={2}
+                                    onInput={(e) => {
+                                        setRadioValue(parseInt(e.currentTarget.value))
+                                    }} />
+                                <label htmlFor="removeBullets">Remove Bullets</label>
+                            </div>
+                        </fieldset>
+                    </Col>
+                </Row>
 
                 {/* Text Input Area */}
                 <Row className="row justify-content-md-center">
@@ -86,16 +148,16 @@ export const Home = () => {
                         <TextInput updateFromPaste={updateFromPaste} />
                     </Col>
                 </Row>
-            </Container>
-
-            {/* Results */}
-            <Container fluid="lg" className="overflow-auto" style={{ height: '50vh' }}>
                 <Row className="row justify-content-md-center">
                     <Col className="col-lg-auto">
 
                         <h3 id="currentText">This is the currently copied text...</h3>
                     </Col>
                 </Row>
+            </Container>
+
+            {/* Results */}
+            <Container fluid="lg" className="overflow-auto" style={{ height: '50vh' }}>
 
                 <Row className="row justify-content-lg-center">
                     <CopyOptions />
