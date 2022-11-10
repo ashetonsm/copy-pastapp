@@ -44,11 +44,14 @@ export const TextInput = ({ updateFromPaste }) => {
 
         splitInput.forEach(text => {
 
+            var containsBullet = false
+
             if(text.match(bullets)) {
-                console.log('String: "'+ text + '" ...starts with a bullet or dash!')
+                containsBullet = true
+                // console.log('String: "'+ text + '" ...starts with a bullet or dash!')
             }
 
-            objInput.push({text: text, value: id++})
+            objInput.push({text: text, value: id++, bullet: containsBullet})
         });
 
         updateFromPaste(objInput)
