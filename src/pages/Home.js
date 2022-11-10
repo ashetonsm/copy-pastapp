@@ -70,22 +70,29 @@ export const Home = () => {
 
                 const bullet = "•	"
 
-                const bulletedArray = []
-
                 inputObj.forEach(element => {
                     if (element.bullet === false) {
                         const newText = bullet.concat(element.text)
                         element.text = newText
                         element.bullet = true
                     }
-
-                    bulletedArray.push(element)
                 })
 
-                return bulletedArray;
+                return inputObj;
 
             case 2:
                 console.log("Remove bullets")
+
+                const bullets = new RegExp('(?:^(o|\u2022|\u2023|\u25E6|\u2043|\u2219|\u25CB|\u25CF|\u002D|\u2013)\\s)', 'gu')
+
+                inputObj.forEach(element => {
+                    if (element.bullet === true) {
+                        const newText = element.text.split(bullets)[2]
+                        element.text = newText
+                        element.bullet = false
+                    }
+                })
+
                 return inputObj;
 
             default:
