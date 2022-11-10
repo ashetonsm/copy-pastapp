@@ -4,6 +4,8 @@ import { Accordion, Row, Container, Button } from "react-bootstrap";
 export const TextInput = ({ updateFromPaste }) => {
 
     const whitespace = new RegExp('\\S+', 'g')
+    const bullets = new RegExp('(?:^(o|\u2022|\u2023|\u25E6|\u2043|\u2219|\u25CB|\u25CF|\u002D|\u2013)\\s)', 'gu')
+
     const [input, setInput] = useState({
         textInput: "",
     });
@@ -14,7 +16,6 @@ export const TextInput = ({ updateFromPaste }) => {
             ...input,
             [id]: value,
         }))
-
     }
 
     const handleSubmit = (e) => {
@@ -42,6 +43,11 @@ export const TextInput = ({ updateFromPaste }) => {
         var id = 0
 
         splitInput.forEach(text => {
+
+            if(text.match(bullets)) {
+                console.log('String: "'+ text + '" ...starts with a bullet or dash!')
+            }
+
             objInput.push({text: text, value: id++})
         });
 
