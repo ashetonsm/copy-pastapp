@@ -119,12 +119,12 @@ export const Home = () => {
                             <legend>Formatting Options:</legend>
 
                             <div>
-                                <input type="radio" id="none" name="formattingOption"
+                                <input type="radio" id="original" name="formattingOption"
                                     value={0}
                                     onInput={(e) => {
                                         setRadioValue(parseInt(e.currentTarget.value))
                                     }} />
-                                <label htmlFor="none">None</label>
+                                <label htmlFor="original">Original/None</label>
                             </div>
 
                             <div>

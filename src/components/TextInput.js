@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Accordion, Row, Container, Button } from "react-bootstrap";
+import { Accordion, Row, Button } from "react-bootstrap";
 
 export const TextInput = ({ updateFromPaste }) => {
 
@@ -46,12 +46,12 @@ export const TextInput = ({ updateFromPaste }) => {
 
             var containsBullet = false
 
-            if(text.match(bullets)) {
+            if (text.match(bullets)) {
                 containsBullet = true
                 // console.log('String: "'+ text + '" ...starts with a bullet or dash!')
             }
 
-            objInput.push({text: text, value: id++, bullet: containsBullet})
+            objInput.push({ text: text, value: id++, bullet: containsBullet })
         });
 
         updateFromPaste(objInput)
@@ -59,39 +59,33 @@ export const TextInput = ({ updateFromPaste }) => {
 
     return (
 
-        <Accordion defaultActiveKey={['0']} alwaysOpen >
-            <Accordion.Item eventKey="0" style={{ width: '55vw' }}>
-                <Accordion.Header >
-                    Resume Text
-                </Accordion.Header>
-                <Accordion.Body>
-                    <Container>
-
+        <Accordion defaultActiveKey={['0']} alwaysOpen style={{ width: '55vw' }}>
+            <form>
+                <Accordion.Item eventKey="0" style={{ width: 'inherit' }}>
+                    <Accordion.Header style={{ width: 'inherit' }}>Resume Text</Accordion.Header>
+                    <Accordion.Body>
                         <Row className="row justify-content-lg-center">
-                            <form>
-                                <textarea
-                                    onChange={handleChange}
-                                    id="textInput"
-                                    name="textInput"
-                                    placeholder="Paste your resume here."
-                                    style={{ height: '50vh', width: 'inherit' }}
-                                >
-                                </textarea>
-                                <Row className="row justify-content-md-center">
-
-                                    <Button type="submit" value="Copyify!"
-                                        onClick={(e) => handleSubmit(e)}
-                                        style={{ width: 'inherit' }}
-                                    >
-                                        Copyify!
-                                    </Button>
-                                </Row>
-                            </form>
-
+                            <textarea
+                                onChange={handleChange}
+                                id="textInput"
+                                name="textInput"
+                                placeholder="Paste your resume here."
+                                style={{ height: '50vh' }}
+                            >
+                            </textarea>
                         </Row>
-                    </Container>
-                </Accordion.Body>
-            </Accordion.Item>
+                    </Accordion.Body>
+                </Accordion.Item>
+                <Row className="row justify-content-md-center">
+
+                    <Button type="submit" value="Copyify!"
+                        onClick={(e) => handleSubmit(e)}
+                        style={{ width: 'inherit' }}
+                    >
+                        Copyify!
+                    </Button>
+                </Row>
+            </form>
         </Accordion>
 
     )
