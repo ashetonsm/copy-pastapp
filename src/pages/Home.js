@@ -111,7 +111,7 @@ export const Home = () => {
                 <Row className="row justify-content-md-center">
                     <Col className="col-lg-auto">
                         <h1 style={{ textAlign: 'center' }}>Copy-Pastapp</h1>
-                        <h2 style={{ textAlign: 'center' }}>(Because auto-fill isn't always accurate)</h2>
+                        <h2 style={{ textAlign: 'center' }}>(Because resume parsers aren't always accurate)</h2>
                     </Col>
                 </Row>
 
