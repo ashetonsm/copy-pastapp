@@ -16,10 +16,12 @@ export const Home = () => {
 
     const updateFromPaste = (inputObj) => {
         setCopyValue(0)
-        console.log(inputObj)
-
         updateCopiableText(applyFormatting(radioValue, inputObj))
+    }
 
+    const removeElement = (elementValue) => {
+        const newArray = copiableText.filter((elem) => elem.value !== parseInt(elementValue))
+        updateCopiableText(newArray)
     }
 
     const copyText = (newText) => {
@@ -34,6 +36,7 @@ export const Home = () => {
         var output = copiableText.map((radio, idx) =>
 
             <p key={radio.value}>
+                <span onClick={() => removeElement(radio.value)}>❌</span>
                 <ToggleButton
                     id={`radio-${idx}`}
                     type="checkbox"
@@ -62,11 +65,11 @@ export const Home = () => {
 
         switch (optionNum) {
             case 0:
-                console.log("No additional formatting")
+                // console.log("No additional formatting")
                 return inputObj;
 
             case 1:
-                console.log("Add bullets")
+                // console.log("Add bullets")
 
                 const bullet = "•	"
 
@@ -81,7 +84,7 @@ export const Home = () => {
                 return inputObj;
 
             case 2:
-                console.log("Remove bullets")
+                // console.log("Remove bullets")
 
                 const bullets = new RegExp('(?:^(o|\u2022|\u2023|\u25E6|\u2043|\u2219|\u25CB|\u25CF|\u002D|\u2013)\\s)', 'gu')
 
@@ -102,8 +105,8 @@ export const Home = () => {
 
     return (
         <Container>
-            <Container>
 
+            <Container>
                 {/* Centered title */}
                 <Row className="row justify-content-md-center">
                     <Col className="col-lg-auto">
@@ -113,6 +116,7 @@ export const Home = () => {
                 </Row>
 
                 <hr></hr>
+
                 <Row className="row justify-content-md-center">
                     <Col className="col-lg-auto">
                         <fieldset>
@@ -172,6 +176,5 @@ export const Home = () => {
             </Container>
 
         </Container>
-
     )
 }
