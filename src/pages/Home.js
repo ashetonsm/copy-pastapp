@@ -65,12 +65,9 @@ export const Home = () => {
 
         switch (optionNum) {
             case 0:
-                // console.log("No additional formatting")
                 return inputObj;
 
             case 1:
-                // console.log("Add bullets")
-
                 const bullet = "•	"
 
                 inputObj.forEach(element => {
@@ -84,8 +81,6 @@ export const Home = () => {
                 return inputObj;
 
             case 2:
-                // console.log("Remove bullets")
-
                 const bullets = new RegExp('(?:^(o|\u2022|\u2023|\u25E6|\u2043|\u2219|\u25CB|\u25CF|\u002D|\u2013)\\s)', 'gu')
 
                 inputObj.forEach(element => {
