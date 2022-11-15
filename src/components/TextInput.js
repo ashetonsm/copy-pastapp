@@ -51,7 +51,7 @@ export const TextInput = ({ updateFromPaste }) => {
                 // console.log('String: "'+ text + '" ...starts with a bullet or dash!')
             }
 
-            objInput.push({ text: text, value: id++, bullet: containsBullet })
+            objInput.push({ text: text, id: id++, bullet: containsBullet })
         });
 
         updateFromPaste(objInput)

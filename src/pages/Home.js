@@ -4,7 +4,7 @@ import { TextInput } from "../components/TextInput";
 
 export const Home = () => {
 
-    const [radioValue, setRadioValue] = useState(0)
+    const [selectedValue, setSelectedValue] = useState(0)
     const [copyValue, setCopyValue] = useState(0)
     const [appendingValue, setAppendingValue] = useState(null)
     const [appendingText, setAppendingText] = useState("")
@@ -18,18 +18,18 @@ export const Home = () => {
 
     const updateFromPaste = (inputObj) => {
         setCopyValue(0)
-        setCopiableText(applyFormatting(radioValue, inputObj))
+        setCopiableText(applyFormatting(selectedValue, inputObj))
     }
 
     const removeElement = (oldObj) => {
-        var oldValue = oldObj.value
+        var oldValue = oldObj.id
         var newArray = []
 
         // console.log(`DELETING`)
         newArray = copiableText.filter((elem) => elem !== oldObj)
 
         try {
-            if (copiableText[oldValue].value !== undefined) {
+            if (copiableText[oldValue].id !== undefined) {
                 // console.log(copiableText[oldValue].value)
             }
         } catch (error) {
@@ -41,17 +41,17 @@ export const Home = () => {
         setCopiableText(newArray)
     }
 
-    const appendElement = (destinationObj, destinationVal, appendingVal) => {
+    const appendElement = (destinationObj, destinationID, appendingID) => {
 
-        if (destinationVal !== parseInt(appendingVal)) {
-            // console.log(destinationVal  + " " + appendingVal)
+        if (destinationID !== parseInt(appendingID)) {
+            // console.log(destinationID  + " " + appendingID)
             console.log(`Appending "${appendingText}" onto "${destinationObj.text}".`)
 
-            copiableText[destinationVal].value = appendingVal
+            copiableText[destinationID].id = appendingID
 
-            copiableText[destinationVal].text = copiableText[destinationVal].text.concat(" " + appendingText)
+            copiableText[destinationID].text = copiableText[destinationID].text.concat(" " + appendingText)
 
-            removeElement(copiableText[appendingVal])
+            removeElement(copiableText[appendingID])
 
         } else {
             console.log("Aborting append operation.")
@@ -176,7 +176,7 @@ export const Home = () => {
                                 <input type="radio" id="original" name="formattingOption"
                                     value={0}
                                     onInput={(e) => {
-                                        setRadioValue(parseInt(e.currentTarget.value))
+                                        setSelectedValue(parseInt(e.currentTarget.value))
                                     }} />
                                 <label htmlFor="original">Original/None</label>
                             </div>
@@ -185,7 +185,7 @@ export const Home = () => {
                                 <input type="radio" id="addBullets" name="formattingOption"
                                     value={1}
                                     onInput={(e) => {
-                                        setRadioValue(parseInt(e.currentTarget.value))
+                                        setSelectedValue(parseInt(e.currentTarget.value))
                                     }} />
                                 <label htmlFor="addBullets">Add Bullets</label>
                             </div>
@@ -194,7 +194,7 @@ export const Home = () => {
                                 <input type="radio" id="removeBullets" name="formattingOption"
                                     value={2}
                                     onInput={(e) => {
-                                        setRadioValue(parseInt(e.currentTarget.value))
+                                        setSelectedValue(parseInt(e.currentTarget.value))
                                     }} />
                                 <label htmlFor="removeBullets">Remove Bullets</label>
                             </div>
