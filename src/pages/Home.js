@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { CopiableText } from "../components/CopiableText";
+import { SaveLoad } from "../components/SaveLoad";
 import { TextInput } from "../components/TextInput";
 
 export const Home = () => {
@@ -70,6 +71,8 @@ export const Home = () => {
                     </Col>
                 </Row>
 
+                <SaveLoad/>
+
                 <hr></hr>
 
                 <Row className="row justify-content-md-center">
@@ -130,7 +133,6 @@ export const Home = () => {
                         copiableText={copiableText}
                         functions={{ setCopiableText, setCopyValue }}
                         copyValue={copyValue}
-
                     />
                 </Row>
             </Container>
