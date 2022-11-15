@@ -6,7 +6,9 @@ export const Home = () => {
 
     const [radioValue, setRadioValue] = useState(0)
     const [copyValue, setCopyValue] = useState(0)
-    const [copiableText, updateCopiableText] = useState([
+    const [appendingValue, setAppendingValue] = useState(null)
+    const [appendingText, setAppendingText] = useState("")
+    const [copiableText, setCopiableText] = useState([
 
         { text: 'Click', value: 0, bullet: false },
         { text: 'to', value: 1, bullet: false },
@@ -16,12 +18,44 @@ export const Home = () => {
 
     const updateFromPaste = (inputObj) => {
         setCopyValue(0)
-        updateCopiableText(applyFormatting(radioValue, inputObj))
+        setCopiableText(applyFormatting(radioValue, inputObj))
     }
 
-    const removeElement = (elementValue) => {
-        const newArray = copiableText.filter((elem) => elem.value !== parseInt(elementValue))
-        updateCopiableText(newArray)
+    const removeElement = (oldObj) => {
+        var oldValue = oldObj.value
+        var newArray = []
+
+        // console.log(`DELETING`)
+        newArray = copiableText.filter((elem) => elem !== oldObj)
+
+        try {
+            if (copiableText[oldValue].value !== undefined) {
+                // console.log(copiableText[oldValue].value)
+            }
+        } catch (error) {
+            console.log("WARNING: Undefined value for old object!")
+        }
+
+        // console.log(newArray)
+
+        setCopiableText(newArray)
+    }
+
+    const appendElement = (destinationObj, destinationVal, appendingVal) => {
+
+        if (destinationVal !== parseInt(appendingVal)) {
+            // console.log(destinationVal  + " " + appendingVal)
+            console.log(`Appending "${appendingText}" onto "${destinationObj.text}".`)
+
+            copiableText[destinationVal].value = appendingVal
+
+            copiableText[destinationVal].text = copiableText[destinationVal].text.concat(" " + appendingText)
+
+            removeElement(copiableText[appendingVal])
+
+        } else {
+            console.log("Aborting append operation.")
+        }
     }
 
     const copyText = (newText) => {
@@ -35,14 +69,30 @@ export const Home = () => {
     function CopyOptions() {
         var output = copiableText.map((radio, idx) =>
 
-            <p key={radio.value}>
-                <span onClick={() => removeElement(radio.value)}>❌</span>
+            <p key={idx}
+                onDragStart={(e) => {
+                    setAppendingText(radio.text)
+                    setAppendingValue(parseInt(e.currentTarget.children[1].value))
+                    // console.log(`Dragging "${radio.text}"... Value: ${e.currentTarget.children[1].value}`)
+                }}
+                onDragOver={(e) => {
+                    e.preventDefault()
+                }}
+                onDrop={(e) => {
+                    // console.log(`Dropped #${appendingValue} on #${e.currentTarget.children[1].value}`)
+                    appendElement(radio, parseInt(e.currentTarget.children[1].value), parseInt(appendingValue))
+                }}
+                style={{ padding: "1em" }}
+                draggable
+            >
+                <span style={{ marginRight: "1em", cursor: "grab" }}>📄</span>
+
                 <ToggleButton
                     id={`radio-${idx}`}
                     type="checkbox"
                     name="radio"
-                    value={radio.value}
-                    checked={copyValue === radio.value}
+                    value={idx}
+                    checked={copyValue === idx}
                     onChange={(e) => {
                         setCopyValue(parseInt(e.currentTarget.value))
                         copyText(radio.text)
@@ -50,6 +100,11 @@ export const Home = () => {
                 >
                     {radio.text}
                 </ToggleButton>
+                <span onClick={(e) => {
+                    // console.log(radio)
+                    // console.log(e.target.parentNode.children[1].value)
+                    removeElement(radio)
+                }} style={{ marginLeft: "1em", cursor: "default" }}>❌</span>
             </p>
         )
         return (
