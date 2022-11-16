@@ -11,9 +11,9 @@ export const Home = () => {
 
     const [copiableText, setCopiableText] = useState([
 
-        { text: 'Click', value: 0, bullet: false },
-        { text: 'to', value: 1, bullet: false },
-        { text: 'Copy', value: 2, bullet: false },
+        { text: 'Click', id: 0, bullet: false },
+        { text: 'to', id: 1, bullet: false },
+        { text: 'Copy', id: 2, bullet: false },
 
     ])
 
@@ -71,7 +71,7 @@ export const Home = () => {
                     </Col>
                 </Row>
 
-                <SaveLoad/>
+                <SaveLoad currentList={copiableText}/>
 
                 <hr></hr>
 
