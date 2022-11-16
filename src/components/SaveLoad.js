@@ -2,44 +2,136 @@ import { useState } from "react"
 import { Button, Modal, Row } from "react-bootstrap"
 
 
-export const SaveLoad = () => {
+export const SaveLoad = (currentList) => {
 
-    const [show, setShow] = useState(false);
+    const [showLoadModal, setShowLoadModal] = useState(false);
+    const [showNameModal, setShowNameModal] = useState(false);
+    const [savedLists, setSavedLists] = useState([])
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const [input, setInput] = useState({
+        textInput: "",
+    });
+
+    // The name of the master list in localStorage
+    const masterList = "Copy-Pastapp"
+
+
+    const handleChange = (e) => {
+        const { id, value } = e.target
+        console.log(e.target.value)
+        setInput((input) => ({
+            ...input,
+            [id]: value,
+        }))
+    }
+
+    const saveToLocalStorage = () => {
+        console.log("Saving...")
+        savedLists.push({ name: input.textInput, content: currentList })
+        // setSavedLists(lists => [...lists, { name: input.textInput, content: currentList }])
+
+        window.localStorage.setItem(masterList, JSON.stringify(savedLists))
+    }
+
+    const loadFromLocalStorage = () => {
+        console.log("Loading...")
+
+        var ml = window.localStorage.getItem(masterList)
+
+        if (ml !== null) {
+            JSON.parse(ml).forEach(element => {
+                console.log(element)
+            });
+            console.log("Loading complete.")
+        } else {
+            console.log("No lists to load!")
+        }
+
+    }
+
+    function Saved() {
+        var output = window.localStorage.getItem(masterList)
+
+        if (output !== null) {
+            output = JSON.parse(output)
+            output = output.map((list, idx) =>
+
+                <li key={idx}>
+                    <Button
+                        value={JSON.stringify(list.content)}
+                        onClick={(e) => {
+                            console.log(JSON.parse(e.currentTarget.value))
+                        }}>
+                        {list.name}
+                    </Button>
+                </li>
+            )
+        }
+
+
+        return (
+            <ol>
+                {output !== null ? output : <p>No saved lists found!</p>}
+            </ol>
+        )
+    }
 
     return (
         <>
             <Row className="row justify-content-md-center">
 
                 <Button value="save"
-                    onClick={(e) => console.log("Saving...")}
+                    onClick={(e) => {
+                        setShowNameModal(true)
+                    }}
                     style={{ width: 'inherit', margin: "1em" }}
                 >
                     Save
                 </Button>
                 <Button value="load"
                     onClick={() => {
-                        handleShow()
-                        console.log("Loading...")
+                        setShowLoadModal(true)
+                        loadFromLocalStorage()
                     }}
                     style={{ width: 'inherit', margin: "1em" }}
                 >
                     Load
                 </Button>
 
-                <Modal show={show} onHide={handleClose}>
+                <Modal show={showLoadModal} onHide={() => setShowLoadModal(false)}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Modal heading</Modal.Title>
+                        <Modal.Title>Load a Saved List:</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                    <Modal.Body>
+
+                        <Saved />
+
+                    </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>
+                        <Button variant="secondary" onClick={() => setShowLoadModal(false)}>
                             Close
                         </Button>
-                        <Button variant="primary" onClick={handleClose}>
-                            Save Changes
+                    </Modal.Footer>
+                </Modal>
+
+                <Modal show={showNameModal} onHide={() => setShowNameModal(false)}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Please Name Your List:</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <input type="text"
+                            id="textInput"
+                            onChange={handleChange} />
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="primary" onClick={() => {
+                            saveToLocalStorage()
+                            setShowNameModal(false)
+                        }}>
+                            Submit
+                        </Button>
+                        <Button variant="secondary" onClick={() => setShowNameModal(false)}>
+                            Cancel
                         </Button>
                     </Modal.Footer>
                 </Modal>
