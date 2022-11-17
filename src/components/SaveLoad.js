@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button, Modal, Row } from "react-bootstrap"
 
 
@@ -6,7 +6,7 @@ export const SaveLoad = ({ currentList, functions }) => {
 
     const [showLoadModal, setShowLoadModal] = useState(false);
     const [showNameModal, setShowNameModal] = useState(false);
-    const [savedLists, setSavedLists] = useState([])
+    var savedLists = []
 
     const [input, setInput] = useState({
         textInput: "",
@@ -14,6 +14,12 @@ export const SaveLoad = ({ currentList, functions }) => {
 
     // The name of the master list in localStorage
     const masterList = "Copy-Pastapp"
+
+    useEffect(() => {
+        loadFromLocalStorage()
+        console.log("Current lists:")
+        console.log(savedLists)
+    }, [])
 
 
     const handleChange = (e) => {
@@ -26,19 +32,71 @@ export const SaveLoad = ({ currentList, functions }) => {
 
     const saveToLocalStorage = () => {
         console.log("Saving...")
-        savedLists.push({ name: input.textInput, content: currentList })
-        // setSavedLists(lists => [...lists, { name: input.textInput, content: currentList }])
 
-        window.localStorage.setItem(masterList, JSON.stringify(savedLists))
-        console.log(savedLists)
+        // Create our new string object
+        var newItem = { name: input.textInput, content: currentList }
+
+        // Get the master list
+        var ml = window.localStorage.getItem(masterList)
+
+        // Create an obj for storing master list
+        var mlObj = []
+
+        // Use the ml string as the base if it exists
+        if (ml !== null) {
+            console.log("Something is the master list:")
+            console.log(JSON.parse(ml))
+
+            // More than one item
+            if (JSON.parse(ml).length > 1) {
+                JSON.parse(ml).forEach(item => {
+                    mlObj.push(item)
+                });
+            } else {
+                // Just one item
+                mlObj.push(JSON.parse(ml))
+            }
+            
+            console.log("After pushing existing ml, this is mlObj:")
+            console.log(mlObj)
+
+            mlObj.push(newItem)
+
+            console.log("After pushing newItem, this is mlObj:")
+            console.log(mlObj)
+
+            window.localStorage.setItem(masterList, JSON.stringify(mlObj))
+        } else {
+            // List is blank, add the new item
+            console.log("Nothing on the master list")
+            window.localStorage.setItem(masterList, JSON.stringify(newItem))
+        }
     }
 
     const loadFromLocalStorage = () => {
-        console.log("Loading...")
+        console.log("Loading from localStorage...")
+        savedLists = []
 
         var ml = window.localStorage.getItem(masterList)
 
         if (ml !== null) {
+            var lists = JSON.parse(ml)
+
+            if (lists.length > 1) {
+                lists.forEach(list => {
+                    console.log("More than one")
+                    console.log(list)
+                    if (!savedLists.includes(list)) {
+                        savedLists.push({ name: list.name, content: list.content })
+                    }
+                })
+            } else {
+                console.log("Just one")
+                savedLists.push({ name: lists.name, content: lists.content })
+                console.log(savedLists)
+
+            }
+
             console.log("Loading complete.")
         } else {
             console.log("No lists to load!")
@@ -51,20 +109,40 @@ export const SaveLoad = ({ currentList, functions }) => {
 
         if (output !== null) {
             output = JSON.parse(output)
-            output = output.map((list, idx) =>
 
-                <li key={idx}>
-                    <Button
-                        value={JSON.stringify(list.content)}
-                        onClick={(e) => {
-                            var newList = JSON.parse(e.currentTarget.value)
-                            functions.setCopiableText(newList)
-                            setShowLoadModal(false)
-                        }}>
-                        {list.name}
-                    </Button>
-                </li>
-            )
+            if (output.length > 1) {
+
+                output = output.map((list, idx) =>
+
+                    <li key={idx}>
+                        <Button
+                            value={JSON.stringify(list.content)}
+                            onClick={(e) => {
+                                var newList = JSON.parse(e.currentTarget.value)
+                                functions.setCopiableText(newList)
+                                setShowLoadModal(false)
+                            }}>
+                            {list.name}
+                        </Button>
+                    </li>
+                )
+            } else {
+                output = (
+
+                    <li>
+                        <Button
+                            value={JSON.stringify(output.content)}
+                            onClick={(e) => {
+                                var newList = JSON.parse(e.currentTarget.value)
+                                functions.setCopiableText(newList)
+                                setShowLoadModal(false)
+                            }}>
+                            {output.name}
+                        </Button>
+                    </li>
+                )
+            }
+
         }
 
 
