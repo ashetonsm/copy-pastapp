@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Button, Modal, Row } from "react-bootstrap"
 
 
-export const SaveLoad = (currentList) => {
+export const SaveLoad = ({ currentList, functions }) => {
 
     const [showLoadModal, setShowLoadModal] = useState(false);
     const [showNameModal, setShowNameModal] = useState(false);
@@ -18,7 +18,6 @@ export const SaveLoad = (currentList) => {
 
     const handleChange = (e) => {
         const { id, value } = e.target
-        console.log(e.target.value)
         setInput((input) => ({
             ...input,
             [id]: value,
@@ -31,6 +30,7 @@ export const SaveLoad = (currentList) => {
         // setSavedLists(lists => [...lists, { name: input.textInput, content: currentList }])
 
         window.localStorage.setItem(masterList, JSON.stringify(savedLists))
+        console.log(savedLists)
     }
 
     const loadFromLocalStorage = () => {
@@ -39,9 +39,6 @@ export const SaveLoad = (currentList) => {
         var ml = window.localStorage.getItem(masterList)
 
         if (ml !== null) {
-            JSON.parse(ml).forEach(element => {
-                console.log(element)
-            });
             console.log("Loading complete.")
         } else {
             console.log("No lists to load!")
@@ -60,7 +57,9 @@ export const SaveLoad = (currentList) => {
                     <Button
                         value={JSON.stringify(list.content)}
                         onClick={(e) => {
-                            console.log(JSON.parse(e.currentTarget.value))
+                            var newList = JSON.parse(e.currentTarget.value)
+                            functions.setCopiableText(newList)
+                            setShowLoadModal(false)
                         }}>
                         {list.name}
                     </Button>
