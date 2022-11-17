@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { CopiableText } from "../components/CopiableText";
+import { SaveLoad } from "../components/SaveLoad";
 import { TextInput } from "../components/TextInput";
 
 export const Home = () => {
@@ -10,9 +11,9 @@ export const Home = () => {
 
     const [copiableText, setCopiableText] = useState([
 
-        { text: 'Click', value: 0, bullet: false },
-        { text: 'to', value: 1, bullet: false },
-        { text: 'Copy', value: 2, bullet: false },
+        { text: 'Click', id: 0, bullet: false },
+        { text: 'to', id: 1, bullet: false },
+        { text: 'Copy', id: 2, bullet: false },
 
     ])
 
@@ -69,6 +70,10 @@ export const Home = () => {
                         <h2 style={{ textAlign: 'center' }}>(Because resume parsers aren't always accurate)</h2>
                     </Col>
                 </Row>
+
+                <SaveLoad
+                    functions={{ setCopiableText }}
+                    currentList={copiableText} />
 
                 <hr></hr>
 
@@ -130,7 +135,6 @@ export const Home = () => {
                         copiableText={copiableText}
                         functions={{ setCopiableText, setCopyValue }}
                         copyValue={copyValue}
-
                     />
                 </Row>
             </Container>
