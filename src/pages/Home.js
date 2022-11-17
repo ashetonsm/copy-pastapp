@@ -71,7 +71,9 @@ export const Home = () => {
                     </Col>
                 </Row>
 
-                <SaveLoad currentList={copiableText}/>
+                <SaveLoad
+                    functions={{ setCopiableText }}
+                    currentList={copiableText} />
 
                 <hr></hr>
 
