@@ -9,7 +9,6 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
     const appendElement = (destinationObj, destinationID, appendingID) => {
 
         if (destinationID !== parseInt(appendingID)) {
-            // console.log(destinationID  + " " + appendingID)
             console.log(`Appending "${appendingText}" onto "${destinationObj.text}".`)
 
             copiableText[destinationID].id = appendingID
@@ -42,16 +41,14 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
         var output = copiableText.map((radio, idx) =>
 
             <p key={idx}
-                onDragStart={(e) => {
+                onDragCapture={(e) => {
                     setAppendingText(radio.text)
                     setAppendingValue(parseInt(e.currentTarget.children[1].value))
-                    // console.log(`Dragging "${radio.text}"... Value: ${e.currentTarget.children[1].value}`)
                 }}
                 onDragOver={(e) => {
                     e.preventDefault()
                 }}
                 onDrop={(e) => {
-                    // console.log(`Dropped #${appendingValue} on #${e.currentTarget.children[1].value}`)
                     appendElement(radio, parseInt(e.currentTarget.children[1].value), parseInt(appendingValue))
                 }}
                 style={{ padding: "1em" }}
@@ -73,8 +70,6 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
                     {radio.text}
                 </ToggleButton>
                 <span onClick={(e) => {
-                    // console.log(radio)
-                    // console.log(e.target.parentNode.children[1].value)
                     removeElement(radio)
                 }} style={{ marginLeft: "1em", cursor: "default" }}>❌</span>
             </p>
