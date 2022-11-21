@@ -36,11 +36,54 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
         )
     }
 
+    const touchToMouse = (e) => {
+
+        var mEventType;
+
+        try {
+            console.log(e.touches)
+
+            if (e.touches[0].target.outerHTML.includes("text-option") || e.touches[0].target.className === "listIcon") {
+                console.log("Valid")
+                switch (e.type) {
+                    case "touchstart":
+                        console.log("Touch down")
+                        mEventType = "mousedown"
+                        break;
+                    case "touchend":
+                        console.log("Touch up")
+                        mEventType = "mouseup"
+                        break;
+                    default:
+                        break;
+                }
+            }
+        } catch (error) {
+            console.log("No valid targets.")
+        }
+
+
+        /*
+
+        var mouseEvent = new MouseEvent(mEventType, {
+            view: window,
+            bubbles: true,
+            cancelable: true
+        })
+        */
+
+    }
+
     function GenerateCopiables() {
+
+        document.addEventListener("touchstart", touchToMouse, true)
+        document.addEventListener("touchend", touchToMouse, true)
 
         var output = copiableText.map((radio, idx) =>
 
             <p key={idx}
+                id={`option-container-${idx}`}
+
                 onDragCapture={(e) => {
                     setAppendingText(radio.text)
                     setAppendingValue(parseInt(e.currentTarget.children[1].value))
@@ -54,10 +97,10 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
                 style={{ padding: "1em" }}
                 draggable
             >
-                <span style={{ marginRight: "1em", cursor: "grab" }}>📄</span>
+                <span className="listIcon" style={{ marginRight: "1em", cursor: "grab" }}>📄</span>
 
                 <ToggleButton
-                    id={`radio-${idx}`}
+                    id={`text-option-${idx}`}
                     type="checkbox"
                     name="radio"
                     value={idx}
