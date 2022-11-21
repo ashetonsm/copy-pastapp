@@ -1,5 +1,5 @@
 import { CMapCompressionType } from "pdfjs-dist"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ButtonGroup, Col, ToggleButton } from "react-bootstrap"
 
 export const CopiableText = ({ copiableText, functions, copyValue }) => {
@@ -7,6 +7,11 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
     const [appendingValue, setAppendingValue] = useState(null)
     const [appendingText, setAppendingText] = useState("")
 
+    useEffect(() => {
+        document.addEventListener("touchstart", touchToMouse, true)
+        document.addEventListener("touchend", touchToMouse, true)    
+    }, [copiableText])
+    
     const appendElement = (destinationObj, destinationID, appendingID) => {
 
         if (destinationID !== parseInt(appendingID)) {
@@ -40,35 +45,27 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
     const touchToMouse = (e) => {
 
         try {
-            if (e.type === "touchstart") {
+            switch (e.type) {
 
-                // console.log(e.touches)
+                case "touchstart":
 
-                if (e.touches[0].target.className === "listIcon" || e.touches[0].target.parentElement.id.includes("option-container-")) {
-                    console.log("Touched a valid target")
-                    // Raw text content
-                    console.log(e.touches[0].target.parentElement.children[2].textContent)
-                    // Value
-                    console.log(e.touches[0].target.parentElement.children[1].value)
-                }
+                    // console.log(e.touches)
 
+                    if (e.touches[0].target.className === "listIcon" || e.touches[0].target.parentElement.id.includes("option-container-")) {
+                        console.log("Touched a valid target")
+                        // Raw text content
+                        console.log(e.touches[0].target.parentElement.children[2].textContent)
+                        setAppendingText(e.touches[0].target.parentElement.children[2].textContent)
 
-                /*
-                switch (e.type) {
-                    case "touchstart":
-                        console.log("Touch down")
-                        setAppendingText(e.touches[0].target.)
-                        setAppendingValue(parseInt(e.currentTarget.children[1].value))
-                        mEventType = "mousedown"
-                        break;
-                    case "touchend":
-                        console.log("Touch up")
-                        mEventType = "mouseup"
-                        break;
-                    default:
-                        break;
-                }
-                */
+                        // Value
+                        console.log(e.touches[0].target.parentElement.children[1].value)
+                        setAppendingValue(parseInt(e.touches[0].target.parentElement.children[1].value))
+                    }
+
+                case "touchend":
+                    break;
+                default:
+                    break;
             }
 
         } catch (error) {
@@ -85,13 +82,11 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
         })
         */
 
+
+
     }
 
     function GenerateCopiables() {
-
-        document.addEventListener("touchstart", touchToMouse, true)
-        document.addEventListener("touchend", touchToMouse, true)
-
         var output = copiableText.map((radio, idx) =>
 
             <p key={idx}
@@ -130,6 +125,7 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
                 }} style={{ marginLeft: "1em", cursor: "default" }}>❌</span>
             </p>
         )
+
         return (
             <Col>
                 <ButtonGroup vertical>
