@@ -1,3 +1,4 @@
+import { CMapCompressionType } from "pdfjs-dist"
 import { useState } from "react"
 import { ButtonGroup, Col, ToggleButton } from "react-bootstrap"
 
@@ -38,16 +39,26 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
 
     const touchToMouse = (e) => {
 
-        var mEventType;
-
         try {
-            console.log(e.touches)
+            if (e.type === "touchstart") {
 
-            if (e.touches[0].target.outerHTML.includes("text-option") || e.touches[0].target.className === "listIcon") {
-                console.log("Valid")
+                // console.log(e.touches)
+
+                if (e.touches[0].target.className === "listIcon" || e.touches[0].target.parentElement.id.includes("option-container-")) {
+                    console.log("Touched a valid target")
+                    // Raw text content
+                    console.log(e.touches[0].target.parentElement.children[2].textContent)
+                    // Value
+                    console.log(e.touches[0].target.parentElement.children[1].value)
+                }
+
+
+                /*
                 switch (e.type) {
                     case "touchstart":
                         console.log("Touch down")
+                        setAppendingText(e.touches[0].target.)
+                        setAppendingValue(parseInt(e.currentTarget.children[1].value))
                         mEventType = "mousedown"
                         break;
                     case "touchend":
@@ -57,7 +68,9 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
                     default:
                         break;
                 }
+                */
             }
+
         } catch (error) {
             console.log("No valid targets.")
         }
