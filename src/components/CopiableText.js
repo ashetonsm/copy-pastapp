@@ -1,4 +1,3 @@
-import { CMapCompressionType } from "pdfjs-dist"
 import { useEffect, useState } from "react"
 import { ButtonGroup, Col, ToggleButton } from "react-bootstrap"
 
@@ -62,6 +61,7 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
                         setAppendingValue(parseInt(e.touches[0].target.parentElement.children[1].value))
                     }
 
+                    break;
                 case "touchend":
                     break;
                 default:
