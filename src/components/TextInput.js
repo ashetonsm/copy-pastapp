@@ -12,7 +12,11 @@ export const TextInput = ({ updateFromPaste, loadedInput }) => {
 
     useEffect(() => {
         console.log(loadedInput)
-        input.textInput = loadedInput
+        setInput((input) => ({
+            ...input,
+            textInput: loadedInput,
+        }))
+
     }, [loadedInput])
 
 
