@@ -17,8 +17,7 @@ export const SaveLoad = ({ currentList, functions }) => {
 
     useEffect(() => {
         loadFromLocalStorage()
-        console.log("Current lists:")
-        console.log(savedLists)
+        // eslint-disable-next-line
     }, [])
 
 
@@ -44,8 +43,6 @@ export const SaveLoad = ({ currentList, functions }) => {
 
         // Use the ml string as the base if it exists
         if (ml !== null) {
-            console.log("Something is the master list:")
-            console.log(JSON.parse(ml))
 
             // More than one item
             if (JSON.parse(ml).length > 1) {
@@ -56,20 +53,47 @@ export const SaveLoad = ({ currentList, functions }) => {
                 // Just one item
                 mlObj.push(JSON.parse(ml))
             }
-            
-            console.log("After pushing existing ml, this is mlObj:")
-            console.log(mlObj)
 
             mlObj.push(newItem)
-
-            console.log("After pushing newItem, this is mlObj:")
-            console.log(mlObj)
 
             window.localStorage.setItem(masterList, JSON.stringify(mlObj))
         } else {
             // List is blank, add the new item
-            console.log("Nothing on the master list")
             window.localStorage.setItem(masterList, JSON.stringify(newItem))
+        }
+    }
+
+    const removeSaved = (oldObj) => {
+
+        console.log("Checking localStorage...")
+        savedLists = []
+
+        var lists = JSON.parse(window.localStorage.getItem(masterList))
+
+        if (lists.length > 1) {
+            lists.forEach(list => {
+                if (!savedLists.includes(list)) {
+                    savedLists.push({ name: list.name, content: list.content })
+                }
+            })
+        } else {
+            savedLists.push({ name: lists.name, content: lists.content })
+        }
+
+        // Mutate savedLists, filtering out the old object by name
+        savedLists = savedLists.filter((elem) => elem.name !== oldObj.name)
+
+        // More than one list object, stringify them all
+        if (savedLists.length > 1) {
+            window.localStorage.setItem(masterList, JSON.stringify(savedLists))
+        }
+        // Just one list object, stringify the first one
+        if (savedLists.length === 1) {
+            window.localStorage.setItem(masterList, JSON.stringify(savedLists[0]))
+        }
+        // No more list objects, delete the localStorage entry
+        if (savedLists.length === 0) {
+            window.localStorage.removeItem(masterList)
         }
     }
 
@@ -90,22 +114,21 @@ export const SaveLoad = ({ currentList, functions }) => {
                 })
             } else {
                 savedLists.push({ name: lists.name, content: lists.content })
-                console.log(savedLists)
-
             }
 
             console.log("Loading complete.")
+            console.log(savedLists)
         } else {
             console.log("No lists to load!")
         }
-
     }
 
     function Saved() {
-        var output = window.localStorage.getItem(masterList)
+        var data = window.localStorage.getItem(masterList)
+        var output
 
-        if (output !== null) {
-            output = JSON.parse(output)
+        if (data !== null) {
+            output = JSON.parse(data)
 
             if (output.length > 1) {
 
@@ -128,31 +151,44 @@ export const SaveLoad = ({ currentList, functions }) => {
                             }}>
                             {list.name}
                         </Button>
+                        <span onClick={() => {
+                            removeSaved(list)
+                        }} style={{ marginLeft: "1em", cursor: "default" }}>❌</span>
                     </li>
                 )
             } else {
+                // Output for a singular list from master list
+                const list = JSON.parse(data)
                 output = (
-
                     <li>
                         <Button
-                            value={JSON.stringify(output.content)}
+                            value={JSON.stringify(list.content)}
                             onClick={(e) => {
                                 var newList = JSON.parse(e.currentTarget.value)
                                 functions.setCopiableText(newList)
                                 setShowLoadModal(false)
+
+                                var concatList = ""
+
+                                list.content.forEach(item => {
+                                    concatList = concatList.concat(item.text + "\n")
+                                })
+                                functions.setLoadedInput(concatList)
                             }}>
-                            {output.name}
+                            {list.name}
                         </Button>
+                        <span onClick={() => {
+                            removeSaved(list)
+                        }} style={{ marginLeft: "1em", cursor: "default" }}>❌</span>
                     </li>
                 )
             }
-
         }
 
 
         return (
             <ol>
-                {output !== null ? output : <p>No saved lists found!</p>}
+                {data !== null ? output : <p>No saved lists found!</p>}
             </ol>
         )
     }
