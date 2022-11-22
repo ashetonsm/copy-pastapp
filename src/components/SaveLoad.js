@@ -84,14 +84,11 @@ export const SaveLoad = ({ currentList, functions }) => {
 
             if (lists.length > 1) {
                 lists.forEach(list => {
-                    console.log("More than one")
-                    console.log(list)
                     if (!savedLists.includes(list)) {
                         savedLists.push({ name: list.name, content: list.content })
                     }
                 })
             } else {
-                console.log("Just one")
                 savedLists.push({ name: lists.name, content: lists.content })
                 console.log(savedLists)
 
@@ -121,6 +118,13 @@ export const SaveLoad = ({ currentList, functions }) => {
                                 var newList = JSON.parse(e.currentTarget.value)
                                 functions.setCopiableText(newList)
                                 setShowLoadModal(false)
+
+                                var concatList = ""
+
+                                list.content.forEach(item => {
+                                    concatList = concatList.concat(item.text + "\n")
+                                });
+                                functions.setLoadedInput(concatList)
                             }}>
                             {list.name}
                         </Button>
