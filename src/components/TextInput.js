@@ -11,7 +11,6 @@ export const TextInput = ({ updateFromPaste, loadedInput }) => {
     });
 
     useEffect(() => {
-        console.log(loadedInput)
         setInput((input) => ({
             ...input,
             textInput: loadedInput,
