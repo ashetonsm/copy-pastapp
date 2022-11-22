@@ -42,7 +42,7 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
         var output = copiableText.map((radio, idx) =>
 
             <p key={idx}
-                onDragStart={(e) => {
+                onDragCapture={(e) => {
                     setAppendingText(radio.text)
                     setAppendingValue(parseInt(e.currentTarget.children[1].value))
                     // console.log(`Dragging "${radio.text}"... Value: ${e.currentTarget.children[1].value}`)
