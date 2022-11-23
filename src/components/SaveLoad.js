@@ -4,8 +4,10 @@ import { Button, Modal, Row } from "react-bootstrap"
 
 export const SaveLoad = ({ currentList, functions }) => {
 
-    const [showLoadModal, setShowLoadModal] = useState(false);
-    const [showNameModal, setShowNameModal] = useState(false);
+    const [showLoadModal, setShowLoadModal] = useState(false)
+    const [showNameModal, setShowNameModal] = useState(false)
+    const [overwriteOk, setOverwriteOk] = useState(false)
+    const [nameInUse, setNameInUse] = useState(false)
     var savedLists = []
 
     const [input, setInput] = useState({
@@ -62,12 +64,31 @@ export const SaveLoad = ({ currentList, functions }) => {
                 mlObj.push(JSON.parse(ml))
             }
 
-            mlObj.push(newItem)
+            // Check if the name exists if we haven't already done so and given permission to overwrite
+            var checkObj = mlObj
+            if (checkObj.filter(e => e.name === newItem.name).length > 0) {
+                setNameInUse(true)
+                if (!overwriteOk) {
+                    return console.log("Name already used!")
+                }
+            } else {
+                console.log("Name is free.")
+                setNameInUse(false)
+                setShowNameModal(false)
+            }
 
-            window.localStorage.setItem(masterList, JSON.stringify(mlObj))
+            if (!nameInUse || overwriteOk) {
+                console.log("OverwriteOk: " + overwriteOk)
+                mlObj.push(newItem)
+                window.localStorage.setItem(masterList, JSON.stringify(mlObj))
+                setNameInUse(false)
+                setOverwriteOk(false)
+                setShowNameModal(false)
+            }
         } else {
             // List is blank, add the new item
             window.localStorage.setItem(masterList, JSON.stringify(newItem))
+            setShowNameModal(false)
         }
     }
 
@@ -232,15 +253,30 @@ export const SaveLoad = ({ currentList, functions }) => {
                     <input type="text"
                         id="textInput"
                         onChange={handleChange} />
+                    <p style={{ visibility: nameInUse ? 'visible' : 'hidden' }}>
+                        Click "Overwrite", then click "Submit" to overwrite your existing list.
+                    </p>
                 </Modal.Body>
                 <Modal.Footer>
+                    <Button
+                        style={{ visibility: nameInUse ? 'visible' : 'hidden' }}
+                        variant="danger"
+                        onClick={() => {
+                            setOverwriteOk(true)
+                            saveToLocalStorage()
+                        }}>
+                        Overwite
+                    </Button>
                     <Button variant="primary" onClick={() => {
                         saveToLocalStorage()
-                        setShowNameModal(false)
                     }}>
                         Submit
                     </Button>
-                    <Button variant="secondary" onClick={() => setShowNameModal(false)}>
+                    <Button variant="secondary" onClick={() => {
+                        setOverwriteOk(false)
+                        setNameInUse(false)
+                        setShowNameModal(false)
+                        }}>
                         Cancel
                     </Button>
                 </Modal.Footer>
