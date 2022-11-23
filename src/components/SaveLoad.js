@@ -20,7 +20,6 @@ export const SaveLoad = ({ currentList, functions }) => {
         // eslint-disable-next-line
     }, [])
 
-
     const handleChange = (e) => {
         const { id, value } = e.target
         setInput((input) => ({
@@ -108,11 +107,11 @@ export const SaveLoad = ({ currentList, functions }) => {
 
     const loadFromLocalStorage = () => {
         console.log("Loading from localStorage...")
-        savedLists = []
 
         var ml = window.localStorage.getItem(masterList)
 
         if (ml !== null) {
+            savedLists = []
             var lists = JSON.parse(ml)
 
             if (lists.length > 1) {
@@ -149,13 +148,14 @@ export const SaveLoad = ({ currentList, functions }) => {
                             onClick={(e) => {
                                 var newList = JSON.parse(e.currentTarget.value)
                                 functions.setCopiableText(newList)
-                                setShowLoadModal(false)
                                 concatLoadedInput(list.content)
+                                setShowLoadModal(false)
                             }}>
                             {list.name}
                         </Button>
                         <span onClick={() => {
                             removeSaved(list)
+                            setShowLoadModal(false)
                         }} style={{ marginLeft: "1em", cursor: "default" }}>❌</span>
                     </li>
                 )
@@ -169,19 +169,19 @@ export const SaveLoad = ({ currentList, functions }) => {
                             onClick={(e) => {
                                 var newList = JSON.parse(e.currentTarget.value)
                                 functions.setCopiableText(newList)
-                                setShowLoadModal(false)
                                 concatLoadedInput(list.content)
+                                setShowLoadModal(false)
                             }}>
                             {list.name}
                         </Button>
                         <span onClick={() => {
                             removeSaved(list)
+                            setShowLoadModal(false)
                         }} style={{ marginLeft: "1em", cursor: "default" }}>❌</span>
                     </li>
                 )
             }
         }
-
 
         return (
             <ol>
@@ -191,66 +191,60 @@ export const SaveLoad = ({ currentList, functions }) => {
     }
 
     return (
-        <>
-            <Row className="row justify-content-md-center">
+        <Row className="row justify-content-md-center">
+            <Button value="save"
+                onClick={(e) => {
+                    setShowNameModal(true)
+                }}
+                style={{ width: 'inherit', margin: "1em" }}
+            >
+                Save
+            </Button>
+            <Button value="load"
+                onClick={() => {
+                    setShowLoadModal(true)
+                    loadFromLocalStorage()
+                }}
+                style={{ width: 'inherit', margin: "1em" }}
+            >
+                Load
+            </Button>
 
-                <Button value="save"
-                    onClick={(e) => {
-                        setShowNameModal(true)
-                    }}
-                    style={{ width: 'inherit', margin: "1em" }}
-                >
-                    Save
-                </Button>
-                <Button value="load"
-                    onClick={() => {
-                        setShowLoadModal(true)
-                        loadFromLocalStorage()
-                    }}
-                    style={{ width: 'inherit', margin: "1em" }}
-                >
-                    Load
-                </Button>
+            <Modal show={showLoadModal} onHide={() => setShowLoadModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Load a Saved List:</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Saved />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowLoadModal(false)}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
-                <Modal show={showLoadModal} onHide={() => setShowLoadModal(false)}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Load a Saved List:</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-
-                        <Saved />
-
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => setShowLoadModal(false)}>
-                            Close
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-
-                <Modal show={showNameModal} onHide={() => setShowNameModal(false)}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Please Name Your List:</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <input type="text"
-                            id="textInput"
-                            onChange={handleChange} />
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="primary" onClick={() => {
-                            saveToLocalStorage()
-                            setShowNameModal(false)
-                        }}>
-                            Submit
-                        </Button>
-                        <Button variant="secondary" onClick={() => setShowNameModal(false)}>
-                            Cancel
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-
-            </Row>
-        </>
+            <Modal show={showNameModal} onHide={() => setShowNameModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Please Name Your List:</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <input type="text"
+                        id="textInput"
+                        onChange={handleChange} />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={() => {
+                        saveToLocalStorage()
+                        setShowNameModal(false)
+                    }}>
+                        Submit
+                    </Button>
+                    <Button variant="secondary" onClick={() => setShowNameModal(false)}>
+                        Cancel
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </Row>
     )
 }
