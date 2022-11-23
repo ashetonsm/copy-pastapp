@@ -29,6 +29,15 @@ export const SaveLoad = ({ currentList, functions }) => {
         }))
     }
 
+    const concatLoadedInput = (inputList) => {
+        var concatList = ""
+
+        inputList.forEach(item => {
+            concatList = concatList.concat(item.text + "\n")
+        })
+        functions.setLoadedInput(concatList)
+    }
+
     const saveToLocalStorage = () => {
         console.log("Saving...")
 
@@ -141,13 +150,7 @@ export const SaveLoad = ({ currentList, functions }) => {
                                 var newList = JSON.parse(e.currentTarget.value)
                                 functions.setCopiableText(newList)
                                 setShowLoadModal(false)
-
-                                var concatList = ""
-
-                                list.content.forEach(item => {
-                                    concatList = concatList.concat(item.text + "\n")
-                                });
-                                functions.setLoadedInput(concatList)
+                                concatLoadedInput(list.content)
                             }}>
                             {list.name}
                         </Button>
@@ -167,13 +170,7 @@ export const SaveLoad = ({ currentList, functions }) => {
                                 var newList = JSON.parse(e.currentTarget.value)
                                 functions.setCopiableText(newList)
                                 setShowLoadModal(false)
-
-                                var concatList = ""
-
-                                list.content.forEach(item => {
-                                    concatList = concatList.concat(item.text + "\n")
-                                })
-                                functions.setLoadedInput(concatList)
+                                concatLoadedInput(list.content)
                             }}>
                             {list.name}
                         </Button>
