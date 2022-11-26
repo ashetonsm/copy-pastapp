@@ -6,7 +6,6 @@ export const SaveLoad = ({ currentList, functions }) => {
 
     const [showLoadModal, setShowLoadModal] = useState(false)
     const [showNameModal, setShowNameModal] = useState(false)
-    const [overwriteOk, setOverwriteOk] = useState(false)
     const [nameInUse, setNameInUse] = useState(false)
     var savedLists = []
 
@@ -69,9 +68,7 @@ export const SaveLoad = ({ currentList, functions }) => {
                 var checkObj = mlObj
                 if (checkObj.filter(e => e.name === newItem.name).length > 0) {
                     setNameInUse(true)
-                    if (!overwriteOk) {
-                        return console.log("Name already used!")
-                    }
+                    return console.log("Name already used!")
                 } else {
                     console.log("Name is free.")
                     setNameInUse(false)
@@ -79,12 +76,18 @@ export const SaveLoad = ({ currentList, functions }) => {
                 }
             }
 
-            if (!nameInUse || paramOverwrite === true) {
-                console.log("OverwriteOk: " + overwriteOk)
+            if (!nameInUse) {
                 mlObj.push(newItem)
                 window.localStorage.setItem(masterList, JSON.stringify(mlObj))
                 setNameInUse(false)
-                setOverwriteOk(false)
+                setShowNameModal(false)
+            }
+
+            if (paramOverwrite === true) {
+                console.log("paramOverwrite: " + paramOverwrite)
+                mlObj.push(newItem)
+                window.localStorage.setItem(masterList, JSON.stringify(mlObj))
+                setNameInUse(false)
                 setShowNameModal(false)
             }
         } else {
@@ -264,7 +267,6 @@ export const SaveLoad = ({ currentList, functions }) => {
                         style={{ visibility: nameInUse ? 'visible' : 'hidden' }}
                         variant="danger"
                         onClick={() => {
-                            setOverwriteOk(true)
                             saveToLocalStorage(true)
                         }}>
                         Overwite
@@ -277,7 +279,6 @@ export const SaveLoad = ({ currentList, functions }) => {
                         Submit
                     </Button>
                     <Button variant="secondary" onClick={() => {
-                        setOverwriteOk(false)
                         setNameInUse(false)
                         setShowNameModal(false)
                     }}>
