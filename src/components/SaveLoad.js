@@ -39,7 +39,7 @@ export const SaveLoad = ({ currentList, functions }) => {
         functions.setLoadedInput(concatList)
     }
 
-    const saveToLocalStorage = () => {
+    const saveToLocalStorage = (paramOverwrite) => {
         console.log("Saving...")
 
         // Create our new string object
@@ -64,20 +64,22 @@ export const SaveLoad = ({ currentList, functions }) => {
                 mlObj.push(JSON.parse(ml))
             }
 
-            // Check if the name exists if we haven't already done so and given permission to overwrite
-            var checkObj = mlObj
-            if (checkObj.filter(e => e.name === newItem.name).length > 0) {
-                setNameInUse(true)
-                if (!overwriteOk) {
-                    return console.log("Name already used!")
+            if (paramOverwrite !== true) {
+                // Check if the name exists if we haven't already done so and given permission to overwrite
+                var checkObj = mlObj
+                if (checkObj.filter(e => e.name === newItem.name).length > 0) {
+                    setNameInUse(true)
+                    if (!overwriteOk) {
+                        return console.log("Name already used!")
+                    }
+                } else {
+                    console.log("Name is free.")
+                    setNameInUse(false)
+                    setShowNameModal(false)
                 }
-            } else {
-                console.log("Name is free.")
-                setNameInUse(false)
-                setShowNameModal(false)
             }
 
-            if (!nameInUse || overwriteOk) {
+            if (!nameInUse || paramOverwrite === true) {
                 console.log("OverwriteOk: " + overwriteOk)
                 mlObj.push(newItem)
                 window.localStorage.setItem(masterList, JSON.stringify(mlObj))
@@ -254,7 +256,7 @@ export const SaveLoad = ({ currentList, functions }) => {
                         id="textInput"
                         onChange={handleChange} />
                     <p style={{ visibility: nameInUse ? 'visible' : 'hidden' }}>
-                        Click "Overwrite", then click "Submit" to overwrite your existing list.
+                        Click "Overwrite" to overwrite your existing list.
                     </p>
                 </Modal.Body>
                 <Modal.Footer>
@@ -263,20 +265,22 @@ export const SaveLoad = ({ currentList, functions }) => {
                         variant="danger"
                         onClick={() => {
                             setOverwriteOk(true)
-                            saveToLocalStorage()
+                            saveToLocalStorage(true)
                         }}>
                         Overwite
                     </Button>
-                    <Button variant="primary" onClick={() => {
-                        saveToLocalStorage()
-                    }}>
+                    <Button
+                        style={{ display: !nameInUse ? 'block' : 'none' }}
+                        variant="primary" onClick={() => {
+                            saveToLocalStorage()
+                        }}>
                         Submit
                     </Button>
                     <Button variant="secondary" onClick={() => {
                         setOverwriteOk(false)
                         setNameInUse(false)
                         setShowNameModal(false)
-                        }}>
+                    }}>
                         Cancel
                     </Button>
                 </Modal.Footer>
