@@ -84,7 +84,7 @@ export const SaveLoad = ({ currentList, functions }) => {
             }
 
             if (paramOverwrite === true) {
-                console.log("paramOverwrite: " + paramOverwrite)
+                mlObj = mlObj.filter(e => e.name !== newItem.name)
                 mlObj.push(newItem)
                 window.localStorage.setItem(masterList, JSON.stringify(mlObj))
                 setNameInUse(false)
@@ -151,7 +151,7 @@ export const SaveLoad = ({ currentList, functions }) => {
             }
 
             console.log("Loading complete.")
-            console.log(savedLists)
+            // console.log(savedLists)
         } else {
             console.log("No lists to load!")
         }
