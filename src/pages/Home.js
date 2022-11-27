@@ -8,6 +8,7 @@ export const Home = () => {
 
     const [selectedValue, setSelectedValue] = useState(0)
     const [copyValue, setCopyValue] = useState(0)
+    const [loadedInput, setLoadedInput] = useState("")
 
     const [copiableText, setCopiableText] = useState([
 
@@ -72,7 +73,7 @@ export const Home = () => {
                 </Row>
 
                 <SaveLoad
-                    functions={{ setCopiableText }}
+                    functions={{ setCopiableText, setLoadedInput }}
                     currentList={copiableText} />
 
                 <hr></hr>
@@ -116,7 +117,10 @@ export const Home = () => {
                 <Row className="row justify-content-md-center">
                     <Col className="col-lg-auto">
 
-                        <TextInput updateFromPaste={updateFromPaste} />
+                        <TextInput
+                            updateFromPaste={updateFromPaste}
+                            loadedInput={loadedInput}
+                        />
                     </Col>
                 </Row>
                 <Row className="row justify-content-md-center">
