@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Accordion, Row, Button } from "react-bootstrap";
 
-export const TextInput = ({ updateFromPaste }) => {
+export const TextInput = ({ updateFromPaste, loadedInput }) => {
 
     const whitespace = new RegExp('\\S+', 'g')
     const bullets = new RegExp('(?:^(o|\u2022|\u2023|\u25E6|\u2043|\u2219|\u25CB|\u25CF|\u002D|\u2013)\\s)', 'gu')
@@ -9,6 +9,15 @@ export const TextInput = ({ updateFromPaste }) => {
     const [input, setInput] = useState({
         textInput: "",
     });
+
+    useEffect(() => {
+        setInput((input) => ({
+            ...input,
+            textInput: loadedInput,
+        }))
+
+    }, [loadedInput])
+
 
     const handleChange = (e) => {
         const { id, value } = e.target
@@ -71,6 +80,7 @@ export const TextInput = ({ updateFromPaste }) => {
                                 name="textInput"
                                 placeholder="Paste your resume here."
                                 style={{ height: '50vh' }}
+                                value={input.textInput}
                             >
                             </textarea>
                         </Row>

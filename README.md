@@ -7,8 +7,9 @@ Resume parsers make mistakes sometimes, so I made an app to make copying and pas
 - [x] Delete copiable elements
 - [x] Drag to combine copiable elements
 - [x] Save/load lists
+    - [ ] Ask if the user would like to overwrite if a list is saved with an existing name.
 - [ ] Update current list when items are combined or removed (in addition to when "Copyify!" is clicked)
-- [ ] Add touch support and refine drag (currently, items need to be clicked and then clicked again to begin dragging)
+- [ ] Add touch support for most browsers
     - [ ] Add touch support for Safari
 - [ ] Refine text formatting options
 - [ ] Implement read from file
