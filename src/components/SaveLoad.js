@@ -39,58 +39,64 @@ export const SaveLoad = ({ currentList, functions }) => {
     }
 
     const saveToLocalStorage = (paramOverwrite) => {
-        // Create our new string object
-        var newItem = { name: input.textInput, content: currentList }
+        const whitespace = new RegExp('\\S+', 'g')
 
-        // Get the master list
-        var ml = window.localStorage.getItem(masterList)
+        if (!input.textInput.match(whitespace)) {
+            return alert("Name cannot be blank.")
+        } else {
+            // Create our new string object
+            var newItem = { name: input.textInput, content: currentList }
 
-        // Create an obj for storing master list
-        var mlObj = []
+            // Get the master list
+            var ml = window.localStorage.getItem(masterList)
 
-        // Use the ml string as the base if it exists
-        if (ml !== null) {
+            // Create an obj for storing master list
+            var mlObj = []
 
-            // More than one item
-            if (JSON.parse(ml).length > 1) {
-                JSON.parse(ml).forEach(item => {
-                    mlObj.push(item)
-                });
-            } else {
-                // Just one item
-                mlObj.push(JSON.parse(ml))
-            }
+            // Use the ml string as the base if it exists
+            if (ml !== null) {
 
-            if (paramOverwrite !== true) {
-                // Check if the name exists if we haven't already done so and given permission to overwrite
-                var checkObj = mlObj
-                if (checkObj.filter(e => e.name === newItem.name).length > 0) {
-                    setNameInUse(true)
-                    return console.log("Name is in use!")
+                // More than one item
+                if (JSON.parse(ml).length > 1) {
+                    JSON.parse(ml).forEach(item => {
+                        mlObj.push(item)
+                    });
                 } else {
+                    // Just one item
+                    mlObj.push(JSON.parse(ml))
+                }
+
+                if (paramOverwrite !== true) {
+                    // Check if the name exists if we haven't already done so and given permission to overwrite
+                    var checkObj = mlObj
+                    if (checkObj.filter(e => e.name === newItem.name).length > 0) {
+                        setNameInUse(true)
+                        return console.log("Name is in use!")
+                    } else {
+                        setNameInUse(false)
+                        setShowNameModal(false)
+                    }
+                }
+
+                if (!nameInUse) {
+                    mlObj.push(newItem)
+                    window.localStorage.setItem(masterList, JSON.stringify(mlObj))
                     setNameInUse(false)
                     setShowNameModal(false)
                 }
-            }
 
-            if (!nameInUse) {
-                mlObj.push(newItem)
-                window.localStorage.setItem(masterList, JSON.stringify(mlObj))
-                setNameInUse(false)
+                if (paramOverwrite === true) {
+                    mlObj = mlObj.filter(e => e.name !== newItem.name)
+                    mlObj.push(newItem)
+                    window.localStorage.setItem(masterList, JSON.stringify(mlObj))
+                    setNameInUse(false)
+                    setShowNameModal(false)
+                }
+            } else {
+                // List is blank, add the new item
+                window.localStorage.setItem(masterList, JSON.stringify(newItem))
                 setShowNameModal(false)
             }
-
-            if (paramOverwrite === true) {
-                mlObj = mlObj.filter(e => e.name !== newItem.name)
-                mlObj.push(newItem)
-                window.localStorage.setItem(masterList, JSON.stringify(mlObj))
-                setNameInUse(false)
-                setShowNameModal(false)
-            }
-        } else {
-            // List is blank, add the new item
-            window.localStorage.setItem(masterList, JSON.stringify(newItem))
-            setShowNameModal(false)
         }
     }
 
