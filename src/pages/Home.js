@@ -67,7 +67,7 @@ export const Home = () => {
                 {/* Centered title */}
                 <Row className="row justify-content-md-center">
                     <Col className="col-lg-auto">
-                        <h1 style={{ textAlign: 'center' }}>Copy-Pastapp</h1>
+                        <h1 style={{ textAlign: 'center' }}>Copy-Pastapply</h1>
                         <h2 style={{ textAlign: 'center' }}>(Because resume parsers aren't always accurate)</h2>
                     </Col>
                 </Row>

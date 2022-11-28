@@ -14,7 +14,7 @@ export const SaveLoad = ({ currentList, functions }) => {
     });
 
     // The name of the master list in localStorage
-    const masterList = "Copy-Pastapp"
+    const masterList = "Copy-Pastapply"
 
     useEffect(() => {
         loadFromLocalStorage()
