@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { ButtonGroup, Col, ToggleButton } from "react-bootstrap"
 
 export const CopiableText = ({ copiableText, functions, copyValue }) => {
@@ -6,11 +6,6 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
     const [appendingValue, setAppendingValue] = useState(null)
     const [appendingText, setAppendingText] = useState("")
 
-    useEffect(() => {
-        document.addEventListener("touchstart", touchToMouse, true)
-        document.addEventListener("touchend", touchToMouse, true)    
-    }, [copiableText])
-    
     const appendElement = (destinationObj, destinationID, appendingID) => {
 
         if (destinationID !== parseInt(appendingID)) {
@@ -39,51 +34,6 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
                 .writeText(newText)
                 .then(() => (document.querySelector("#currentText").innerText = newText))
         )
-    }
-
-    const touchToMouse = (e) => {
-
-        try {
-            switch (e.type) {
-
-                case "touchstart":
-
-                    // console.log(e.touches)
-
-                    if (e.touches[0].target.className === "listIcon" || e.touches[0].target.parentElement.id.includes("option-container-")) {
-                        console.log("Touched a valid target")
-                        // Raw text content
-                        console.log(e.touches[0].target.parentElement.children[2].textContent)
-                        setAppendingText(e.touches[0].target.parentElement.children[2].textContent)
-
-                        // Value
-                        console.log(e.touches[0].target.parentElement.children[1].value)
-                        setAppendingValue(parseInt(e.touches[0].target.parentElement.children[1].value))
-                    }
-
-                    break;
-                case "touchend":
-                    break;
-                default:
-                    break;
-            }
-
-        } catch (error) {
-            console.log("No valid targets.")
-        }
-
-
-        /*
-
-        var mouseEvent = new MouseEvent(mEventType, {
-            view: window,
-            bubbles: true,
-            cancelable: true
-        })
-        */
-
-
-
     }
 
     function GenerateCopiables() {
