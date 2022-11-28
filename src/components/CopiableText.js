@@ -6,11 +6,9 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
     const [appendingValue, setAppendingValue] = useState(null)
     const [appendingText, setAppendingText] = useState("")
 
-    const appendElement = (destinationObj, destinationID, appendingID) => {
+    const appendElement = (destinationID, appendingID) => {
 
         if (destinationID !== parseInt(appendingID)) {
-            console.log(`Appending "${appendingText}" onto "${destinationObj.text}".`)
-
             copiableText[destinationID].id = appendingID
 
             copiableText[destinationID].text = copiableText[destinationID].text.concat(" " + appendingText)
@@ -18,7 +16,7 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
             removeElement(copiableText[appendingID])
 
         } else {
-            console.log("Aborting append operation.")
+            return
         }
     }
 
@@ -37,7 +35,6 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
     }
 
     const concatLoadedInput = (inputList) => {
-        console.log(inputList)
         var concatList = ""
 
         inputList.forEach(item => {
@@ -58,7 +55,7 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
                     e.preventDefault()
                 }}
                 onDrop={(e) => {
-                    appendElement(radio, parseInt(e.currentTarget.children[1].value), parseInt(appendingValue))
+                    appendElement(parseInt(e.currentTarget.children[1].value), parseInt(appendingValue))
                 }}
                 style={{ padding: "1em" }}
                 draggable

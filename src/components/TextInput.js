@@ -57,7 +57,6 @@ export const TextInput = ({ updateFromPaste, loadedInput }) => {
 
             if (text.match(bullets)) {
                 containsBullet = true
-                // console.log('String: "'+ text + '" ...starts with a bullet or dash!')
             }
 
             objInput.push({ text: text, id: id++, bullet: containsBullet })
