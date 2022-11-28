@@ -23,9 +23,9 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
     }
 
     const removeElement = (oldObj) => {
-        var newArray = []
-        newArray = copiableText.filter((elem) => elem !== oldObj)
-        functions.setCopiableText(newArray)
+        copiableText = copiableText.filter((elem) => elem !== oldObj)
+        functions.setCopiableText(copiableText)
+        concatLoadedInput(copiableText)
     }
 
     const copyText = (newText) => {
@@ -34,6 +34,16 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
                 .writeText(newText)
                 .then(() => (document.querySelector("#currentText").innerText = newText))
         )
+    }
+
+    const concatLoadedInput = (inputList) => {
+        console.log(inputList)
+        var concatList = ""
+
+        inputList.forEach(item => {
+            concatList = concatList.concat(item.text + "\n")
+        })
+        functions.setLoadedInput(concatList)
     }
 
     function GenerateCopiables() {
