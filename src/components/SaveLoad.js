@@ -142,17 +142,13 @@ export const SaveLoad = ({ currentList, functions }) => {
 
             if (lists.length > 1) {
                 lists.forEach(list => {
-                    console.log("More than one")
-                    console.log(list)
+
                     if (!savedLists.includes(list)) {
                         savedLists.push({ name: list.name, content: list.content })
                     }
                 })
             } else {
-                console.log("Just one")
                 savedLists.push({ name: lists.name, content: lists.content })
-                console.log(savedLists)
-
             }
 
             console.log("Loading complete.")
