@@ -6,12 +6,9 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
     const [appendingValue, setAppendingValue] = useState(null)
     const [appendingText, setAppendingText] = useState("")
 
-    const appendElement = (destinationObj, destinationID, appendingID) => {
+    const appendElement = (destinationID, appendingID) => {
 
         if (destinationID !== parseInt(appendingID)) {
-            // console.log(destinationID  + " " + appendingID)
-            console.log(`Appending "${appendingText}" onto "${destinationObj.text}".`)
-
             copiableText[destinationID].id = appendingID
 
             copiableText[destinationID].text = copiableText[destinationID].text.concat(" " + appendingText)
@@ -19,14 +16,14 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
             removeElement(copiableText[appendingID])
 
         } else {
-            console.log("Aborting append operation.")
+            return 
         }
     }
 
     const removeElement = (oldObj) => {
-        var newArray = []
-        newArray = copiableText.filter((elem) => elem !== oldObj)
-        functions.setCopiableText(newArray)
+        copiableText = copiableText.filter((elem) => elem !== oldObj)
+        functions.setCopiableText(copiableText)
+        concatLoadedInput(copiableText)
     }
 
     const copyText = (newText) => {
@@ -37,30 +34,36 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
         )
     }
 
-    function GenerateCopiables() {
+    const concatLoadedInput = (inputList) => {
+        var concatList = ""
 
+        inputList.forEach(item => {
+            concatList = concatList.concat(item.text + "\n")
+        })
+        functions.setLoadedInput(concatList)
+    }
+
+    function GenerateCopiables() {
         var output = copiableText.map((radio, idx) =>
 
             <p key={idx}
                 onDragCapture={(e) => {
                     setAppendingText(radio.text)
                     setAppendingValue(parseInt(e.currentTarget.children[1].value))
-                    // console.log(`Dragging "${radio.text}"... Value: ${e.currentTarget.children[1].value}`)
                 }}
                 onDragOver={(e) => {
                     e.preventDefault()
                 }}
                 onDrop={(e) => {
-                    // console.log(`Dropped #${appendingValue} on #${e.currentTarget.children[1].value}`)
-                    appendElement(radio, parseInt(e.currentTarget.children[1].value), parseInt(appendingValue))
+                    appendElement(parseInt(e.currentTarget.children[1].value), parseInt(appendingValue))
                 }}
                 style={{ padding: "1em" }}
                 draggable
             >
-                <span style={{ marginRight: "1em", cursor: "grab" }}>📄</span>
+                <span className="listIcon" style={{ marginRight: "1em", cursor: "grab" }}>📄</span>
 
                 <ToggleButton
-                    id={`radio-${idx}`}
+                    id={`text-option-${idx}`}
                     type="checkbox"
                     name="radio"
                     value={idx}
@@ -73,12 +76,11 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
                     {radio.text}
                 </ToggleButton>
                 <span onClick={(e) => {
-                    // console.log(radio)
-                    // console.log(e.target.parentNode.children[1].value)
                     removeElement(radio)
                 }} style={{ marginLeft: "1em", cursor: "default" }}>❌</span>
             </p>
         )
+
         return (
             <Col>
                 <ButtonGroup vertical>

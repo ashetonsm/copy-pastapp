@@ -39,8 +39,6 @@ export const SaveLoad = ({ currentList, functions }) => {
     }
 
     const saveToLocalStorage = (paramOverwrite) => {
-        console.log("Saving...")
-
         // Create our new string object
         var newItem = { name: input.textInput, content: currentList }
 
@@ -68,9 +66,8 @@ export const SaveLoad = ({ currentList, functions }) => {
                 var checkObj = mlObj
                 if (checkObj.filter(e => e.name === newItem.name).length > 0) {
                     setNameInUse(true)
-                    return console.log("Name already used!")
+                    return console.log("Name is in use!")
                 } else {
-                    console.log("Name is free.")
                     setNameInUse(false)
                     setShowNameModal(false)
                 }
@@ -98,8 +95,6 @@ export const SaveLoad = ({ currentList, functions }) => {
     }
 
     const removeSaved = (oldObj) => {
-
-        console.log("Checking localStorage...")
         savedLists = []
 
         var lists = JSON.parse(window.localStorage.getItem(masterList))
@@ -132,8 +127,6 @@ export const SaveLoad = ({ currentList, functions }) => {
     }
 
     const loadFromLocalStorage = () => {
-        console.log("Loading from localStorage...")
-
         var ml = window.localStorage.getItem(masterList)
 
         if (ml !== null) {
@@ -142,6 +135,7 @@ export const SaveLoad = ({ currentList, functions }) => {
 
             if (lists.length > 1) {
                 lists.forEach(list => {
+
                     if (!savedLists.includes(list)) {
                         savedLists.push({ name: list.name, content: list.content })
                     }
@@ -149,9 +143,6 @@ export const SaveLoad = ({ currentList, functions }) => {
             } else {
                 savedLists.push({ name: lists.name, content: lists.content })
             }
-
-            console.log("Loading complete.")
-            // console.log(savedLists)
         } else {
             console.log("No lists to load!")
         }

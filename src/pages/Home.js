@@ -137,7 +137,7 @@ export const Home = () => {
                 <Row className="row justify-content-lg-center">
                     <CopiableText
                         copiableText={copiableText}
-                        functions={{ setCopiableText, setCopyValue }}
+                        functions={{ setCopiableText, setCopyValue, setLoadedInput }}
                         copyValue={copyValue}
                     />
                 </Row>
