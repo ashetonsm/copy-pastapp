@@ -1,5 +1,7 @@
 # Copy-Pastapply
 
+[Click here to try it in action!](https://ashetonsm.github.io/copy-pastapply/ "Copy-Pastapply")
+
 Resume parsers make mistakes sometimes, so I made an app to make copying and pasting information from a resume easier. (You know, when you inevitably have to correct everything.)
 
 ### To do:
