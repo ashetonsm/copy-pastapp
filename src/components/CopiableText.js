@@ -16,7 +16,7 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
             removeElement(copiableText[appendingID])
 
         } else {
-            return
+            return 
         }
     }
 
