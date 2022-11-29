@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react"
-import { Button, Modal, Row } from "react-bootstrap"
+import { Button, Row } from "react-bootstrap"
+import { ConcatArray } from "../utilities/ConcatArray"
+import { LoadModal } from "./LoadModal"
+import { NameModal } from "./NameModal"
 
 
 export const SaveLoad = ({ currentList, functions }) => {
@@ -27,15 +30,6 @@ export const SaveLoad = ({ currentList, functions }) => {
             ...input,
             [id]: value,
         }))
-    }
-
-    const concatLoadedInput = (inputList) => {
-        var concatList = ""
-
-        inputList.forEach(item => {
-            concatList = concatList.concat(item.text + "\n")
-        })
-        functions.setLoadedInput(concatList)
     }
 
     const saveToLocalStorage = (paramOverwrite) => {
@@ -171,7 +165,7 @@ export const SaveLoad = ({ currentList, functions }) => {
                             onClick={(e) => {
                                 var newList = JSON.parse(e.currentTarget.value)
                                 functions.setCopiableText(newList)
-                                concatLoadedInput(list.content)
+                                functions.setLoadedInput(ConcatArray(list.content))
                                 setShowLoadModal(false)
                             }}>
                             {list.name}
@@ -192,7 +186,7 @@ export const SaveLoad = ({ currentList, functions }) => {
                             onClick={(e) => {
                                 var newList = JSON.parse(e.currentTarget.value)
                                 functions.setCopiableText(newList)
-                                concatLoadedInput(list.content)
+                                functions.setLoadedInput(ConcatArray(list.content))
                                 setShowLoadModal(false)
                             }}>
                             {list.name}
@@ -233,56 +227,18 @@ export const SaveLoad = ({ currentList, functions }) => {
                 Load
             </Button>
 
-            <Modal show={showLoadModal} onHide={() => setShowLoadModal(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Load a Saved List:</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Saved />
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowLoadModal(false)}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+            <LoadModal
+                functions={{ setShowLoadModal, Saved }}
+                showLoadModal={showLoadModal} />
 
-            <Modal show={showNameModal} onHide={() => setShowNameModal(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Please Name Your List:</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <input type="text"
-                        id="textInput"
-                        onChange={handleChange} />
-                    <p style={{ visibility: nameInUse ? 'visible' : 'hidden' }}>
-                        Click "Overwrite" to overwrite your existing list.
-                    </p>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button
-                        style={{ visibility: nameInUse ? 'visible' : 'hidden' }}
-                        variant="danger"
-                        onClick={() => {
-                            saveToLocalStorage(true)
-                        }}>
-                        Overwite
-                    </Button>
-                    <Button
-                        style={{ display: !nameInUse ? 'block' : 'none' }}
-                        variant="primary" onClick={() => {
-                            saveToLocalStorage()
-                        }}>
-                        Submit
-                    </Button>
-                    <Button variant="secondary" onClick={() => {
-                        setNameInUse(false)
-                        setShowNameModal(false)
-                    }}>
-                        Cancel
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+            <NameModal
+                functions={{ setShowNameModal, setNameInUse }}
+                saveToLocalStorage={saveToLocalStorage}
+                nameInUse={nameInUse}
+                showNameModal={showNameModal}
+                handleChange={handleChange}
+            />
+
         </Row>
     )
 }
