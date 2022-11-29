@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { CopiableText } from "../components/CopiableText";
+import { FormattingOptions } from "../components/FormattingOptions";
 import { SaveLoad } from "../components/SaveLoad";
 import { TextInput } from "../components/TextInput";
 
@@ -80,36 +81,7 @@ export const Home = () => {
 
                 <Row className="row justify-content-md-center">
                     <Col className="col-lg-auto">
-                        <fieldset>
-                            <legend>Formatting Options:</legend>
-
-                            <div>
-                                <input type="radio" id="original" name="formattingOption"
-                                    value={0}
-                                    onInput={(e) => {
-                                        setSelectedValue(parseInt(e.currentTarget.value))
-                                    }} />
-                                <label htmlFor="original">Original/None</label>
-                            </div>
-
-                            <div>
-                                <input type="radio" id="addBullets" name="formattingOption"
-                                    value={1}
-                                    onInput={(e) => {
-                                        setSelectedValue(parseInt(e.currentTarget.value))
-                                    }} />
-                                <label htmlFor="addBullets">Add Bullets</label>
-                            </div>
-
-                            <div>
-                                <input type="radio" id="removeBullets" name="formattingOption"
-                                    value={2}
-                                    onInput={(e) => {
-                                        setSelectedValue(parseInt(e.currentTarget.value))
-                                    }} />
-                                <label htmlFor="removeBullets">Remove Bullets</label>
-                            </div>
-                        </fieldset>
+                        <FormattingOptions functions={{ setSelectedValue }} />
                     </Col>
                 </Row>
 
