@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Alert, Col, Container, Row } from "react-bootstrap";
 import { CopiableText } from "../components/CopiableText";
 import { FormattingOptions } from "../components/FormattingOptions";
 import { SaveLoad } from "../components/SaveLoad";
@@ -63,13 +63,21 @@ export const Home = () => {
 
     return (
         <Container>
-
             <Container>
                 {/* Centered title */}
                 <Row className="row justify-content-md-center">
                     <Col className="col-lg-auto">
                         <h1 style={{ textAlign: 'center' }}>Copy-Pastapply</h1>
-                        <h2 style={{ textAlign: 'center' }}>(Because resume parsers aren't always accurate)</h2>
+                        <h4 style={{ textAlign: 'center', fontWeight: 'normal' }}>
+                            (Because resume parsers aren't always accurate)
+                        </h4>
+                        <p style={{ fontWeight: 'bold' }}>How to use:</p>
+                        <ol>
+                            <li>Paste your resume into the text box</li>
+                            <li>Click "Copyify!"</li>
+                            <li>Click on an item to copy the text!</li>
+                        </ol>
+                        <Alert>Tip: Drag items onto each other to combine them!</Alert>
                     </Col>
                 </Row>
 
@@ -88,7 +96,6 @@ export const Home = () => {
                 {/* Text Input Area */}
                 <Row className="row justify-content-md-center">
                     <Col className="col-lg-auto">
-
                         <TextInput
                             updateFromPaste={updateFromPaste}
                             loadedInput={loadedInput}
@@ -105,7 +112,6 @@ export const Home = () => {
 
             {/* Results */}
             <Container fluid="lg" className="overflow-auto" style={{ height: '50vh' }}>
-
                 <Row className="row justify-content-lg-center">
                     <CopiableText
                         copiableText={copiableText}
@@ -114,7 +120,6 @@ export const Home = () => {
                     />
                 </Row>
             </Container>
-
         </Container>
     )
 }
