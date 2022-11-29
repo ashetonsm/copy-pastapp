@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { ButtonGroup, Col, ToggleButton } from "react-bootstrap"
+import { ConcatArray } from "../utilities/ConcatArray"
 
 export const CopiableText = ({ copiableText, functions, copyValue }) => {
 
@@ -16,14 +17,14 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
             removeElement(copiableText[appendingID])
 
         } else {
-            return 
+            return
         }
     }
 
     const removeElement = (oldObj) => {
         copiableText = copiableText.filter((elem) => elem !== oldObj)
         functions.setCopiableText(copiableText)
-        concatLoadedInput(copiableText)
+        functions.setLoadedInput(ConcatArray(copiableText))
     }
 
     const copyText = (newText) => {
@@ -32,15 +33,6 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
                 .writeText(newText)
                 .then(() => (document.querySelector("#currentText").innerText = newText))
         )
-    }
-
-    const concatLoadedInput = (inputList) => {
-        var concatList = ""
-
-        inputList.forEach(item => {
-            concatList = concatList.concat(item.text + "\n")
-        })
-        functions.setLoadedInput(concatList)
     }
 
     function GenerateCopiables() {

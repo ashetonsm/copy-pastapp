@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Button, Modal, Row } from "react-bootstrap"
+import { ConcatArray } from "../utilities/ConcatArray"
 
 
 export const SaveLoad = ({ currentList, functions }) => {
@@ -27,15 +28,6 @@ export const SaveLoad = ({ currentList, functions }) => {
             ...input,
             [id]: value,
         }))
-    }
-
-    const concatLoadedInput = (inputList) => {
-        var concatList = ""
-
-        inputList.forEach(item => {
-            concatList = concatList.concat(item.text + "\n")
-        })
-        functions.setLoadedInput(concatList)
     }
 
     const saveToLocalStorage = (paramOverwrite) => {
@@ -171,7 +163,7 @@ export const SaveLoad = ({ currentList, functions }) => {
                             onClick={(e) => {
                                 var newList = JSON.parse(e.currentTarget.value)
                                 functions.setCopiableText(newList)
-                                concatLoadedInput(list.content)
+                                functions.setLoadedInput(ConcatArray(list.content))
                                 setShowLoadModal(false)
                             }}>
                             {list.name}
@@ -192,7 +184,7 @@ export const SaveLoad = ({ currentList, functions }) => {
                             onClick={(e) => {
                                 var newList = JSON.parse(e.currentTarget.value)
                                 functions.setCopiableText(newList)
-                                concatLoadedInput(list.content)
+                                functions.setLoadedInput(ConcatArray(list.content))
                                 setShowLoadModal(false)
                             }}>
                             {list.name}
