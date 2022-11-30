@@ -49,6 +49,13 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
                 onDrop={(e) => {
                     appendElement(parseInt(e.currentTarget.children[1].value), parseInt(appendingValue))
                 }}
+                onTouchStartCapture={(e) => {
+                    console.log(e)
+                    if (e.target.localName !== "p") {
+                        setAppendingText(radio.text)
+                        setAppendingValue(parseInt(e.target.parentElement.children[1].value))
+                    }
+                }}
                 style={{ padding: "1em" }}
                 draggable
             >
