@@ -17,6 +17,7 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
             removeElement(copiableText[appendingID])
 
         } else {
+            console.log("Error appending")
             return
         }
     }
@@ -50,10 +51,37 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
                     appendElement(parseInt(e.currentTarget.children[1].value), parseInt(appendingValue))
                 }}
                 onTouchStartCapture={(e) => {
-                    console.log(e)
                     if (e.target.localName !== "p") {
-                        setAppendingText(radio.text)
-                        setAppendingValue(parseInt(e.target.parentElement.children[1].value))
+                        // if (e.target.innerText === "❌") {
+                        //      console.log("Deletey")
+                        // } else {
+                            setAppendingText(radio.text)
+                            setAppendingValue(parseInt(e.target.parentElement.children[1].value))
+                        // }
+                        console.log("touch")
+                    }
+                }}
+                onTouchEnd={(e) => {
+                    e.preventDefault()
+
+                    try {
+                        // console.log(e.changedTouches[0])
+                        const elementUnderTouch = document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY)
+
+                        console.log(elementUnderTouch.innerText)
+                        // if (elementUnderTouch.innerText === "❌") {
+                        //      console.log("Delete it")
+                        // } else {
+                            // Not clicking the p tag or the X button
+                            if (elementUnderTouch.parentElement.children[1].localName === "input") {
+                                // Replace with what we'll find under the click
+                                appendElement(parseInt(elementUnderTouch.parentElement.children[1].value), parseInt(appendingValue))
+                            }
+                        // }
+
+
+                    } catch (error) {
+                        return console.log("Invalid drop item!")
                     }
                 }}
                 style={{ padding: "1em" }}
