@@ -51,7 +51,6 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
                     if (e.target.localName !== "p") {
                         setAppendingText(radio.text)
                         setAppendingValue(parseInt(e.target.parentElement.children[1].value))
-                        // console.log("Touch")
                     }
                 }}
                 onTouchEnd={(e) => {
@@ -73,20 +72,16 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
                                     appendElement(parseInt(elementUnderTouch.parentElement.children[1].value), parseInt(appendingValue))
                                 } else {
                                     // User is dragging an item over itself
-                                    console.log("Values are equal, cannot append to self!")
+                                    // console.log("Values are equal, cannot append to self!")
                                 }
 
                             } else {
                                 // User is clicking an X
-                                console.log("User wants to delete.")
                                 removeElement(radio)
                             }
-                        } else {
-                            console.log(elementUnderTouch)
-                            console.log("Gross, p.")
                         }
                     } catch (error) {
-                        return console.log("Invalid drop item!")
+                        return console.log("Invalid touch-drop item!")
                     }
                 }}
                 style={{ padding: "1em" }}
