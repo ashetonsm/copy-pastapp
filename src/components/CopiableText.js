@@ -11,13 +11,10 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
 
         if (destinationID !== parseInt(appendingID)) {
             copiableText[destinationID].id = appendingID
-
             copiableText[destinationID].text = copiableText[destinationID].text.concat(" " + appendingText)
-
             removeElement(copiableText[appendingID])
-
         } else {
-            console.log("Error appending")
+            console.log("Error appending.")
             return
         }
     }
@@ -52,34 +49,42 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
                 }}
                 onTouchStartCapture={(e) => {
                     if (e.target.localName !== "p") {
-                        // if (e.target.innerText === "❌") {
-                        //      console.log("Deletey")
-                        // } else {
-                            setAppendingText(radio.text)
-                            setAppendingValue(parseInt(e.target.parentElement.children[1].value))
-                        // }
-                        console.log("touch")
+                        setAppendingText(radio.text)
+                        setAppendingValue(parseInt(e.target.parentElement.children[1].value))
+                        // console.log("Touch")
                     }
                 }}
                 onTouchEnd={(e) => {
                     e.preventDefault()
 
                     try {
-                        // console.log(e.changedTouches[0])
-                        const elementUnderTouch = document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY)
+                        const elementUnderTouch =
+                            document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY)
 
-                        console.log(elementUnderTouch.innerText)
-                        // if (elementUnderTouch.innerText === "❌") {
-                        //      console.log("Delete it")
-                        // } else {
-                            // Not clicking the p tag or the X button
-                            if (elementUnderTouch.parentElement.children[1].localName === "input") {
-                                // Replace with what we'll find under the click
-                                appendElement(parseInt(elementUnderTouch.parentElement.children[1].value), parseInt(appendingValue))
+                        // Make sure it's not a p
+                        if (elementUnderTouch.localName !== "p") {
+
+                            // Make sure it's not an X
+                            if (elementUnderTouch.parentElement.children[1].localName === "input"
+                                && elementUnderTouch.innerText !== "❌") {
+
+                                // Make sure the values aren't the same
+                                if (parseInt(elementUnderTouch.parentElement.children[1].value) !== parseInt(appendingValue)) {
+                                    appendElement(parseInt(elementUnderTouch.parentElement.children[1].value), parseInt(appendingValue))
+                                } else {
+                                    // User is dragging an item over itself
+                                    console.log("Values are equal, cannot append to self!")
+                                }
+
+                            } else {
+                                // User is clicking an X
+                                console.log("User wants to delete.")
+                                removeElement(radio)
                             }
-                        // }
-
-
+                        } else {
+                            console.log(elementUnderTouch)
+                            console.log("Gross, p.")
+                        }
                     } catch (error) {
                         return console.log("Invalid drop item!")
                     }
@@ -102,10 +107,10 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
                 >
                     {radio.text}
                 </ToggleButton>
-                <span onClick={(e) => {
+                <span onClick={() => {
                     removeElement(radio)
                 }} style={{ marginLeft: "1em", cursor: "default" }}>❌</span>
-            </p>
+            </p >
         )
 
         return (
