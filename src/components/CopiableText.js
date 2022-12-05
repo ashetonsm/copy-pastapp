@@ -11,12 +11,10 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
 
         if (destinationID !== parseInt(appendingID)) {
             copiableText[destinationID].id = appendingID
-
             copiableText[destinationID].text = copiableText[destinationID].text.concat(" " + appendingText)
-
             removeElement(copiableText[appendingID])
-
         } else {
+            console.log("Error appending.")
             return
         }
     }
@@ -49,6 +47,43 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
                 onDrop={(e) => {
                     appendElement(parseInt(e.currentTarget.children[1].value), parseInt(appendingValue))
                 }}
+                onTouchStartCapture={(e) => {
+                    if (e.target.localName !== "p") {
+                        setAppendingText(radio.text)
+                        setAppendingValue(parseInt(e.target.parentElement.children[1].value))
+                    }
+                }}
+                onTouchEnd={(e) => {
+                    e.preventDefault()
+
+                    try {
+                        const elementUnderTouch =
+                            document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY)
+
+                        // Make sure it's not a p
+                        if (elementUnderTouch.localName !== "p") {
+
+                            // Make sure it's not an X
+                            if (elementUnderTouch.parentElement.children[1].localName === "input"
+                                && elementUnderTouch.innerText !== "❌") {
+
+                                // Make sure the values aren't the same
+                                if (parseInt(elementUnderTouch.parentElement.children[1].value) !== parseInt(appendingValue)) {
+                                    appendElement(parseInt(elementUnderTouch.parentElement.children[1].value), parseInt(appendingValue))
+                                } else {
+                                    // User is dragging an item over itself
+                                    // console.log("Values are equal, cannot append to self!")
+                                }
+
+                            } else {
+                                // User is clicking an X
+                                removeElement(radio)
+                            }
+                        }
+                    } catch (error) {
+                        return console.log("Invalid touch-drop item!")
+                    }
+                }}
                 style={{ padding: "1em" }}
                 draggable
             >
@@ -67,10 +102,10 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
                 >
                     {radio.text}
                 </ToggleButton>
-                <span onClick={(e) => {
+                <span onClick={() => {
                     removeElement(radio)
                 }} style={{ marginLeft: "1em", cursor: "default" }}>❌</span>
-            </p>
+            </p >
         )
 
         return (
