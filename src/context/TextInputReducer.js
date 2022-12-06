@@ -6,6 +6,16 @@ const textInputReducer = (state, action) => {
                 ...state,
                 isLoading: action.payload,
             }
+        case 'SET_COPIABLE_TEXT':
+            return {
+                ...state,
+                copiableText: action.payload,
+            }
+        case 'SET_LOADED_INPUT':
+            return {
+                ...state,
+                loadedInput: action.payload,
+            }
 
         default:
             return state
