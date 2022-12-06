@@ -136,7 +136,6 @@ export const SaveLoad = () => {
         } else {
             console.log("No lists to load!")
         }
-        console.log(Array.from(savedLists))
     }
 
     function Saved() {
