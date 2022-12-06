@@ -6,6 +6,12 @@ const TextInputContext = createContext()
 export const TextInputProvider = ({ children }) => {
     const initialState = {
         isLoading: false,
+        copiableText: [
+            { text: 'Click', id: 0, bullet: false },
+            { text: 'to', id: 1, bullet: false },
+            { text: 'Copy', id: 2, bullet: false },
+        ],
+        loadedInput: "",
     }
     const [state, dispatch] = useReducer(textInputReducer, initialState)
 
