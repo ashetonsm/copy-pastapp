@@ -1,14 +1,15 @@
-import './App.css';
-import { Home } from './pages/Home';
+import './App.css'
+import { TextInputProvider } from './context/TextInputContext'
+import { Home } from './pages/Home'
 
 function App() {
   return (
-    <div className="App">
-
-      <Home/>
-
-    </div>
-  );
+    <TextInputProvider>
+      <div className="App">
+        <Home />
+      </div>
+    </TextInputProvider>
+  )
 }
 
-export default App;
+export default App

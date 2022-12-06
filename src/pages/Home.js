@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Alert, Col, Container, Row } from "react-bootstrap";
 import { CopiableText } from "../components/CopiableText";
 import { FormattingOptions } from "../components/FormattingOptions";
 import { SaveLoad } from "../components/SaveLoad";
 import { TextInput } from "../components/TextInput";
+import TextInputContext from "../context/TextInputContext";
 
 export const Home = () => {
+
+    const {dispatch} = useContext(TextInputContext)
 
     const [selectedValue, setSelectedValue] = useState(0)
     const [copyValue, setCopyValue] = useState(0)
@@ -18,6 +21,14 @@ export const Home = () => {
         { text: 'Copy', id: 2, bullet: false },
 
     ])
+
+    // For testing purposes
+    useEffect(() => {
+
+        dispatch({type: 'SET_LOADING', payload: true})
+
+    }, [dispatch])
+
 
     const updateFromPaste = (inputObj) => {
         setCopyValue(0)
