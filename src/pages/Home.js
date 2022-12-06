@@ -8,31 +8,22 @@ import TextInputContext from "../context/TextInputContext";
 
 export const Home = () => {
 
-    const {dispatch} = useContext(TextInputContext)
+    const {dispatch, copiableText, loadedInput} = useContext(TextInputContext)
 
     const [selectedValue, setSelectedValue] = useState(0)
     const [copyValue, setCopyValue] = useState(0)
-    const [loadedInput, setLoadedInput] = useState("")
-
-    const [copiableText, setCopiableText] = useState([
-
-        { text: 'Click', id: 0, bullet: false },
-        { text: 'to', id: 1, bullet: false },
-        { text: 'Copy', id: 2, bullet: false },
-
-    ])
 
     // For testing purposes
     useEffect(() => {
 
         dispatch({type: 'SET_LOADING', payload: true})
-
+        
     }, [dispatch])
-
-
+    
+    
     const updateFromPaste = (inputObj) => {
         setCopyValue(0)
-        setCopiableText(applyFormatting(selectedValue, inputObj))
+        dispatch({type: 'SET_COPIABLE_TEXT', payload: applyFormatting(selectedValue, inputObj)})
     }
 
     const applyFormatting = (optionNum, inputObj) => {
@@ -93,7 +84,6 @@ export const Home = () => {
                 </Row>
 
                 <SaveLoad
-                    functions={{ setCopiableText, setLoadedInput }}
                     currentList={copiableText} />
 
                 <hr></hr>
@@ -126,7 +116,7 @@ export const Home = () => {
                 <Row className="row justify-content-lg-center">
                     <CopiableText
                         copiableText={copiableText}
-                        functions={{ setCopiableText, setCopyValue, setLoadedInput }}
+                        functions={{ setCopyValue }}
                         copyValue={copyValue}
                     />
                 </Row>
