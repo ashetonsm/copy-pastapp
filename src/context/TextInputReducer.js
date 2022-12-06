@@ -16,6 +16,11 @@ const textInputReducer = (state, action) => {
                 ...state,
                 loadedInput: action.payload,
             }
+        case 'SET_SAVED_LISTS':
+            return {
+                ...state,
+                savedLists: action.payload,
+            }
 
         default:
             return state

@@ -1,16 +1,20 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Button, Row } from "react-bootstrap"
+import TextInputContext from "../context/TextInputContext"
 import { ConcatArray } from "../utilities/ConcatArray"
 import { LoadModal } from "./LoadModal"
 import { NameModal } from "./NameModal"
 
 
-export const SaveLoad = ({ currentList, functions }) => {
+export const SaveLoad = () => {
+
+    // Where "currentList" is now copiableText
+    const {dispatch, savedLists, copiableText } = useContext(TextInputContext)
+
 
     const [showLoadModal, setShowLoadModal] = useState(false)
     const [showNameModal, setShowNameModal] = useState(false)
     const [nameInUse, setNameInUse] = useState(false)
-    var savedLists = []
 
     const [input, setInput] = useState({
         textInput: "",
@@ -39,7 +43,7 @@ export const SaveLoad = ({ currentList, functions }) => {
             return alert("Name cannot be blank.")
         } else {
             // Create our new string object
-            var newItem = { name: input.textInput, content: currentList }
+            var newItem = { name: input.textInput, content: copiableText }
 
             // Get the master list
             var ml = window.localStorage.getItem(masterList)
@@ -95,7 +99,7 @@ export const SaveLoad = ({ currentList, functions }) => {
     }
 
     const removeSaved = (oldObj) => {
-        savedLists = []
+        dispatch({type: 'SET_SAVED_LISTS', payload: []})
 
         var lists = JSON.parse(window.localStorage.getItem(masterList))
 
@@ -130,7 +134,7 @@ export const SaveLoad = ({ currentList, functions }) => {
         var ml = window.localStorage.getItem(masterList)
 
         if (ml !== null) {
-            savedLists = []
+            dispatch({type: 'SET_SAVED_LISTS', payload: []})
             var lists = JSON.parse(ml)
 
             if (lists.length > 1) {
@@ -164,8 +168,8 @@ export const SaveLoad = ({ currentList, functions }) => {
                             value={JSON.stringify(list.content)}
                             onClick={(e) => {
                                 var newList = JSON.parse(e.currentTarget.value)
-                                functions.setCopiableText(newList)
-                                functions.setLoadedInput(ConcatArray(list.content))
+                                dispatch({type: 'SET_COPIABLE_TEXT', payload: newList})
+                                dispatch({type: 'SET_LOADED_INPUT', payload: ConcatArray(list.content)})
                                 setShowLoadModal(false)
                             }}>
                             {list.name}
@@ -185,8 +189,8 @@ export const SaveLoad = ({ currentList, functions }) => {
                             value={JSON.stringify(list.content)}
                             onClick={(e) => {
                                 var newList = JSON.parse(e.currentTarget.value)
-                                functions.setCopiableText(newList)
-                                functions.setLoadedInput(ConcatArray(list.content))
+                                dispatch({type: 'SET_COPIABLE_TEXT', payload: newList})
+                                dispatch({type: 'SET_LOADED_INPUT', payload: ConcatArray(list.content)})
                                 setShowLoadModal(false)
                             }}>
                             {list.name}

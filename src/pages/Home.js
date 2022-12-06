@@ -83,8 +83,7 @@ export const Home = () => {
                     </Col>
                 </Row>
 
-                <SaveLoad
-                    currentList={copiableText} />
+                <SaveLoad/>
 
                 <hr></hr>
 
