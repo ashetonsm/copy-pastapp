@@ -1,8 +1,11 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { ButtonGroup, Col, ToggleButton } from "react-bootstrap"
+import TextInputContext from "../context/TextInputContext"
 import { ConcatArray } from "../utilities/ConcatArray"
 
-export const CopiableText = ({ copiableText, functions, copyValue }) => {
+export const CopiableText = ({ functions, copyValue }) => {
+
+    const { dispatch, copiableText } = useContext(TextInputContext)
 
     const [appendingValue, setAppendingValue] = useState(null)
     const [appendingText, setAppendingText] = useState("")
@@ -20,9 +23,9 @@ export const CopiableText = ({ copiableText, functions, copyValue }) => {
     }
 
     const removeElement = (oldObj) => {
-        copiableText = copiableText.filter((elem) => elem !== oldObj)
-        functions.setCopiableText(copiableText)
-        functions.setLoadedInput(ConcatArray(copiableText))
+        var newText = Array.from(copiableText).filter((elem) => elem !== oldObj)
+        dispatch({ type: 'SET_COPIABLE_TEXT', payload: newText })
+        dispatch({ type: 'SET_LOADED_INPUT', payload: ConcatArray(newText) })
     }
 
     const copyText = (newText) => {
