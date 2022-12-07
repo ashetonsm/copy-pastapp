@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Alert, Col, Container, Row } from "react-bootstrap";
 import { CopiableText } from "../components/CopiableText";
+import { FileUpload } from "../components/FileUpload";
 import { FormattingOptions } from "../components/FormattingOptions";
 import { SaveLoad } from "../components/SaveLoad";
 import { TextInput } from "../components/TextInput";
@@ -97,6 +98,7 @@ export const Home = () => {
                 <Row className="row justify-content-md-center">
                     <Col className="col-lg-auto">
                         <TextInput updateFromPaste={updateFromPaste} />
+                        <FileUpload/>
                     </Col>
                 </Row>
                 <Row className="row justify-content-md-center">
