@@ -1,7 +1,3 @@
-import * as pdfjs from "pdfjs-dist"
-
-const getDoc = pdfjs.getDocument
-
 export const FileUpload = () => {
 
     const handleFile = (e) => {
@@ -11,20 +7,14 @@ export const FileUpload = () => {
         if (file.type.toString() !== "application/pdf") {
             console.log("Invalid filetype")
         } else {
-            // console.log(file)
+            console.log(file)
             const reader = new FileReader()
             reader.readAsDataURL(file)
             reader.onload = () => {
                 // This is the result without the data:*/*;base64 prefix
                 var result = reader.result.split(",")[1]
 
-                /*
-                var loadingTask = getDoc({ data: result })
-                loadingTask.promise
-                    .then(function (pdf) {
-                        console.log("PDF Loaded")
-                    })
-                */
+                console.log(result)
             }
 
         }
