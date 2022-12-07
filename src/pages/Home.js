@@ -8,7 +8,7 @@ import TextInputContext from "../context/TextInputContext";
 
 export const Home = () => {
 
-    const {dispatch, copiableText, loadedInput} = useContext(TextInputContext)
+    const { dispatch } = useContext(TextInputContext)
 
     const [selectedValue, setSelectedValue] = useState(0)
     const [copyValue, setCopyValue] = useState(0)
@@ -16,14 +16,14 @@ export const Home = () => {
     // For testing purposes
     useEffect(() => {
 
-        dispatch({type: 'SET_LOADING', payload: true})
-        
+        dispatch({ type: 'SET_LOADING', payload: true })
+
     }, [dispatch])
-    
-    
+
+
     const updateFromPaste = (inputObj) => {
         setCopyValue(0)
-        dispatch({type: 'SET_COPIABLE_TEXT', payload: applyFormatting(selectedValue, inputObj)})
+        dispatch({ type: 'SET_COPIABLE_TEXT', payload: applyFormatting(selectedValue, inputObj) })
     }
 
     const applyFormatting = (optionNum, inputObj) => {
@@ -83,7 +83,7 @@ export const Home = () => {
                     </Col>
                 </Row>
 
-                <SaveLoad/>
+                <SaveLoad />
 
                 <hr></hr>
 
@@ -111,7 +111,6 @@ export const Home = () => {
             <Container fluid="lg" className="overflow-auto" style={{ height: '50vh' }}>
                 <Row className="row justify-content-lg-center">
                     <CopiableText
-                        copiableText={copiableText}
                         functions={{ setCopyValue }}
                         copyValue={copyValue}
                     />
