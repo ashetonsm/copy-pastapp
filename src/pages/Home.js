@@ -1,27 +1,29 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Alert, Col, Container, Row } from "react-bootstrap";
 import { CopiableText } from "../components/CopiableText";
 import { FormattingOptions } from "../components/FormattingOptions";
 import { SaveLoad } from "../components/SaveLoad";
 import { TextInput } from "../components/TextInput";
+import TextInputContext from "../context/TextInputContext";
 
 export const Home = () => {
 
+    const { dispatch } = useContext(TextInputContext)
+
     const [selectedValue, setSelectedValue] = useState(0)
     const [copyValue, setCopyValue] = useState(0)
-    const [loadedInput, setLoadedInput] = useState("")
 
-    const [copiableText, setCopiableText] = useState([
+    // For testing purposes
+    useEffect(() => {
 
-        { text: 'Click', id: 0, bullet: false },
-        { text: 'to', id: 1, bullet: false },
-        { text: 'Copy', id: 2, bullet: false },
+        dispatch({ type: 'SET_LOADING', payload: true })
 
-    ])
+    }, [dispatch])
+
 
     const updateFromPaste = (inputObj) => {
         setCopyValue(0)
-        setCopiableText(applyFormatting(selectedValue, inputObj))
+        dispatch({ type: 'SET_COPIABLE_TEXT', payload: applyFormatting(selectedValue, inputObj) })
     }
 
     const applyFormatting = (optionNum, inputObj) => {
@@ -81,9 +83,7 @@ export const Home = () => {
                     </Col>
                 </Row>
 
-                <SaveLoad
-                    functions={{ setCopiableText, setLoadedInput }}
-                    currentList={copiableText} />
+                <SaveLoad />
 
                 <hr></hr>
 
@@ -96,10 +96,7 @@ export const Home = () => {
                 {/* Text Input Area */}
                 <Row className="row justify-content-md-center">
                     <Col className="col-lg-auto">
-                        <TextInput
-                            updateFromPaste={updateFromPaste}
-                            loadedInput={loadedInput}
-                        />
+                        <TextInput updateFromPaste={updateFromPaste} />
                     </Col>
                 </Row>
                 <Row className="row justify-content-md-center">
@@ -114,8 +111,7 @@ export const Home = () => {
             <Container fluid="lg" className="overflow-auto" style={{ height: '50vh' }}>
                 <Row className="row justify-content-lg-center">
                     <CopiableText
-                        copiableText={copiableText}
-                        functions={{ setCopiableText, setCopyValue, setLoadedInput }}
+                        functions={{ setCopyValue }}
                         copyValue={copyValue}
                     />
                 </Row>
