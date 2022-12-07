@@ -1,7 +1,8 @@
 import { useContext, useState } from "react"
-import { ButtonGroup, Col, ToggleButton } from "react-bootstrap"
+import { ToggleButton } from "react-bootstrap"
 import TextInputContext from "../context/TextInputContext"
 import { ConcatArray } from "../utilities/ConcatArray"
+import { Timeout } from "../utilities/Timeout"
 
 export const CopiableText = ({ functions, copyValue }) => {
 
@@ -15,6 +16,7 @@ export const CopiableText = ({ functions, copyValue }) => {
         if (destinationID !== parseInt(appendingID)) {
             copiableText[destinationID].id = appendingID
             copiableText[destinationID].text = copiableText[destinationID].text.concat(" " + appendingText)
+            applyDeleted(copiableText[appendingID])
             removeElement(copiableText[appendingID])
         } else {
             console.log("Error appending.")
@@ -22,8 +24,30 @@ export const CopiableText = ({ functions, copyValue }) => {
         }
     }
 
-    const removeElement = (oldObj) => {
-        var newText = Array.from(copiableText).filter((elem) => elem !== oldObj)
+    /**
+     * Updates copiableText by applying the "deleted: true" field to an object.
+     * This field is used to apply the "deleted" class, which lowers opacity to 0%.
+     * @param {Object} deletedObj 
+     */
+    const applyDeleted = (deletedObj) => {
+        const changedCopiableText = copiableText.map(radio => {
+            if (radio === deletedObj) {
+                radio.deleted = true
+                return radio
+            } else {
+                return radio
+            }
+        })
+        dispatch({ type: 'SET_COPIABLE_TEXT', payload: changedCopiableText })
+    }
+
+    /**
+     * Removes an object after a 600ms timeout.
+     * @param {Object} oldObj 
+     */
+    const removeElement = async (oldObj) => {
+        await Timeout(600)
+        var newText = copiableText.filter((elem) => elem !== oldObj)
         dispatch({ type: 'SET_COPIABLE_TEXT', payload: newText })
         dispatch({ type: 'SET_LOADED_INPUT', payload: ConcatArray(newText) })
     }
@@ -36,10 +60,11 @@ export const CopiableText = ({ functions, copyValue }) => {
         )
     }
 
-    function GenerateCopiables() {
-        var output = copiableText.map((radio, idx) =>
+    return (
+        copiableText.map((radio, idx) =>
 
             <p key={idx}
+                className={radio.deleted ? "deleted" : null}
                 onDragCapture={(e) => {
                     setAppendingText(radio.text)
                     setAppendingValue(parseInt(e.currentTarget.children[1].value))
@@ -80,6 +105,7 @@ export const CopiableText = ({ functions, copyValue }) => {
 
                             } else {
                                 // User is clicking an X
+                                applyDeleted(radio)
                                 removeElement(radio)
                             }
                         }
@@ -102,24 +128,18 @@ export const CopiableText = ({ functions, copyValue }) => {
                         functions.setCopyValue(parseInt(e.currentTarget.value))
                         copyText(radio.text)
                     }}
+                    onTouchStartCapture={(e) => {
+                        functions.setCopyValue(parseInt(e.target.parentElement.children[1].value))
+                        copyText(radio.text)
+                    }}
                 >
                     {radio.text}
                 </ToggleButton>
                 <span onClick={() => {
+                    applyDeleted(radio)
                     removeElement(radio)
                 }} style={{ marginLeft: "1em", cursor: "default" }}>❌</span>
             </p >
         )
-
-        return (
-            <Col>
-                <ButtonGroup vertical>
-                    {output}
-                </ButtonGroup>
-            </Col>
-        )
-    }
-
-    return <GenerateCopiables />
-
+    )
 }
