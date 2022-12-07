@@ -1,3 +1,5 @@
+import { PDFTest } from "./PDFTest"
+
 export const FileUpload = () => {
 
     const handleFile = (e) => {
@@ -25,6 +27,7 @@ export const FileUpload = () => {
             <div>
                 <input type="file" id="file" onChange={handleFile} />
             </div>
+            <PDFTest/>
         </div>
     )
 }
