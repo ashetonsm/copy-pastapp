@@ -96,10 +96,7 @@ export const Home = () => {
                 {/* Text Input Area */}
                 <Row className="row justify-content-md-center">
                     <Col className="col-lg-auto">
-                        <TextInput
-                            updateFromPaste={updateFromPaste}
-                            loadedInput={loadedInput}
-                        />
+                        <TextInput updateFromPaste={updateFromPaste} />
                     </Col>
                 </Row>
                 <Row className="row justify-content-md-center">
