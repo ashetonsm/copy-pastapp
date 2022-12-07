@@ -6,7 +6,6 @@ export const TextInput = ({ updateFromPaste }) => {
 
     const { loadedInput } = useContext(TextInputContext)
 
-
     const whitespace = new RegExp('\\S+', 'g')
     const bullets = new RegExp('(?:^(o|\u2022|\u2023|\u25E6|\u2043|\u2219|\u25CB|\u25CF|\u002D|\u2013)\\s)', 'gu')
 
