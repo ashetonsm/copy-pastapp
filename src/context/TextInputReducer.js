@@ -21,6 +21,11 @@ const textInputReducer = (state, action) => {
                 ...state,
                 savedLists: action.payload,
             }
+        case 'SET_UPLOADED_PAGES':
+            return {
+                ...state,
+                uploadedPages: action.payload,
+            }
 
         default:
             return state
