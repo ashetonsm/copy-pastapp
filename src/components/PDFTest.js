@@ -42,6 +42,9 @@ export function PDFTest() {
   const parseDoc = (e) => {
     try {
       console.log(uploadedPage.ref.current.pageElement.current.innerText)
+      // Loads the unformatted text into the input box as an ugly brick
+      dispatch({ type: 'SET_LOADED_INPUT', payload: uploadedPage.ref.current.pageElement.current.innerText })
+
     } catch (error) {
       console.log("Error parsing uploaded document!")
     }
