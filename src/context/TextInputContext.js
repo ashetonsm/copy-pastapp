@@ -13,7 +13,7 @@ export const TextInputProvider = ({ children }) => {
         ],
         loadedInput: "",
         savedLists: [],
-        uploadedPages: [],
+        uploadedPage: {},
     }
     const [state, dispatch] = useReducer(textInputReducer, initialState)
 

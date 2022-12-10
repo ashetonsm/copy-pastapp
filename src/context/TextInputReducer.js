@@ -21,10 +21,10 @@ const textInputReducer = (state, action) => {
                 ...state,
                 savedLists: action.payload,
             }
-        case 'SET_UPLOADED_PAGES':
+        case 'SET_UPLOADED_PAGE':
             return {
                 ...state,
-                uploadedPages: action.payload,
+                uploadedPage: action.payload,
             }
 
         default:

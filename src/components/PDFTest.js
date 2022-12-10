@@ -13,7 +13,7 @@ const options = {
 
 export function PDFTest() {
 
-  const { dispatch, uploadedPages } = useContext(TextInputContext)
+  const { dispatch, uploadedPage } = useContext(TextInputContext)
 
   const pageRef = useRef()
   const [file, setFile] = useState(null);
@@ -21,46 +21,49 @@ export function PDFTest() {
   const [, setNumPages] = useState(null);
 
   function onFileChange(event) {
-    setFile(event.target.files[0]);
+    if (event.target.files.length < 1) {
+      return console.log("No file was selected.")
+    } else {
+      setFile(event.target.files[0]);
+    }
   }
 
   function onDocumentLoadSuccess({ numPages: nextNumPages }) {
     setNumPages(nextNumPages);
-    const pageArray =
-      Array.from(new Array(nextNumPages), (el, index) => (
-        <Page key={`page_${index + 1}`} pageNumber={index + 1} ref={pageRef} />
-      ))
-    setAllPages(pageArray)
-    dispatch({ type: 'SET_UPLOADED_PAGES', payload: pageArray })
+    const newPage = <Page key={`page_${1}`} pageNumber={1} ref={pageRef} />
+    setAllPages(newPage)
+    dispatch({ type: 'SET_UPLOADED_PAGE', payload: newPage })
+  }
+
+  const onDocumentLoadError = () => {
+    console.log("Wrong file type!")
   }
 
   const parseDoc = (e) => {
     try {
-      uploadedPages.forEach(page => {
-        console.log(page.ref.current.pageElement.current.innerText)
-      })
+      console.log(uploadedPage.ref.current.pageElement.current.innerText)
     } catch (error) {
       console.log("Error parsing uploaded document!")
     }
   }
 
   return (
-    <div className="Example">
-      <header>
-        <h1>react-pdf sample page</h1>
-      </header>
-      <div className="Example__container">
-        <div className="Example__container__load">
+    <div className="PDF__Upload">
+      <h3>Upload a PDF (limit 1 page)</h3>
+        <div className="PDF__loading__area">
           <label htmlFor="file">Load from file:</label>{' '}
           <input onChange={onFileChange} type="file" />
         </div>
-        <div className="Example__container__document">
-          <Document file={file} onLoadSuccess={onDocumentLoadSuccess} options={options} scale={0.5}>
+        <div className="PDF__container__document" hidden>
+          <Document
+            file={file}
+            onLoadSuccess={onDocumentLoadSuccess}
+            onLoadError={onDocumentLoadError}
+            options={options}>
             {allPages}
           </Document>
         </div>
         <Button onClick={parseDoc}>Upload</Button>
-      </div>
     </div>
   );
 }
