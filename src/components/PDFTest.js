@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { Document, Page } from 'react-pdf/dist/cjs/entry.webpack';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
@@ -49,21 +49,21 @@ export function PDFTest() {
 
   return (
     <div className="PDF__Upload">
-      <h3>Upload a PDF (limit 1 page)</h3>
-        <div className="PDF__loading__area">
-          <label htmlFor="file">Load from file:</label>{' '}
-          <input onChange={onFileChange} type="file" />
-        </div>
-        <div className="PDF__container__document" hidden>
-          <Document
-            file={file}
-            onLoadSuccess={onDocumentLoadSuccess}
-            onLoadError={onDocumentLoadError}
-            options={options}>
-            {allPages}
-          </Document>
-        </div>
-        <Button onClick={parseDoc}>Upload</Button>
+      <Form.Group>
+        <Form.Label htmlFor='file'>Load from file (limit 1 page):</Form.Label>
+        <Form.Control type="file" onChange={onFileChange} />
+      </Form.Group>
+
+      <div className="PDF__container__document" hidden>
+        <Document
+          file={file}
+          onLoadSuccess={onDocumentLoadSuccess}
+          onLoadError={onDocumentLoadError}
+          options={options}>
+          {allPages}
+        </Document>
+      </div>
+      <Button onClick={parseDoc}>Upload</Button>
     </div>
   );
 }
