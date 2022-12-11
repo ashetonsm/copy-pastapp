@@ -51,15 +51,15 @@ export function PDFTest() {
 
   const formatPDF = (rawText) => {
     // TODO: Split at Lines LikeThis so weCan DetectWhen ThereShould BeA LineBreak
-    // const newLines = new RegExp('[a-z|0-9](?=[A-Z])', 'g')
-    const whitespace = new RegExp('\\S+', 'g')
+    const lowercaseHighercase = new RegExp('(?=(?<=[a-z]|[0-9])[A-Z][a-z])|(?=(?<=[A-Z])[A-Z][a-z])', 'g')
     const anyLetterNum = new RegExp('\\w+', 'g')
-    const bullets = new RegExp('(?:^(o|\u2022|\u2023|\u25E6|\u2043|\u2219|\u25CB|\u25CF|\u002D|\u2013)\\s)', 'gu')
-    const bullet = new RegExp('(\u2022|\u2023|\u25E6|\u2043|\u2219|\u25CB|\u25CF|\u002D|\u2013)\\s', 'gu')
     const bulletsNoDashes = new RegExp('(\u2022|\u2023|\u25E6|\u2043|\u2219|\u25CB|\u25CF)', 'gu')
 
     // An array of text split at every bullet point...
-    var splitText = rawText.split(bullet)
+    var splitText = rawText.replace(lowercaseHighercase, "\n")
+    splitText = splitText.split(bulletsNoDashes)
+    // console.log(splitText)
+
     var splitWithBullets = []
 
     for (let i = 0; i < splitText.length - 1; i++) {
@@ -76,17 +76,17 @@ export function PDFTest() {
         }
       } else {
         // TODO: Make sure not checking the first one isn't an issue
-        // console.log("Account for the first one...")
+        splitWithBullets.push(splitText[i])
       }
     }
-
-    console.log(splitWithBullets)
-
+    
+    // console.log(splitWithBullets)
+    
     var formattedText = ""
     splitWithBullets.forEach(entry => {
       formattedText = formattedText.concat(entry, "\n")
     });
-
+    
     // console.log(formattedText)
 
     dispatch({ type: 'SET_LOADED_INPUT', payload: formattedText })
