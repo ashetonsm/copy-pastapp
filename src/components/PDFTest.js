@@ -41,13 +41,56 @@ export function PDFTest() {
 
   const parseDoc = (e) => {
     try {
-      console.log(uploadedPage.ref.current.pageElement.current.innerText)
-      // Loads the unformatted text into the input box as an ugly brick
-      dispatch({ type: 'SET_LOADED_INPUT', payload: uploadedPage.ref.current.pageElement.current.innerText })
+      // Loads the unformatted text into the input box as an ugly brick as long as the document div is hidden
+      formatPDF(uploadedPage.ref.current.pageElement.current.innerText)
 
     } catch (error) {
       console.log("Error parsing uploaded document!")
     }
+  }
+
+  const formatPDF = (rawText) => {
+    // TODO: Split at Lines LikeThis so weCan DetectWhen ThereShould BeA LineBreak
+    // const newLines = new RegExp('[a-z|0-9](?=[A-Z])', 'g')
+    const whitespace = new RegExp('\\S+', 'g')
+    const anyLetterNum = new RegExp('\\w+', 'g')
+    const bullets = new RegExp('(?:^(o|\u2022|\u2023|\u25E6|\u2043|\u2219|\u25CB|\u25CF|\u002D|\u2013)\\s)', 'gu')
+    const bullet = new RegExp('(\u2022|\u2023|\u25E6|\u2043|\u2219|\u25CB|\u25CF|\u002D|\u2013)\\s', 'gu')
+    const bulletsNoDashes = new RegExp('(\u2022|\u2023|\u25E6|\u2043|\u2219|\u25CB|\u25CF)', 'gu')
+
+    // An array of text split at every bullet point...
+    var splitText = rawText.split(bullet)
+    var splitWithBullets = []
+
+    for (let i = 0; i < splitText.length - 1; i++) {
+      if (i !== 0) {
+        // If the last entry was a bullet
+        if (bulletsNoDashes.test(splitText[i - 1]) === true) {
+          // Push it to the new array as "bullet + current i's text"
+          splitWithBullets.push(splitText[i - 1].concat(' ', splitText[i]))
+        } else {
+          if (splitText[i].match(anyLetterNum)) {
+            // console.log(splitText[i])
+            splitWithBullets.push(splitText[i])
+          }
+        }
+      } else {
+        // TODO: Make sure not checking the first one isn't an issue
+        // console.log("Account for the first one...")
+      }
+    }
+
+    console.log(splitWithBullets)
+
+    var formattedText = ""
+    splitWithBullets.forEach(entry => {
+      formattedText = formattedText.concat(entry, "\n")
+    });
+
+    // console.log(formattedText)
+
+    dispatch({ type: 'SET_LOADED_INPUT', payload: formattedText })
+
   }
 
   return (
