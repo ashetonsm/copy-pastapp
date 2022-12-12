@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { Document, Page } from 'react-pdf/dist/cjs/entry.webpack';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
@@ -11,22 +11,13 @@ const options = {
   standardFontDataUrl: 'standard_fonts/',
 };
 
-export function PDFTest() {
+export const ReadPDF = ({file}) => {
 
   const { dispatch, uploadedPage } = useContext(TextInputContext)
 
   const pageRef = useRef()
-  const [file, setFile] = useState(null);
   const [allPages, setAllPages] = useState([])
   const [, setNumPages] = useState(null);
-
-  function onFileChange(event) {
-    if (event.target.files.length < 1) {
-      return console.log("No file was selected.")
-    } else {
-      setFile(event.target.files[0]);
-    }
-  }
 
   function onDocumentLoadSuccess({ numPages: nextNumPages }) {
     setNumPages(nextNumPages);
@@ -95,10 +86,6 @@ export function PDFTest() {
 
   return (
     <div className="PDF__Upload">
-      <Form.Group>
-        <Form.Label htmlFor='file'>Load from file (limit 1 page):</Form.Label>
-        <Form.Control type="file" onChange={onFileChange} />
-      </Form.Group>
 
       <div className="PDF__container__document" hidden>
         <Document
