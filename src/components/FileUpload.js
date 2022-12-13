@@ -1,17 +1,17 @@
-import { useState } from "react";
+import { useState } from "react"
 import { Alert, Form } from "react-bootstrap"
 import { ReadPDF } from "./ReadPDF"
-import { ReadTXT } from "./ReadTXT";
+import { ReadTXT } from "./ReadTXT"
 
 export const FileUpload = () => {
 
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState(null)
 
   const onFileChange = (event) => {
     if (event.target.files.length < 1) {
       return console.log("No file was selected.")
     } else {
-      setFile(event.target.files[0]);
+      setFile(event.target.files[0])
     }
   }
 
