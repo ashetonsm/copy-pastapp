@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Alert, Col, Container, Row } from "react-bootstrap";
 import { CopiableText } from "../components/CopiableText";
+import { FileUpload } from "../components/FileUpload";
 import { FormattingOptions } from "../components/FormattingOptions";
 import { SaveLoad } from "../components/SaveLoad";
 import { TextInput } from "../components/TextInput";
@@ -65,57 +66,48 @@ export const Home = () => {
 
     return (
         <Container>
-            <Container>
-                {/* Centered title */}
-                <Row className="row justify-content-md-center">
-                    <Col className="col-lg-auto">
-                        <h1 style={{ textAlign: 'center' }}>Copy-Pastapply</h1>
-                        <h4 style={{ textAlign: 'center', fontWeight: 'normal' }}>
-                            (Because resume parsers aren't always accurate)
-                        </h4>
-                        <p style={{ fontWeight: 'bold' }}>How to use:</p>
-                        <ol>
-                            <li>Paste your resume into the text box</li>
-                            <li>Click "Copyify!"</li>
-                            <li>Click on an item to copy the text!</li>
-                        </ol>
-                        <Alert>Tip: Drag items onto each other to combine them!</Alert>
-                    </Col>
-                </Row>
+            {/* Centered title */}
+            <Row className="row justify-content-md-center">
+                <Col className="col-lg-auto">
+                    <h1 style={{ textAlign: 'center' }}>Copy-Pastapply</h1>
+                    <h4 style={{ textAlign: 'center', fontWeight: 'normal' }}>
+                        (Because resume parsers aren't always accurate)
+                    </h4>
+                    <p style={{ fontWeight: 'bold' }}>How to use:</p>
+                    <ol>
+                        <li>Paste your resume into the text box</li>
+                        <li>Click "Copyify!"</li>
+                        <li>Click on an item to copy the text!</li>
+                    </ol>
+                    <Alert>Tip: Drag items onto each other to combine them!</Alert>
+                </Col>
+            </Row>
 
-                <SaveLoad />
+            <SaveLoad />
 
-                <hr></hr>
+            <hr></hr>
 
-                <Row className="row justify-content-md-center">
-                    <Col className="col-lg-auto">
-                        <FormattingOptions functions={{ setSelectedValue }} />
-                    </Col>
-                </Row>
+            <Row className="row justify-content-md-center">
+                <Col className="col-lg-auto">
+                    <FormattingOptions functions={{ setSelectedValue }} />
+                </Col>
+            </Row>
 
-                {/* Text Input Area */}
-                <Row className="row justify-content-md-center">
-                    <Col className="col-lg-auto">
-                        <TextInput updateFromPaste={updateFromPaste} />
-                    </Col>
-                </Row>
-                <Row className="row justify-content-md-center">
-                    <Col className="col-lg-auto">
-
-                        <h3 id="currentText">This is the currently copied text...</h3>
-                    </Col>
-                </Row>
-            </Container>
+            {/* Text Input Area */}
+            <Row className="row justify-content-md-center">
+                <Col className="col-lg-auto">
+                    <TextInput updateFromPaste={updateFromPaste} />
+                    <FileUpload />
+                </Col>
+            </Row>
+            <Row className="row justify-content-md-center">
+                <Col className="col-lg-auto">
+                    <h3 id="currentText">This is the currently copied text...</h3>
+                </Col>
+            </Row>
 
             {/* Results */}
-            <Container fluid="lg" className="overflow-auto" style={{ height: '50vh' }}>
-                <Row className="row justify-content-lg-center">
-                    <CopiableText
-                        functions={{ setCopyValue }}
-                        copyValue={copyValue}
-                    />
-                </Row>
-            </Container>
+            <CopiableText functions={{ setCopyValue }} copyValue={copyValue} />
         </Container>
     )
 }
