@@ -27,7 +27,7 @@ export const ReadPDF = ({file}) => {
   }
 
   const onDocumentLoadError = () => {
-    console.log("Wrong file type!")
+    return console.log("Something went wrong!")
   }
 
   const parseDoc = (e) => {
