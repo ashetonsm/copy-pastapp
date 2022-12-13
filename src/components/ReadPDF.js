@@ -48,33 +48,37 @@ export const ReadPDF = ({ file }) => {
     // An array of text split at every bullet point...
     var splitText = rawText.replace(lowercaseHighercase, "\n")
     splitText = splitText.split(bulletsNoDashes)
+    var formattedText = ""
 
-    var splitWithBullets = []
+    if (splitText.length > 1) {
+      var splitWithBullets = []
 
-    for (let i = 0; i < splitText.length - 1; i++) {
-      if (i !== 0) {
-        // If the last entry was a bullet
-        if (bulletsNoDashes.test(splitText[i - 1]) === true) {
-          // Push it to the new array as "bullet + current i's text"
-          splitWithBullets.push(splitText[i - 1].concat(' ', splitText[i]))
-        } else {
-          if (splitText[i].match(anyLetterNum)) {
-            splitWithBullets.push(splitText[i])
+      for (let i = 0; i < splitText.length - 1; i++) {
+        if (i !== 0) {
+          // If the last entry was a bullet
+          if (bulletsNoDashes.test(splitText[i - 1]) === true) {
+            // Push it to the new array as "bullet + current i's text"
+            splitWithBullets.push(splitText[i - 1].concat(' ', splitText[i]))
+          } else {
+            if (splitText[i].match(anyLetterNum)) {
+              splitWithBullets.push(splitText[i])
+            }
           }
+        } else {
+          splitWithBullets.push(splitText[i])
         }
-      } else {
-        splitWithBullets.push(splitText[i])
       }
+      splitWithBullets.forEach(entry => {
+        formattedText = formattedText.concat(entry, "\n")
+      })
+
+    } else {
+      formattedText = splitText
     }
 
-    var formattedText = ""
-    splitWithBullets.forEach(entry => {
-      formattedText = formattedText.concat(entry, "\n")
-    })
-
-    dispatch({ type: 'SET_LOADED_INPUT', payload: formattedText })
-
+    dispatch({ type: 'SET_LOADED_INPUT', payload: formattedText.toString() })
   }
+
 
   return (
     <div className="PDF__Upload">
