@@ -1,9 +1,11 @@
 import { useContext, useRef, useState } from 'react'
 import { Button } from 'react-bootstrap'
-import { Document, Page } from 'react-pdf/dist/cjs/entry.webpack'
+import { Document, Page, pdfjs } from 'react-pdf/dist/cjs/entry.webpack'
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
 import 'react-pdf/dist/esm/Page/TextLayer.css'
 import TextInputContext from '../context/TextInputContext'
+const url = `//cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`
+pdfjs.GlobalWorkerOptions.workerSrc = url
 
 const options = {
   cMapUrl: 'cmaps/',
