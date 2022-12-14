@@ -102,7 +102,7 @@ export const Home = () => {
             </Row>
             <Row className="row justify-content-md-center">
                 <Col className="col-lg-auto">
-                    <h3 id="currentText">This is the currently copied text...</h3>
+                    <h3 id="currentText">Copy-Pastapply</h3>
                 </Col>
             </Row>
 
