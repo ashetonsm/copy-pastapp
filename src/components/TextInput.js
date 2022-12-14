@@ -70,8 +70,10 @@ export const TextInput = ({ updateFromPaste }) => {
 
     return (
 
-        <Accordion defaultActiveKey={['0']} alwaysOpen style={{ width: '55vw' }}>
-            <form>
+        <Accordion
+            defaultActiveKey={['0']}
+            alwaysOpen
+            style={{ width: '55vw', marginTop: "1rem", marginBottom: "1rem" }}>
                 <Accordion.Item eventKey="0" style={{ width: 'inherit' }}>
                     <Accordion.Header style={{ width: 'inherit' }}>Resume Text</Accordion.Header>
                     <Accordion.Body>
@@ -89,16 +91,13 @@ export const TextInput = ({ updateFromPaste }) => {
                     </Accordion.Body>
                 </Accordion.Item>
                 <Row className="row justify-content-md-center">
-
                     <Button type="submit" value="Copyify!"
                         onClick={(e) => handleSubmit(e)}
-                        style={{ width: 'inherit' }}
+                        style={{ width: 'inherit', marginTop: "1rem", marginBottom: "1rem" }}
                     >
                         Copyify!
                     </Button>
                 </Row>
-            </form>
         </Accordion>
-
     )
 }
