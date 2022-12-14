@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Alert, Col, Container, Row } from "react-bootstrap";
+import { Alert, Button, Col, Container, Row, Offcanvas } from "react-bootstrap";
 import { CopiableText } from "../components/CopiableText";
 import { FileUpload } from "../components/FileUpload";
 import { FormattingOptions } from "../components/FormattingOptions";
@@ -13,6 +13,9 @@ export const Home = () => {
 
     const [selectedValue, setSelectedValue] = useState(0)
     const [copyValue, setCopyValue] = useState(0)
+    const [showOffcanvas, setShowOffcanvas] = useState(false);
+
+    const handleOffcanvas = (toggle) => setShowOffcanvas(toggle);
 
     // For testing purposes
     useEffect(() => {
@@ -83,31 +86,41 @@ export const Home = () => {
                 </Col>
             </Row>
 
+            <Button onClick={() => handleOffcanvas(true)}>Launch</Button>
+
             <SaveLoad />
 
             <hr></hr>
 
-            <Row className="row justify-content-md-center">
-                <Col className="col-lg-auto">
-                    <FormattingOptions functions={{ setSelectedValue }} />
-                </Col>
-            </Row>
-
-            {/* Text Input Area */}
-            <Row className="row justify-content-md-center">
-                <Col className="col-lg-auto">
-                    <TextInput updateFromPaste={updateFromPaste} />
-                    <FileUpload />
-                </Col>
-            </Row>
+            {/* Results */}
             <Row className="row justify-content-md-center">
                 <Col className="col-lg-auto">
                     <h3 id="currentText">Copy-Pastapply</h3>
                 </Col>
+                <CopiableText functions={{ setCopyValue }} copyValue={copyValue} />
             </Row>
 
-            {/* Results */}
-            <CopiableText functions={{ setCopyValue }} copyValue={copyValue} />
+            <Offcanvas show={showOffcanvas} onHide={() => handleOffcanvas(false)}>
+                <Offcanvas.Header closeButton>
+                </Offcanvas.Header>
+                <Offcanvas.Body>
+                    {/* Text Input Area */}
+                    <Row className="row justify-content-md-center">
+                        <Col className="col-lg-auto">
+                            <TextInput updateFromPaste={updateFromPaste} />
+                            <FileUpload />
+                        </Col>
+                    </Row>
+
+                    <Row className="row justify-content-md-center">
+                        <Col className="col-lg-auto">
+                            <FormattingOptions functions={{ setSelectedValue }} />
+                        </Col>
+                    </Row>
+
+                </Offcanvas.Body>
+            </Offcanvas>
+
         </Container>
     )
 }
