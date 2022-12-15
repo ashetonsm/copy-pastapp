@@ -92,7 +92,6 @@ export const TextInput = ({ updateFromPaste }) => {
                 <Button
                     type="submit"
                     value="Copyify!"
-                    className="col-md-2"
                     onClick={(e) => handleSubmit(e)}
                 >
                     Copyify!
