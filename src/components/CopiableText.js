@@ -132,6 +132,7 @@ export const CopiableText = ({ functions, copyValue }) => {
                         functions.setCopyValue(parseInt(e.target.parentElement.children[1].value))
                         copyText(radio.text)
                     }}
+                    style={{ maxWidth: '35vw', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
                 >
                     {radio.text}
                 </ToggleButton>
