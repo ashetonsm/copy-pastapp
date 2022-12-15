@@ -14,9 +14,6 @@ export const Home = () => {
 
     const [selectedValue, setSelectedValue] = useState(0)
     const [copyValue, setCopyValue] = useState(0)
-    const [showOffcanvas, setShowOffcanvas] = useState(false);
-
-    const handleOffcanvas = (toggle) => setShowOffcanvas(toggle);
 
     // For testing purposes
     useEffect(() => {
@@ -70,63 +67,44 @@ export const Home = () => {
 
     return (
         <Container>
-            {/* Centered title */}
-            <Row className="justify-content-md-center">
+            <Row className="justify-content-center gap-3">
                 <Col className="col-auto mb-2">
-                    <h1 style={{ textAlign: 'center' }}>Copy-Pastapply</h1>
-                    <h4 style={{ textAlign: 'center', fontWeight: 'normal' }}>
-                        (Because resume parsers aren't always accurate)
-                    </h4>
+                    <h1 className="text-center">Copy-Pastapply</h1>
                     <InfoBox />
                 </Col>
+                <SaveLoad />
+                <hr />
             </Row>
-            <Row className="justify-content-md-center">
-                <Button
-                    className="mx-auto mb-1"
-                    onClick={() => handleOffcanvas(true)}
-                    style={{ width: 'inherit' }}
-                    variant="info"
-                >
-                    Show/Hide Input
-                </Button>
-            </Row>
-            <SaveLoad />
-
-            <hr></hr>
-
-            {/* Results */}
-            <Row className="justify-content-md-center">
-                <Col className="col-lg-auto">
-                    <h3 id="currentText">Copy-Pastapply</h3>
-                </Col>
-                <CopiableText functions={{ setCopyValue }} copyValue={copyValue} />
-            </Row>
-
-            <Offcanvas show={showOffcanvas} onHide={() => handleOffcanvas(false)}>
-                <Offcanvas.Header closeButton>
-                </Offcanvas.Header>
-                <Offcanvas.Body>
+            <Row className="justify-content-center">
+                {/* Left Column (upload and instructions) */}
+                <Col className="col-6">
                     {/* Text Input Area */}
-                    <Row className="justify-content-md-center">
-                        <Col className="col-lg-auto">
+                    <Row>
+                        <Col className="col-6-auto">
                             <TextInput updateFromPaste={updateFromPaste} />
                         </Col>
                     </Row>
-                    <Row className="justify-content-md-center">
-                        <Col className="col-lg-auto">
+                    <Row>
+                        <Col className="col-6-auto">
                             <FileUpload />
                         </Col>
                     </Row>
-
-                    <Row className="justify-content-md-center">
-                        <Col className="col-lg-auto">
+                    <Row>
+                        <Col className="col-6-auto">
                             <FormattingOptions functions={{ setSelectedValue }} />
                         </Col>
                     </Row>
+                </Col>
 
-                </Offcanvas.Body>
-            </Offcanvas>
-
+                {/* Right Column (results) */}
+                <Col className="col-4-auto">
+                    <Row>
+                        <Col className="col-auto" style={{maxWidth: '40vw', overflowX: 'hidden'}}>
+                            <CopiableText functions={{ setCopyValue }} copyValue={copyValue} />
+                        </Col>
+                    </Row>
+                </Col>
+            </Row>
         </Container>
     )
 }
