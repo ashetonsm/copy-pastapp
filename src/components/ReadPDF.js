@@ -1,5 +1,5 @@
 import { useContext, useRef, useState } from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, Row } from 'react-bootstrap'
 import { Document, Page, pdfjs } from 'react-pdf/dist/cjs/entry.webpack'
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
 import 'react-pdf/dist/esm/Page/TextLayer.css'
@@ -93,7 +93,9 @@ export const ReadPDF = ({ file }) => {
           {allPages}
         </Document>
       </div>
-      <Button onClick={parseDoc}>Upload</Button>
+      <Row className="justify-content-md-center mb-1 mt-1">
+        <Button onClick={parseDoc} className="col-md-4">Upload</Button>
+      </Row>
     </div>
   )
 }
