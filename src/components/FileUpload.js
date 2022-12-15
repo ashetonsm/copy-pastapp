@@ -22,7 +22,7 @@ export const FileUpload = () => {
       case "text/plain":
         return <ReadTXT file={file} />
       default:
-        return <Alert variant="danger" style={{marginTop: "1rem"}}>ERROR: Invalid file type!</Alert>
+        return <Alert variant="danger">ERROR: Invalid file type!</Alert>
     }
   }
 
