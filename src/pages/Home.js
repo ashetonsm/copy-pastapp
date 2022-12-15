@@ -85,9 +85,16 @@ export const Home = () => {
                     <Alert>Tip: Drag items onto each other to combine them!</Alert>
                 </Col>
             </Row>
-
-            <Button onClick={() => handleOffcanvas(true)}>Launch</Button>
-
+            <Row className="row justify-content-md-center">
+                <Button
+                    className="mx-auto mb-1"
+                    onClick={() => handleOffcanvas(true)}
+                    style={{ width: 'inherit' }}
+                    variant="info"
+                    >
+                    Show/Hide Input
+                </Button>
+            </Row>
             <SaveLoad />
 
             <hr></hr>
@@ -108,6 +115,10 @@ export const Home = () => {
                     <Row className="row justify-content-md-center">
                         <Col className="col-lg-auto">
                             <TextInput updateFromPaste={updateFromPaste} />
+                        </Col>
+                    </Row>
+                    <Row className="row justify-content-md-center">
+                        <Col className="col-lg-auto">
                             <FileUpload />
                         </Col>
                     </Row>
