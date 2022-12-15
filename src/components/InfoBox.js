@@ -1,10 +1,9 @@
-import { Accordion, Alert, Row } from "react-bootstrap"
+import { Accordion, Alert } from "react-bootstrap"
 
 export const InfoBox = () => {
 
     return (
-
-        <Accordion defaultActiveKey={['0']} alwaysOpen>
+        <Accordion>
             <Accordion.Item eventKey="0">
                 <Accordion.Header>How to Use:</Accordion.Header>
                 <Accordion.Body>
