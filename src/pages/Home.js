@@ -1,26 +1,31 @@
-import { useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { useContext, useEffect, useState } from "react";
+import { Button, Col, Container, Row, Offcanvas } from "react-bootstrap";
 import { CopiableText } from "../components/CopiableText";
+import { FileUpload } from "../components/FileUpload";
+import { FormattingOptions } from "../components/FormattingOptions";
+import { InfoBox } from "../components/InfoBox";
 import { SaveLoad } from "../components/SaveLoad";
 import { TextInput } from "../components/TextInput";
+import TextInputContext from "../context/TextInputContext";
 
 export const Home = () => {
 
+    const { dispatch } = useContext(TextInputContext)
+
     const [selectedValue, setSelectedValue] = useState(0)
     const [copyValue, setCopyValue] = useState(0)
-    const [loadedInput, setLoadedInput] = useState("")
 
-    const [copiableText, setCopiableText] = useState([
+    // For testing purposes
+    useEffect(() => {
 
-        { text: 'Click', id: 0, bullet: false },
-        { text: 'to', id: 1, bullet: false },
-        { text: 'Copy', id: 2, bullet: false },
+        dispatch({ type: 'SET_LOADING', payload: true })
 
-    ])
+    }, [dispatch])
+
 
     const updateFromPaste = (inputObj) => {
         setCopyValue(0)
-        setCopiableText(applyFormatting(selectedValue, inputObj))
+        dispatch({ type: 'SET_COPIABLE_TEXT', payload: applyFormatting(selectedValue, inputObj) })
     }
 
     const applyFormatting = (optionNum, inputObj) => {
@@ -62,87 +67,34 @@ export const Home = () => {
 
     return (
         <Container>
+            <Row className="justify-content-center gap-3">
+                <Col className="col-auto mb-2">
+                    <h1 className="text-center">Copy-Pastapply</h1>
+                    <InfoBox />
+                </Col>
+                <SaveLoad />
+                <hr />
+            </Row>
+            <Row className="justify-content-center">
+                {/* Left Column (upload and instructions) */}
+                <Col className="col-auto">
+                    {/* Text Input Area */}
+                    <Row>
+                        <TextInput updateFromPaste={updateFromPaste} />
+                    </Row>
+                    <Row>
+                        <FileUpload />
+                    </Row>
+                    <Row>
+                        <FormattingOptions functions={{ setSelectedValue }} />
+                    </Row>
+                </Col>
 
-            <Container>
-                {/* Centered title */}
-                <Row className="row justify-content-md-center">
-                    <Col className="col-lg-auto">
-                        <h1 style={{ textAlign: 'center' }}>Copy-Pastapply</h1>
-                        <h2 style={{ textAlign: 'center' }}>(Because resume parsers aren't always accurate)</h2>
-                    </Col>
-                </Row>
-
-                <SaveLoad
-                    functions={{ setCopiableText, setLoadedInput }}
-                    currentList={copiableText} />
-
-                <hr></hr>
-
-                <Row className="row justify-content-md-center">
-                    <Col className="col-lg-auto">
-                        <fieldset>
-                            <legend>Formatting Options:</legend>
-
-                            <div>
-                                <input type="radio" id="original" name="formattingOption"
-                                    value={0}
-                                    onInput={(e) => {
-                                        setSelectedValue(parseInt(e.currentTarget.value))
-                                    }} />
-                                <label htmlFor="original">Original/None</label>
-                            </div>
-
-                            <div>
-                                <input type="radio" id="addBullets" name="formattingOption"
-                                    value={1}
-                                    onInput={(e) => {
-                                        setSelectedValue(parseInt(e.currentTarget.value))
-                                    }} />
-                                <label htmlFor="addBullets">Add Bullets</label>
-                            </div>
-
-                            <div>
-                                <input type="radio" id="removeBullets" name="formattingOption"
-                                    value={2}
-                                    onInput={(e) => {
-                                        setSelectedValue(parseInt(e.currentTarget.value))
-                                    }} />
-                                <label htmlFor="removeBullets">Remove Bullets</label>
-                            </div>
-                        </fieldset>
-                    </Col>
-                </Row>
-
-                {/* Text Input Area */}
-                <Row className="row justify-content-md-center">
-                    <Col className="col-lg-auto">
-
-                        <TextInput
-                            updateFromPaste={updateFromPaste}
-                            loadedInput={loadedInput}
-                        />
-                    </Col>
-                </Row>
-                <Row className="row justify-content-md-center">
-                    <Col className="col-lg-auto">
-
-                        <h3 id="currentText">This is the currently copied text...</h3>
-                    </Col>
-                </Row>
-            </Container>
-
-            {/* Results */}
-            <Container fluid="lg" className="overflow-auto" style={{ height: '50vh' }}>
-
-                <Row className="row justify-content-lg-center">
-                    <CopiableText
-                        copiableText={copiableText}
-                        functions={{ setCopiableText, setCopyValue, setLoadedInput }}
-                        copyValue={copyValue}
-                    />
-                </Row>
-            </Container>
-
+                {/* Right Column (results) */}
+                <Col className="col-sm">
+                    <CopiableText functions={{ setCopyValue }} copyValue={copyValue} />
+                </Col>
+            </Row>
         </Container>
     )
 }

@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Accordion, Row, Button } from "react-bootstrap";
+import TextInputContext from "../context/TextInputContext";
 
-export const TextInput = ({ updateFromPaste, loadedInput }) => {
+export const TextInput = ({ updateFromPaste }) => {
+
+    const { loadedInput } = useContext(TextInputContext)
 
     const whitespace = new RegExp('\\S+', 'g')
     const bullets = new RegExp('(?:^(o|\u2022|\u2023|\u25E6|\u2043|\u2219|\u25CB|\u25CF|\u002D|\u2013)\\s)', 'gu')
@@ -66,36 +69,35 @@ export const TextInput = ({ updateFromPaste, loadedInput }) => {
     }
 
     return (
-
-        <Accordion defaultActiveKey={['0']} alwaysOpen style={{ width: '55vw' }}>
-            <form>
-                <Accordion.Item eventKey="0" style={{ width: 'inherit' }}>
-                    <Accordion.Header style={{ width: 'inherit' }}>Resume Text</Accordion.Header>
-                    <Accordion.Body>
-                        <Row className="row justify-content-lg-center">
-                            <textarea
-                                onChange={handleChange}
-                                id="textInput"
-                                name="textInput"
-                                placeholder="Paste your resume here."
-                                style={{ height: '50vh' }}
-                                value={input.textInput}
-                            >
-                            </textarea>
-                        </Row>
-                    </Accordion.Body>
-                </Accordion.Item>
-                <Row className="row justify-content-md-center">
-
-                    <Button type="submit" value="Copyify!"
-                        onClick={(e) => handleSubmit(e)}
-                        style={{ width: 'inherit' }}
-                    >
-                        Copyify!
-                    </Button>
-                </Row>
-            </form>
+        <Accordion
+            defaultActiveKey={['1']}
+            alwaysOpen>
+            <Accordion.Item eventKey="1" >
+                <Accordion.Header>Resume Text</Accordion.Header>
+                <Accordion.Body>
+                    <Row>
+                        <textarea
+                            onChange={handleChange}
+                            id="textInput"
+                            name="textInput"
+                            placeholder="Paste your resume here."
+                            style={{ height: '50vh' }}
+                            value={input.textInput}
+                        >
+                        </textarea>
+                    </Row>
+                </Accordion.Body>
+            </Accordion.Item>
+            <Row className="justify-content-md-center mb-1 mt-1">
+                <Button
+                    type="submit"
+                    value="Copyify!"
+                    className="col-md-4"
+                    onClick={(e) => handleSubmit(e)}
+                >
+                    Copyify!
+                </Button>
+            </Row>
         </Accordion>
-
     )
 }

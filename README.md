@@ -14,8 +14,8 @@ Resume parsers make mistakes sometimes, so I made an app to make copying and pas
 - [ ] Add touch support for most browsers
     - [ ] Add touch support for Safari
 - [ ] Refine text formatting options
-- [ ] Implement read from file
-    - [ ] PDF
-    - [ ] TXT
+- [X] Implement read from file
+    - [x] PDF
+    - [X] TXT
     - [ ] DOCX
 - [ ] Finish styling

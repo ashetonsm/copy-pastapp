@@ -1,13 +1,19 @@
-import { useEffect, useState } from "react"
-import { Button, Modal, Row } from "react-bootstrap"
+import { useContext, useEffect, useState } from "react"
+import { Button, Row } from "react-bootstrap"
+import TextInputContext from "../context/TextInputContext"
+import { ConcatArray } from "../utilities/ConcatArray"
+import { LoadModal } from "./LoadModal"
+import { NameModal } from "./NameModal"
 
 
-export const SaveLoad = ({ currentList, functions }) => {
+export const SaveLoad = () => {
+
+    // Where "currentList" is now copiableText
+    const { dispatch, savedLists, copiableText } = useContext(TextInputContext)
 
     const [showLoadModal, setShowLoadModal] = useState(false)
     const [showNameModal, setShowNameModal] = useState(false)
     const [nameInUse, setNameInUse] = useState(false)
-    var savedLists = []
 
     const [input, setInput] = useState({
         textInput: "",
@@ -29,15 +35,6 @@ export const SaveLoad = ({ currentList, functions }) => {
         }))
     }
 
-    const concatLoadedInput = (inputList) => {
-        var concatList = ""
-
-        inputList.forEach(item => {
-            concatList = concatList.concat(item.text + "\n")
-        })
-        functions.setLoadedInput(concatList)
-    }
-
     const saveToLocalStorage = (paramOverwrite) => {
         const whitespace = new RegExp('\\S+', 'g')
 
@@ -45,7 +42,7 @@ export const SaveLoad = ({ currentList, functions }) => {
             return alert("Name cannot be blank.")
         } else {
             // Create our new string object
-            var newItem = { name: input.textInput, content: currentList }
+            var newItem = { name: input.textInput, content: copiableText }
 
             // Get the master list
             var ml = window.localStorage.getItem(masterList)
@@ -81,6 +78,7 @@ export const SaveLoad = ({ currentList, functions }) => {
                 if (!nameInUse) {
                     mlObj.push(newItem)
                     window.localStorage.setItem(masterList, JSON.stringify(mlObj))
+                    dispatch({ type: 'SET_SAVED_LISTS', payload: mlObj })
                     setNameInUse(false)
                     setShowNameModal(false)
                 }
@@ -89,45 +87,37 @@ export const SaveLoad = ({ currentList, functions }) => {
                     mlObj = mlObj.filter(e => e.name !== newItem.name)
                     mlObj.push(newItem)
                     window.localStorage.setItem(masterList, JSON.stringify(mlObj))
+                    dispatch({ type: 'SET_SAVED_LISTS', payload: mlObj })
                     setNameInUse(false)
                     setShowNameModal(false)
                 }
             } else {
                 // List is blank, add the new item
                 window.localStorage.setItem(masterList, JSON.stringify(newItem))
+                dispatch({ type: 'SET_SAVED_LISTS', payload: newItem })
                 setShowNameModal(false)
             }
         }
     }
 
     const removeSaved = (oldObj) => {
-        savedLists = []
-
-        var lists = JSON.parse(window.localStorage.getItem(masterList))
-
-        if (lists.length > 1) {
-            lists.forEach(list => {
-                if (!savedLists.includes(list)) {
-                    savedLists.push({ name: list.name, content: list.content })
-                }
-            })
-        } else {
-            savedLists.push({ name: lists.name, content: lists.content })
-        }
-
         // Mutate savedLists, filtering out the old object by name
-        savedLists = savedLists.filter((elem) => elem.name !== oldObj.name)
+        console.log(savedLists)
+
+        var newlist = Array.from(savedLists).filter((elem) => elem.name !== oldObj.name)
+        dispatch({ type: 'SET_SAVED_LISTS', payload: newlist })
+        console.log(newlist)
 
         // More than one list object, stringify them all
-        if (savedLists.length > 1) {
-            window.localStorage.setItem(masterList, JSON.stringify(savedLists))
+        if (newlist.length > 1) {
+            window.localStorage.setItem(masterList, JSON.stringify(newlist))
         }
         // Just one list object, stringify the first one
-        if (savedLists.length === 1) {
-            window.localStorage.setItem(masterList, JSON.stringify(savedLists[0]))
+        if (newlist.length === 1) {
+            window.localStorage.setItem(masterList, JSON.stringify(newlist[0]))
         }
         // No more list objects, delete the localStorage entry
-        if (savedLists.length === 0) {
+        if (newlist.length === 0) {
             window.localStorage.removeItem(masterList)
         }
     }
@@ -136,18 +126,12 @@ export const SaveLoad = ({ currentList, functions }) => {
         var ml = window.localStorage.getItem(masterList)
 
         if (ml !== null) {
-            savedLists = []
             var lists = JSON.parse(ml)
 
             if (lists.length > 1) {
-                lists.forEach(list => {
-
-                    if (!savedLists.includes(list)) {
-                        savedLists.push({ name: list.name, content: list.content })
-                    }
-                })
+                dispatch({ type: 'SET_SAVED_LISTS', payload: lists })
             } else {
-                savedLists.push({ name: lists.name, content: lists.content })
+                dispatch({ type: 'SET_SAVED_LISTS', payload: { name: lists.name, content: lists.content } })
             }
         } else {
             console.log("No lists to load!")
@@ -170,8 +154,8 @@ export const SaveLoad = ({ currentList, functions }) => {
                             value={JSON.stringify(list.content)}
                             onClick={(e) => {
                                 var newList = JSON.parse(e.currentTarget.value)
-                                functions.setCopiableText(newList)
-                                concatLoadedInput(list.content)
+                                dispatch({ type: 'SET_COPIABLE_TEXT', payload: newList })
+                                dispatch({ type: 'SET_LOADED_INPUT', payload: ConcatArray(list.content) })
                                 setShowLoadModal(false)
                             }}>
                             {list.name}
@@ -191,8 +175,8 @@ export const SaveLoad = ({ currentList, functions }) => {
                             value={JSON.stringify(list.content)}
                             onClick={(e) => {
                                 var newList = JSON.parse(e.currentTarget.value)
-                                functions.setCopiableText(newList)
-                                concatLoadedInput(list.content)
+                                dispatch({ type: 'SET_COPIABLE_TEXT', payload: newList })
+                                dispatch({ type: 'SET_LOADED_INPUT', payload: ConcatArray(list.content) })
                                 setShowLoadModal(false)
                             }}>
                             {list.name}
@@ -214,75 +198,38 @@ export const SaveLoad = ({ currentList, functions }) => {
     }
 
     return (
-        <Row className="row justify-content-md-center">
-            <Button value="save"
-                onClick={(e) => {
-                    setShowNameModal(true)
-                }}
-                style={{ width: 'inherit', margin: "1em" }}
-            >
-                Save
-            </Button>
-            <Button value="load"
-                onClick={() => {
-                    setShowLoadModal(true)
-                    loadFromLocalStorage()
-                }}
-                style={{ width: 'inherit', margin: "1em" }}
-            >
-                Load
-            </Button>
+        <>
+            <Row className="justify-content-md-center gap-3">
+                <Button value="save"
+                    className="col-md-2"
+                    onClick={(e) => {
+                        setShowNameModal(true)
+                    }}
+                    >
+                    Save
+                </Button>
+                <Button value="load"
+                    className="col-md-2"
+                    onClick={() => {
+                        setShowLoadModal(true)
+                        loadFromLocalStorage()
+                    }}
+                >
+                    Load
+                </Button>
+            </Row>
 
-            <Modal show={showLoadModal} onHide={() => setShowLoadModal(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Load a Saved List:</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Saved />
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowLoadModal(false)}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+            <LoadModal
+                functions={{ setShowLoadModal, Saved }}
+                showLoadModal={showLoadModal} />
 
-            <Modal show={showNameModal} onHide={() => setShowNameModal(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Please Name Your List:</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <input type="text"
-                        id="textInput"
-                        onChange={handleChange} />
-                    <p style={{ visibility: nameInUse ? 'visible' : 'hidden' }}>
-                        Click "Overwrite" to overwrite your existing list.
-                    </p>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button
-                        style={{ visibility: nameInUse ? 'visible' : 'hidden' }}
-                        variant="danger"
-                        onClick={() => {
-                            saveToLocalStorage(true)
-                        }}>
-                        Overwite
-                    </Button>
-                    <Button
-                        style={{ display: !nameInUse ? 'block' : 'none' }}
-                        variant="primary" onClick={() => {
-                            saveToLocalStorage()
-                        }}>
-                        Submit
-                    </Button>
-                    <Button variant="secondary" onClick={() => {
-                        setNameInUse(false)
-                        setShowNameModal(false)
-                    }}>
-                        Cancel
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </Row>
+            <NameModal
+                functions={{ setShowNameModal, setNameInUse }}
+                saveToLocalStorage={saveToLocalStorage}
+                nameInUse={nameInUse}
+                showNameModal={showNameModal}
+                handleChange={handleChange}
+            />
+        </>
     )
 }
