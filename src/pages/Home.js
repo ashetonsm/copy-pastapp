@@ -77,32 +77,22 @@ export const Home = () => {
             </Row>
             <Row className="justify-content-center">
                 {/* Left Column (upload and instructions) */}
-                <Col className="col-6">
+                <Col className="col-auto">
                     {/* Text Input Area */}
                     <Row>
-                        <Col className="col-6-auto">
-                            <TextInput updateFromPaste={updateFromPaste} />
-                        </Col>
+                        <TextInput updateFromPaste={updateFromPaste} />
                     </Row>
                     <Row>
-                        <Col className="col-6-auto">
-                            <FileUpload />
-                        </Col>
+                        <FileUpload />
                     </Row>
                     <Row>
-                        <Col className="col-6-auto">
-                            <FormattingOptions functions={{ setSelectedValue }} />
-                        </Col>
+                        <FormattingOptions functions={{ setSelectedValue }} />
                     </Row>
                 </Col>
 
                 {/* Right Column (results) */}
-                <Col className="col-4-auto">
-                    <Row>
-                        <Col className="col-auto" style={{maxWidth: '40vw', overflowX: 'hidden'}}>
-                            <CopiableText functions={{ setCopyValue }} copyValue={copyValue} />
-                        </Col>
-                    </Row>
+                <Col className="col-sm">
+                    <CopiableText functions={{ setCopyValue }} copyValue={copyValue} />
                 </Col>
             </Row>
         </Container>
