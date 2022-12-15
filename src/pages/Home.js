@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import { Alert, Button, Col, Container, Row, Offcanvas } from "react-bootstrap";
+import { Button, Col, Container, Row, Offcanvas } from "react-bootstrap";
 import { CopiableText } from "../components/CopiableText";
 import { FileUpload } from "../components/FileUpload";
 import { FormattingOptions } from "../components/FormattingOptions";
+import { InfoBox } from "../components/InfoBox";
 import { SaveLoad } from "../components/SaveLoad";
 import { TextInput } from "../components/TextInput";
 import TextInputContext from "../context/TextInputContext";
@@ -70,28 +71,22 @@ export const Home = () => {
     return (
         <Container>
             {/* Centered title */}
-            <Row className="row justify-content-md-center">
-                <Col className="col-lg-auto">
+            <Row className="justify-content-md-center">
+                <Col className="col-auto mb-2">
                     <h1 style={{ textAlign: 'center' }}>Copy-Pastapply</h1>
                     <h4 style={{ textAlign: 'center', fontWeight: 'normal' }}>
                         (Because resume parsers aren't always accurate)
                     </h4>
-                    <p style={{ fontWeight: 'bold' }}>How to use:</p>
-                    <ol>
-                        <li>Paste your resume into the text box</li>
-                        <li>Click "Copyify!"</li>
-                        <li>Click on an item to copy the text!</li>
-                    </ol>
-                    <Alert>Tip: Drag items onto each other to combine them!</Alert>
+                    <InfoBox />
                 </Col>
             </Row>
-            <Row className="row justify-content-md-center">
+            <Row className="justify-content-md-center">
                 <Button
                     className="mx-auto mb-1"
                     onClick={() => handleOffcanvas(true)}
                     style={{ width: 'inherit' }}
                     variant="info"
-                    >
+                >
                     Show/Hide Input
                 </Button>
             </Row>
@@ -100,7 +95,7 @@ export const Home = () => {
             <hr></hr>
 
             {/* Results */}
-            <Row className="row justify-content-md-center">
+            <Row className="justify-content-md-center">
                 <Col className="col-lg-auto">
                     <h3 id="currentText">Copy-Pastapply</h3>
                 </Col>
@@ -112,18 +107,18 @@ export const Home = () => {
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                     {/* Text Input Area */}
-                    <Row className="row justify-content-md-center">
+                    <Row className="justify-content-md-center">
                         <Col className="col-lg-auto">
                             <TextInput updateFromPaste={updateFromPaste} />
                         </Col>
                     </Row>
-                    <Row className="row justify-content-md-center">
+                    <Row className="justify-content-md-center">
                         <Col className="col-lg-auto">
                             <FileUpload />
                         </Col>
                     </Row>
 
-                    <Row className="row justify-content-md-center">
+                    <Row className="justify-content-md-center">
                         <Col className="col-lg-auto">
                             <FormattingOptions functions={{ setSelectedValue }} />
                         </Col>
