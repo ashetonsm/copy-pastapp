@@ -28,7 +28,7 @@ export const FileUpload = () => {
 
   return (
     <>
-      <Form.Group>
+      <Form.Group style={{marginTop: "1rem", marginBottom: "1rem"}}>
         <Form.Label htmlFor='file'>Load from file (limit 1 page):</Form.Label>
         <Form.Control type="file" onChange={onFileChange} />
       </Form.Group>

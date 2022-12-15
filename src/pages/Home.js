@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import { Alert, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row, Offcanvas } from "react-bootstrap";
 import { CopiableText } from "../components/CopiableText";
 import { FileUpload } from "../components/FileUpload";
 import { FormattingOptions } from "../components/FormattingOptions";
+import { InfoBox } from "../components/InfoBox";
 import { SaveLoad } from "../components/SaveLoad";
 import { TextInput } from "../components/TextInput";
 import TextInputContext from "../context/TextInputContext";
@@ -66,48 +67,34 @@ export const Home = () => {
 
     return (
         <Container>
-            {/* Centered title */}
-            <Row className="row justify-content-md-center">
-                <Col className="col-lg-auto">
-                    <h1 style={{ textAlign: 'center' }}>Copy-Pastapply</h1>
-                    <h4 style={{ textAlign: 'center', fontWeight: 'normal' }}>
-                        (Because resume parsers aren't always accurate)
-                    </h4>
-                    <p style={{ fontWeight: 'bold' }}>How to use:</p>
-                    <ol>
-                        <li>Paste your resume into the text box</li>
-                        <li>Click "Copyify!"</li>
-                        <li>Click on an item to copy the text!</li>
-                    </ol>
-                    <Alert>Tip: Drag items onto each other to combine them!</Alert>
+            <Row className="justify-content-center gap-3">
+                <Col className="col-auto mb-2">
+                    <h1 className="text-center">Copy-Pastapply</h1>
+                    <InfoBox />
+                </Col>
+                <SaveLoad />
+                <hr />
+            </Row>
+            <Row className="justify-content-center">
+                {/* Left Column (upload and instructions) */}
+                <Col className="col-auto">
+                    {/* Text Input Area */}
+                    <Row>
+                        <TextInput updateFromPaste={updateFromPaste} />
+                    </Row>
+                    <Row>
+                        <FileUpload />
+                    </Row>
+                    <Row>
+                        <FormattingOptions functions={{ setSelectedValue }} />
+                    </Row>
+                </Col>
+
+                {/* Right Column (results) */}
+                <Col className="col-sm">
+                    <CopiableText functions={{ setCopyValue }} copyValue={copyValue} />
                 </Col>
             </Row>
-
-            <SaveLoad />
-
-            <hr></hr>
-
-            <Row className="row justify-content-md-center">
-                <Col className="col-lg-auto">
-                    <FormattingOptions functions={{ setSelectedValue }} />
-                </Col>
-            </Row>
-
-            {/* Text Input Area */}
-            <Row className="row justify-content-md-center">
-                <Col className="col-lg-auto">
-                    <TextInput updateFromPaste={updateFromPaste} />
-                    <FileUpload />
-                </Col>
-            </Row>
-            <Row className="row justify-content-md-center">
-                <Col className="col-lg-auto">
-                    <h3 id="currentText">This is the currently copied text...</h3>
-                </Col>
-            </Row>
-
-            {/* Results */}
-            <CopiableText functions={{ setCopyValue }} copyValue={copyValue} />
         </Container>
     )
 }

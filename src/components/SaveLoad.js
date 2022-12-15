@@ -198,24 +198,26 @@ export const SaveLoad = () => {
     }
 
     return (
-        <Row className="row justify-content-md-center">
-            <Button value="save"
-                onClick={(e) => {
-                    setShowNameModal(true)
-                }}
-                style={{ width: 'inherit', margin: "1em" }}
-            >
-                Save
-            </Button>
-            <Button value="load"
-                onClick={() => {
-                    setShowLoadModal(true)
-                    loadFromLocalStorage()
-                }}
-                style={{ width: 'inherit', margin: "1em" }}
-            >
-                Load
-            </Button>
+        <>
+            <Row className="justify-content-md-center gap-3">
+                <Button value="save"
+                    className="col-md-2"
+                    onClick={(e) => {
+                        setShowNameModal(true)
+                    }}
+                    >
+                    Save
+                </Button>
+                <Button value="load"
+                    className="col-md-2"
+                    onClick={() => {
+                        setShowLoadModal(true)
+                        loadFromLocalStorage()
+                    }}
+                >
+                    Load
+                </Button>
+            </Row>
 
             <LoadModal
                 functions={{ setShowLoadModal, Saved }}
@@ -228,7 +230,6 @@ export const SaveLoad = () => {
                 showNameModal={showNameModal}
                 handleChange={handleChange}
             />
-
-        </Row>
+        </>
     )
 }
