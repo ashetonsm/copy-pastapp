@@ -88,11 +88,11 @@ export const TextInput = ({ updateFromPaste }) => {
                     </Row>
                 </Accordion.Body>
             </Accordion.Item>
-            <Row className="justify-content-md-center mb-1 mt-1">
+            <Row className="justify-content-center mb-2 mt-2">
                 <Button
                     type="submit"
                     value="Copyify!"
-                    className="col-md-4"
+                    className="col-md-4 w-50"
                     onClick={(e) => handleSubmit(e)}
                 >
                     Copyify!

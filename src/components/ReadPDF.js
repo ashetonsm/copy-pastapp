@@ -93,8 +93,8 @@ export const ReadPDF = ({ file }) => {
           {allPages}
         </Document>
       </div>
-      <Row className="justify-content-md-center mb-1 mt-1">
-        <Button onClick={parseDoc} className="col-md-4">Upload</Button>
+      <Row className="justify-content-center mb-2 mt-2">
+        <Button onClick={parseDoc} className="col-md-4 w-50">Upload</Button>
       </Row>
     </div>
   )
