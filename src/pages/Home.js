@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import { CopiableText } from "../components/CopiableText";
 import { FileUpload } from "../components/FileUpload";
 import { FormattingOptions } from "../components/FormattingOptions";
@@ -14,6 +14,7 @@ export const Home = () => {
 
     const [selectedValue, setSelectedValue] = useState(0)
     const [copyValue, setCopyValue] = useState(0)
+    const [showInfoBox, setShowInfoBox] = useState(false)
 
     // For testing purposes
     useEffect(() => {
@@ -69,8 +70,9 @@ export const Home = () => {
         <Container>
             <Row className="justify-content-center gap-3">
                 <div className="flex-grow-1 mb-2">
-                    <h1 className="text-center">Copy-Pastapply</h1>
-                    <InfoBox />
+                    <h1 className="text-center">Copy-Pastapply <span onClick={() => setShowInfoBox(true)} style={{cursor: 'help'}}>❔</span></h1> 
+                    <InfoBox show={showInfoBox} onHide={() => setShowInfoBox(false)} />
+    
                 </div>
                 <SaveLoad />
                 <hr />
