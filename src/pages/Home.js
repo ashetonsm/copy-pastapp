@@ -81,8 +81,8 @@ export const Home = () => {
                 {/* Left Column (upload and instructions) */}
                 <div className="flex-grow-1">
                     {/* Text Input Area */}
-                    <TextInput updateFromPaste={updateFromPaste} />
                     <FileUpload />
+                    <TextInput updateFromPaste={updateFromPaste} />
                     <FormattingOptions functions={{ setSelectedValue }} />
                 </div>
 
