@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Container, Row } from "react-bootstrap";
 import { CopiableText } from "../components/CopiableText";
 import { FileUpload } from "../components/FileUpload";
@@ -15,14 +15,6 @@ export const Home = () => {
     const [selectedValue, setSelectedValue] = useState(0)
     const [copyValue, setCopyValue] = useState(0)
     const [showInfoBox, setShowInfoBox] = useState(false)
-
-    // For testing purposes
-    useEffect(() => {
-
-        dispatch({ type: 'SET_LOADING', payload: true })
-
-    }, [dispatch])
-
 
     const updateFromPaste = (inputObj) => {
         setCopyValue(0)
