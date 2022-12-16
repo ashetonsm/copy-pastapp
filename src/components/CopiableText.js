@@ -67,18 +67,18 @@ export const CopiableText = ({ functions, copyValue }) => {
                 className={radio.deleted ? "deleted" : null}
                 onDragCapture={(e) => {
                     setAppendingText(radio.text)
-                    setAppendingValue(parseInt(e.currentTarget.children[1].value))
+                    setAppendingValue(parseInt(e.currentTarget.children[0].value))
                 }}
                 onDragOver={(e) => {
                     e.preventDefault()
                 }}
                 onDrop={(e) => {
-                    appendElement(parseInt(e.currentTarget.children[1].value), parseInt(appendingValue))
+                    appendElement(parseInt(e.currentTarget.children[0].value), parseInt(appendingValue))
                 }}
                 onTouchStartCapture={(e) => {
                     if (e.target.localName !== "p") {
                         setAppendingText(radio.text)
-                        setAppendingValue(parseInt(e.target.parentElement.children[1].value))
+                        setAppendingValue(parseInt(e.target.parentElement.children[0].value))
                     }
                 }}
                 onTouchEnd={(e) => {
@@ -88,36 +88,33 @@ export const CopiableText = ({ functions, copyValue }) => {
                         const elementUnderTouch =
                             document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY)
 
-                        // Make sure it's not a p
-                        if (elementUnderTouch.localName !== "p") {
-
-                            // Make sure it's not an X
-                            if (elementUnderTouch.parentElement.children[1].localName === "input"
-                                && elementUnderTouch.innerText !== "❌") {
-
+                        switch (elementUnderTouch.localName) {
+                            case "label":
                                 // Make sure the values aren't the same
-                                if (parseInt(elementUnderTouch.parentElement.children[1].value) !== parseInt(appendingValue)) {
-                                    appendElement(parseInt(elementUnderTouch.parentElement.children[1].value), parseInt(appendingValue))
-                                } else {
-                                    // User is dragging an item over itself
-                                    // console.log("Values are equal, cannot append to self!")
+                                // Otherwise, the user is dragging an item over itself
+                                if (parseInt(elementUnderTouch.parentElement.children[0].value) !== parseInt(appendingValue)) {
+                                    appendElement(
+                                        parseInt(elementUnderTouch.parentElement.children[0].value), parseInt(appendingValue)
+                                    )
                                 }
-
-                            } else {
+                                break;
+                            case "span":
                                 // User is clicking an X
                                 applyDeleted(radio)
                                 removeElement(radio)
-                            }
+                                break;
+
+                            default:
+                                break;
                         }
+
                     } catch (error) {
                         return console.log("Invalid touch-drop item!")
                     }
                 }}
-                style={{ padding: "1em" }}
+                style={{ whiteSpace: 'nowrap' }}
                 draggable
             >
-                <span className="listIcon" style={{ marginRight: "1em", cursor: "grab" }}>📄</span>
-
                 <ToggleButton
                     id={`text-option-${idx}`}
                     type="checkbox"
@@ -129,7 +126,7 @@ export const CopiableText = ({ functions, copyValue }) => {
                         copyText(radio.text)
                     }}
                     onTouchStartCapture={(e) => {
-                        functions.setCopyValue(parseInt(e.target.parentElement.children[1].value))
+                        functions.setCopyValue(parseInt(e.target.parentElement.children[0].value))
                         copyText(radio.text)
                     }}
                     style={{ maxWidth: '35vw', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}

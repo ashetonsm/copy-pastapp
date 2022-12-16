@@ -9,7 +9,8 @@ export const FormattingOptions = ({ functions }) => {
                     name="formattingOption"
                     style={{ marginRight: "0.5rem" }}
                     value={0}
-                    onInput={(e) => {
+                    defaultChecked
+                    onChange={(e) => {
                         functions.setSelectedValue(parseInt(e.currentTarget.value))
                     }} />
                 <label htmlFor="original">Original/None</label>
@@ -22,7 +23,7 @@ export const FormattingOptions = ({ functions }) => {
                     name="formattingOption"
                     style={{ marginRight: "0.5rem" }}
                     value={1}
-                    onInput={(e) => {
+                    onChange={(e) => {
                         functions.setSelectedValue(parseInt(e.currentTarget.value))
                     }} />
                 <label htmlFor="addBullets">Add Bullets</label>
@@ -35,7 +36,7 @@ export const FormattingOptions = ({ functions }) => {
                     name="formattingOption"
                     style={{ marginRight: "0.5rem" }}
                     value={2}
-                    onInput={(e) => {
+                    onChange={(e) => {
                         functions.setSelectedValue(parseInt(e.currentTarget.value))
                     }} />
                 <label htmlFor="removeBullets">Remove Bullets</label>

@@ -22,14 +22,14 @@ export const FileUpload = () => {
       case "text/plain":
         return <ReadTXT file={file} />
       default:
-        return <Alert variant="danger">ERROR: Invalid file type!</Alert>
+        return <Alert variant="danger" className="mb-2 mt-2">ERROR: Invalid file type!</Alert>
     }
   }
 
   return (
     <>
-      <Form.Group style={{marginTop: "1rem", marginBottom: "1rem"}}>
-        <Form.Label htmlFor='file'>Load from file (limit 1 page):</Form.Label>
+      <Form.Group className="mb-2 mt-2">
+        <Form.Label htmlFor='file'>Load from PDF or TXT (1st page only):</Form.Label>
         <Form.Control type="file" onChange={onFileChange} />
       </Form.Group>
 
