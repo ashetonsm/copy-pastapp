@@ -68,10 +68,10 @@ export const Home = () => {
     return (
         <Container>
             <Row className="justify-content-center gap-3">
-                <Col className="col-auto mb-2">
+                <div className="flex-grow-1 mb-2">
                     <h1 className="text-center">Copy-Pastapply</h1>
                     <InfoBox />
-                </Col>
+                </div>
                 <SaveLoad />
                 <hr />
             </Row>
