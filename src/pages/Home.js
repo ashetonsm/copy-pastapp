@@ -67,30 +67,50 @@ export const Home = () => {
     }
 
     return (
-        <Container>
-            <Row className="justify-content-center gap-3">
-                <div className="flex-grow-1 mb-2">
-                    <h1 className="text-center">Copy-Pastapply <span onClick={() => setShowInfoBox(true)} style={{cursor: 'help'}}>❔</span></h1> 
-                    <InfoBox show={showInfoBox} onHide={() => setShowInfoBox(false)} />
-    
-                </div>
-                <SaveLoad />
-                <hr />
-            </Row>
-            <div className="d-flex flex-wrap">
-                {/* Left Column (upload and instructions) */}
-                <div className="flex-grow-1">
-                    {/* Text Input Area */}
-                    <FileUpload />
-                    <TextInput updateFromPaste={updateFromPaste} />
-                    <FormattingOptions functions={{ setSelectedValue }} />
-                </div>
+        <>
+            <span onClick={() => setShowInfoBox(true)}
+                style={{
+                    cursor: 'help',
+                    position: 'sticky',
+                    top: '2vh',
+                    left: '95vw'
+                }}>❔</span>
+            <Container>
+                <Row className="justify-content-center gap-3">
+                    <div className="flex-grow-1 mb-2">
+                        <h1 className="text-center display-6">Copy-Pastapply</h1>
+                        <div className="text-center lead"
+                            id="currentText"
+                            style={{
+                                height: '3em',
+                                overflowY: 'auto',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                display: 'flex'
+                            }}>
+                            Click to copy!
+                        </div>
+                        <InfoBox show={showInfoBox} onHide={() => setShowInfoBox(false)} />
+                    </div>
+                    <SaveLoad />
+                    <hr />
+                </Row>
+                <div className="d-flex flex-wrap">
+                    {/* Left Column (upload and instructions) */}
+                    <div className="flex-grow-1">
+                        {/* Text Input Area */}
+                        <FileUpload />
+                        <TextInput updateFromPaste={updateFromPaste} />
+                        <FormattingOptions functions={{ setSelectedValue }} />
+                    </div>
 
-                {/* Right Column (results) */}
-                <div className="flex-shrink-1 w-50">
-                    <CopiableText functions={{ setCopyValue }} copyValue={copyValue} />
+                    {/* Right Column (results) */}
+                    <div className="flex-shrink-1 w-50">
+                        <CopiableText functions={{ setCopyValue }} copyValue={copyValue} />
+                    </div>
                 </div>
-            </div>
-        </Container>
+            </Container>
+        </>
+
     )
 }

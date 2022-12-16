@@ -56,7 +56,7 @@ export const CopiableText = ({ functions, copyValue }) => {
         return (
             navigator.clipboard
                 .writeText(newText)
-            // .then(() => (document.querySelector("#currentText").innerText = newText))
+                .then(() => (document.querySelector("#currentText").innerText = newText))
         )
     }
 
@@ -112,7 +112,7 @@ export const CopiableText = ({ functions, copyValue }) => {
                         return console.log("Invalid touch-drop item!")
                     }
                 }}
-                style={{ padding: "1em", whiteSpace: 'nowrap'}}
+                style={{ padding: "1em", whiteSpace: 'nowrap' }}
                 draggable
             >
                 <ToggleButton
