@@ -112,7 +112,7 @@ export const CopiableText = ({ functions, copyValue }) => {
                         return console.log("Invalid touch-drop item!")
                     }
                 }}
-                style={{ padding: "1em", whiteSpace: 'nowrap' }}
+                style={{ whiteSpace: 'nowrap' }}
                 draggable
             >
                 <ToggleButton

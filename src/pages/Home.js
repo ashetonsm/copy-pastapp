@@ -97,7 +97,7 @@ export const Home = () => {
                 </Row>
                 <div className="d-flex flex-wrap">
                     {/* Left Column (upload and instructions) */}
-                    <div className="flex-grow-1">
+                    <div className="flex-grow-1 px-2">
                         {/* Text Input Area */}
                         <FileUpload />
                         <TextInput updateFromPaste={updateFromPaste} />
@@ -105,7 +105,7 @@ export const Home = () => {
                     </div>
 
                     {/* Right Column (results) */}
-                    <div className="flex-shrink-1 w-50">
+                    <div className="flex-shrink-1 w-50 px-2">
                         <CopiableText functions={{ setCopyValue }} copyValue={copyValue} />
                     </div>
                 </div>
