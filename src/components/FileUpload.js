@@ -29,7 +29,7 @@ export const FileUpload = () => {
   return (
     <>
       <Form.Group className="mb-2 mt-2">
-        <Form.Label htmlFor='file'>Load from file (limit 1 page):</Form.Label>
+        <Form.Label htmlFor='file'>Load from PDF or TXT (1st page only):</Form.Label>
         <Form.Control type="file" onChange={onFileChange} />
       </Form.Group>
 
