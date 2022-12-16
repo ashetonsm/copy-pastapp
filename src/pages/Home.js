@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Button, Col, Container, Row, Offcanvas } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import { CopiableText } from "../components/CopiableText";
 import { FileUpload } from "../components/FileUpload";
 import { FormattingOptions } from "../components/FormattingOptions";
@@ -75,26 +75,20 @@ export const Home = () => {
                 <SaveLoad />
                 <hr />
             </Row>
-            <Row className="justify-content-center">
+            <div className="d-flex flex-wrap">
                 {/* Left Column (upload and instructions) */}
-                <Col className="col-auto">
+                <div className="flex-grow-1">
                     {/* Text Input Area */}
-                    <Row>
-                        <TextInput updateFromPaste={updateFromPaste} />
-                    </Row>
-                    <Row>
-                        <FileUpload />
-                    </Row>
-                    <Row>
-                        <FormattingOptions functions={{ setSelectedValue }} />
-                    </Row>
-                </Col>
+                    <TextInput updateFromPaste={updateFromPaste} />
+                    <FileUpload />
+                    <FormattingOptions functions={{ setSelectedValue }} />
+                </div>
 
                 {/* Right Column (results) */}
-                <Col className="col-sm">
+                <div className="flex-shrink-1 w-50">
                     <CopiableText functions={{ setCopyValue }} copyValue={copyValue} />
-                </Col>
-            </Row>
+                </div>
+            </div>
         </Container>
     )
 }
