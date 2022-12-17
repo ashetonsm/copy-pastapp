@@ -149,7 +149,7 @@ export const SaveLoad = () => {
 
                 output = output.map((list, idx) =>
 
-                    <li key={idx}>
+                    <li key={idx} className="mb-2">
                         <Button
                             value={JSON.stringify(list.content)}
                             onClick={(e) => {
@@ -170,7 +170,7 @@ export const SaveLoad = () => {
                 // Output for a singular list from master list
                 const list = JSON.parse(data)
                 output = (
-                    <li>
+                    <li className="mb-2">
                         <Button
                             value={JSON.stringify(list.content)}
                             onClick={(e) => {
