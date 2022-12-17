@@ -84,13 +84,19 @@ export const SaveLoad = () => {
                 }
 
                 if (paramOverwrite === true) {
-                    mlObj = mlObj.filter(e => e.name !== newItem.name)
-                    mlObj.push(newItem)
-                    window.localStorage.setItem(masterList, JSON.stringify(mlObj))
-                    dispatch({ type: 'SET_SAVED_LISTS', payload: mlObj })
+                    if (JSON.parse(ml).length > 1) {
+                        mlObj = mlObj.filter(e => e.name !== newItem.name)
+                        mlObj.push(newItem)
+                        window.localStorage.setItem(masterList, JSON.stringify(mlObj))
+                        dispatch({ type: 'SET_SAVED_LISTS', payload: mlObj })
+                    } else {
+                        window.localStorage.setItem(masterList, JSON.stringify(newItem))
+                        dispatch({ type: 'SET_SAVED_LISTS', payload: newItem })
+                    }
                     setNameInUse(false)
                     setShowNameModal(false)
                 }
+
             } else {
                 // List is blank, add the new item
                 window.localStorage.setItem(masterList, JSON.stringify(newItem))
@@ -153,7 +159,7 @@ export const SaveLoad = () => {
                                 dispatch({ type: 'SET_LOADED_INPUT', payload: ConcatArray(list.content) })
                                 setShowLoadModal(false)
                             }}
-                            style={{maxWidth: '85%'}}>
+                            style={{ maxWidth: '85%' }}>
                             {list.name}
                         </Button>
                         <span onClick={() => {
@@ -175,7 +181,7 @@ export const SaveLoad = () => {
                                 dispatch({ type: 'SET_LOADED_INPUT', payload: ConcatArray(list.content) })
                                 setShowLoadModal(false)
                             }}
-                            style={{maxWidth: '85%'}}>
+                            style={{ maxWidth: '85%' }}>
                             {list.name}
                         </Button>
                         <span onClick={() => {
@@ -202,7 +208,7 @@ export const SaveLoad = () => {
                     onClick={(e) => {
                         setShowNameModal(true)
                     }}
-                    >
+                >
                     Save
                 </Button>
                 <Button value="load"
