@@ -84,13 +84,19 @@ export const SaveLoad = () => {
                 }
 
                 if (paramOverwrite === true) {
-                    mlObj = mlObj.filter(e => e.name !== newItem.name)
-                    mlObj.push(newItem)
-                    window.localStorage.setItem(masterList, JSON.stringify(mlObj))
-                    dispatch({ type: 'SET_SAVED_LISTS', payload: mlObj })
+                    if (JSON.parse(ml).length > 1) {
+                        mlObj = mlObj.filter(e => e.name !== newItem.name)
+                        mlObj.push(newItem)
+                        window.localStorage.setItem(masterList, JSON.stringify(mlObj))
+                        dispatch({ type: 'SET_SAVED_LISTS', payload: mlObj })
+                    } else {
+                        window.localStorage.setItem(masterList, JSON.stringify(newItem))
+                        dispatch({ type: 'SET_SAVED_LISTS', payload: newItem })
+                    }
                     setNameInUse(false)
                     setShowNameModal(false)
                 }
+
             } else {
                 // List is blank, add the new item
                 window.localStorage.setItem(masterList, JSON.stringify(newItem))
@@ -102,11 +108,8 @@ export const SaveLoad = () => {
 
     const removeSaved = (oldObj) => {
         // Mutate savedLists, filtering out the old object by name
-        console.log(savedLists)
-
         var newlist = Array.from(savedLists).filter((elem) => elem.name !== oldObj.name)
         dispatch({ type: 'SET_SAVED_LISTS', payload: newlist })
-        console.log(newlist)
 
         // More than one list object, stringify them all
         if (newlist.length > 1) {
@@ -133,8 +136,6 @@ export const SaveLoad = () => {
             } else {
                 dispatch({ type: 'SET_SAVED_LISTS', payload: { name: lists.name, content: lists.content } })
             }
-        } else {
-            console.log("No lists to load!")
         }
     }
 
@@ -149,7 +150,7 @@ export const SaveLoad = () => {
 
                 output = output.map((list, idx) =>
 
-                    <li key={idx}>
+                    <li key={idx} className="mb-2 flex-grow-1">
                         <Button
                             value={JSON.stringify(list.content)}
                             onClick={(e) => {
@@ -157,20 +158,21 @@ export const SaveLoad = () => {
                                 dispatch({ type: 'SET_COPIABLE_TEXT', payload: newList })
                                 dispatch({ type: 'SET_LOADED_INPUT', payload: ConcatArray(list.content) })
                                 setShowLoadModal(false)
-                            }}>
+                            }}
+                            style={{ maxWidth: '85%' }}>
                             {list.name}
                         </Button>
                         <span onClick={() => {
                             removeSaved(list)
                             setShowLoadModal(false)
-                        }} style={{ marginLeft: "1em", cursor: "default" }}>❌</span>
+                        }} style={{ marginLeft: "1em", cursor: 'pointer' }}>❌</span>
                     </li>
                 )
             } else {
                 // Output for a singular list from master list
                 const list = JSON.parse(data)
                 output = (
-                    <li>
+                    <li className="mb-2 flex-grow-1">
                         <Button
                             value={JSON.stringify(list.content)}
                             onClick={(e) => {
@@ -178,13 +180,14 @@ export const SaveLoad = () => {
                                 dispatch({ type: 'SET_COPIABLE_TEXT', payload: newList })
                                 dispatch({ type: 'SET_LOADED_INPUT', payload: ConcatArray(list.content) })
                                 setShowLoadModal(false)
-                            }}>
+                            }}
+                            style={{ maxWidth: '85%' }}>
                             {list.name}
                         </Button>
                         <span onClick={() => {
                             removeSaved(list)
                             setShowLoadModal(false)
-                        }} style={{ marginLeft: "1em", cursor: "default" }}>❌</span>
+                        }} style={{ marginLeft: "1em", cursor: 'pointer' }}>❌</span>
                     </li>
                 )
             }
@@ -192,7 +195,7 @@ export const SaveLoad = () => {
 
         return (
             <ol>
-                {data !== null ? output : <p>No saved lists found!</p>}
+                {data !== null ? <div className="d-flex flex-column">{output}</div> : <p>No saved lists found!</p>}
             </ol>
         )
     }
@@ -205,7 +208,7 @@ export const SaveLoad = () => {
                     onClick={(e) => {
                         setShowNameModal(true)
                     }}
-                    >
+                >
                     Save
                 </Button>
                 <Button value="load"
