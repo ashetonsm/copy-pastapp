@@ -1,18 +1,22 @@
 import { Button, Modal } from "react-bootstrap"
 
-export const NameModal = ({functions, handleChange, saveToLocalStorage, showNameModal, nameInUse}) => {
+export const NameModal = ({ functions, handleChange, saveToLocalStorage, showNameModal, nameInUse }) => {
     return (
         <Modal show={showNameModal} onHide={() => functions.setShowNameModal(false)}>
             <Modal.Header closeButton>
                 <Modal.Title>Please Name Your List:</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <input type="text"
-                    id="textInput"
-                    onChange={handleChange} />
-                <p style={{ visibility: nameInUse ? 'visible' : 'hidden' }}>
-                    Click "Overwrite" to overwrite your existing list.
-                </p>
+                <div className="d-flex flex-wrap">
+                    <input type="text"
+                        id="textInput"
+                        onChange={handleChange}
+                        className="flex-grow-1 px-2" />
+                    <p style={{ visibility: nameInUse ? 'visible' : 'hidden' }}
+                        className="flex-grow-1 px-1 mt-2">
+                        Click "Overwrite" to overwrite your existing list.
+                    </p>
+                </div>
             </Modal.Body>
             <Modal.Footer>
                 <Button
