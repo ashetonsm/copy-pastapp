@@ -45,7 +45,7 @@ export const ReadPDF = ({ file }) => {
   const formatPDF = (rawText) => {
     // Catches: senTence (where Tense is not "Script", "Hub", or "SQL"), senTEN, myEXERIENCEIn, You andI, ILOctober, 
     const lowercaseUppercase = new RegExp(
-      '(?=(?<=[a-z0-9])(?!Script|Hub|SQL)[A-Z][a-z])|(?=(?<=[a-z0-9])(?!Script|Hub|SQL)[A-Z]{3,})|(?<=[a-z0-9])(?=I)|(?=(?<=(?!API)[A-Z]{2,})[A-Z][a-z])|(?=(?<=[a-z]+)[A-Z]{4,})', 'g'
+      '(?=(?<=[a-z0-9])(?!Script|Hub|SQL|Press|Query)[A-Z][a-z])|(?=(?<=[a-z0-9])(?!Script|Hub|SQL)[A-Z]{3,})|(?<=[a-z0-9])(?=I)|(?=(?<=(?!API)[A-Z]{2,})[A-Z][a-z])|(?=(?<=[a-z]+)[A-Z]{4,})', 'g'
     )
     const anyLetterNum = new RegExp('\\w+', 'g')
     const bulletsNoDashes = new RegExp('(\u2022|\u2023|\u25E6|\u2043|\u2219|\u25CB|\u25CF)', 'gu')
